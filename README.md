@@ -1,2 +1,2 @@
 # Jane
-a develop framework named assistant jane!
+a develop framework named assistant jane! 😁
