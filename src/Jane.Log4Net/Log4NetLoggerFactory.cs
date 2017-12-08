@@ -9,13 +9,15 @@ using log4net.Layout;
 
 namespace Jane.Log4Net
 {
-    /// <summary>Log4Net based logger factory.
+    /// <summary>
+    /// Log4Net based logger factory.
     /// </summary>
     public class Log4NetLoggerFactory : ILoggerFactory
     {
         private readonly string loggerRepository;
 
-        /// <summary>Parameterized constructor.
+        /// <summary>
+        /// Parameterized constructor.
         /// </summary>
         /// <param name="configFile"></param>
         /// <param name="loggerRepository"></param>
@@ -43,9 +45,10 @@ namespace Jane.Log4Net
             {
                 BasicConfigurator.Configure(repository, new ConsoleAppender { Layout = new PatternLayout() });
             }
-
         }
-        /// <summary>Create a new Log4NetLogger instance.
+
+        /// <summary>
+        /// Create a new Log4NetLogger instance.
         /// </summary>
         /// <param name="name"></param>
         /// <returns></returns>
@@ -53,6 +56,7 @@ namespace Jane.Log4Net
         {
             return new Log4NetLogger(LogManager.GetLogger(loggerRepository, name));
         }
+
         /// <summary>Create a new Log4NetLogger instance.
         /// </summary>
         /// <param name="type"></param>
