@@ -29,7 +29,6 @@ namespace Jane.MongoDb.Repositories
         {
             _databaseProvider = databaseProvider;
             _idGenerator = idGenerator;
-            mongoDbCollectionIndexManager.EnsureIndexAsync();
         }
 
         public virtual IMongoCollection<TEntity> Collection

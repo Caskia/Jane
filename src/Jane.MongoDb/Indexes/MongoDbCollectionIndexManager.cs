@@ -12,6 +12,7 @@ namespace Jane.MongoDb.Indexes
         public MongoDbCollectionIndexManager(IMongoDbProvider databaseProvider)
         {
             _databaseProvider = databaseProvider;
+            EnsureIndexAsync();
         }
 
         public virtual IMongoCollection<TEntity> Collection
