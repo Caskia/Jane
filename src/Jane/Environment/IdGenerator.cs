@@ -15,7 +15,7 @@ namespace Jane
 
         public IdGenerator(IMachineManager machineManager)
         {
-            idGenerator = new Generator(machineManager.GetMachineId(), new DateTime(2016, 6, 6));
+            idGenerator = new Generator(machineManager.GetMachineId(), new DateTime(2017, 12, 8));
         }
 
         #endregion Ctor
