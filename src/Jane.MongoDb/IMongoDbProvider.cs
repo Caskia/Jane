@@ -3,7 +3,7 @@ using MongoDB.Driver;
 
 namespace Jane.MongoDb
 {
-    public interface IMongoDbProvider : ITransientDependency
+    public interface IMongoDbProvider : ISingletonDependency
     {
         IMongoClient GetClient();
 
