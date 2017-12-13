@@ -35,6 +35,28 @@ namespace Jane.Extensions
         }
 
         /// <summary>
+        /// Calculate weighted average <see cref="IEnumerable{T}"/> by given predicate if given condition is true.
+        /// </summary>
+        /// <param name="source">Enumerable</param>
+        /// <param name="value">value method</param>
+        /// <param name="weight">weight method</param>
+        /// <returns></returns>
+        public static double WeightedAverage<T>(this IEnumerable<T> source, Func<T, double> value, Func<T, double> weight)
+        {
+            var weightedValueSum = source.Sum(s => value(s) * weight(s));
+            var weightSum = source.Sum(s => weight(s));
+
+            if (weightSum != 0)
+            {
+                return weightedValueSum / weightSum;
+            }
+            else
+            {
+                throw new BaseException("Calculate weighted average's weight sum is zero!");
+            }
+        }
+
+        /// <summary>
         /// Filters a <see cref="IEnumerable{T}"/> by given predicate if given condition is true.
         /// </summary>
         /// <param name="source">Enumerable to apply filtering</param>
