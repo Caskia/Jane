@@ -2,6 +2,7 @@
 using Jane.Extensions;
 using Jane.Infrastructure;
 using Jane.Logging;
+using Jane.MessageBus;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
@@ -65,6 +66,7 @@ namespace Jane.Configurations
             SetDefault<ILoggerFactory, EmptyLoggerFactory>();
             SetDefault<IIdGenerator, IdGenerator>();
             SetDefault<IMachineManager, MachineManager>();
+            SetDefault<IMessageBus, NullMessageBus>();
             return this;
         }
 

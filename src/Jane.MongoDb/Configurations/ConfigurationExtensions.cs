@@ -1,5 +1,4 @@
-﻿using Jane.Configurations;
-using System.Reflection;
+﻿using System.Reflection;
 
 namespace Jane.Configurations
 {
