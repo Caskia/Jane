@@ -62,6 +62,14 @@ namespace Jane.Dependency
             Current.RegisterType(serviceType, implementationType, serviceName, life);
         }
 
+        /// <summary>
+        /// Release a service
+        /// </summary>
+        public static void Release(Object obj)
+        {
+            Current.Release(obj);
+        }
+
         /// <summary>Resolve a service.
         /// </summary>
         /// <typeparam name="TService">The service type.</typeparam>

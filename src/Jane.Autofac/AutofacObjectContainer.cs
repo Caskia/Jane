@@ -156,6 +156,13 @@ namespace Jane.Autofac
             }
         }
 
+        /// <summary>
+        /// Release a service
+        /// </summary>
+        public void Release(Object obj)
+        {
+        }
+
         /// <summary>Resolve a service.
         /// </summary>
         /// <typeparam name="TService">The service type.</typeparam>

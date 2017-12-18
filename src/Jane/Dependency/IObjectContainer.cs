@@ -45,6 +45,11 @@ namespace Jane.Dependency
         /// <param name="life">The life cycle of the implementer type.</param>
         void RegisterType(Type serviceType, Type implementationType, string serviceName = null, DependencyLifeStyle life = DependencyLifeStyle.Singleton);
 
+        /// <summary>
+        /// Release a service
+        /// </summary>
+        void Release(object obj);
+
         /// <summary>Resolve a service.
         /// </summary>
         /// <typeparam name="TService">The service type.</typeparam>

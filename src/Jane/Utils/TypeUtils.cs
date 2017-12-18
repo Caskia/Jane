@@ -1,7 +1,7 @@
 ﻿using Jane.Dependency;
 using System;
 
-namespace Jane.Infrastructure
+namespace Jane.Utils
 {
     public class TypeUtils
     {
