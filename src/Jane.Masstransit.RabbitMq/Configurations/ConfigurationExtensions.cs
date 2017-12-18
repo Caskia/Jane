@@ -1,6 +1,7 @@
 ﻿using Jane.Masstransit.RabbitMq.MessageBus;
 using Jane.MessageBus;
 using MassTransit;
+using MassTransit.RabbitMqTransport;
 using System;
 using System.Reflection;
 
@@ -16,7 +17,7 @@ namespace Jane.Configurations
         /// </summary>
         /// <param name="configuration"></param>
         /// <returns></returns>
-        public static Configuration UseMasstransitRabbitMq(this Configuration configuration)
+        public static Configuration UseMasstransitRabbitMq(this Configuration configuration, Action<IRabbitMqBusFactoryConfigurator> rabbitMqConfigure = null)
         {
             var assemblies = new[]
             {
@@ -36,6 +37,11 @@ namespace Jane.Configurations
                         host.Username(configuration.Root["RabbitMq:UserName"]);
                         host.Password(configuration.Root["RabbitMq:Password"]);
                     });
+
+                if (rabbitMqConfigure != null)
+                {
+                    rabbitMqConfigure(configure);
+                }
             });
 
             configuration.SetDefault<IBusControl, IBusControl>(bus);
