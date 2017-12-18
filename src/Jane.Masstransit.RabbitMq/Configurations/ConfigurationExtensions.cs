@@ -17,7 +17,7 @@ namespace Jane.Configurations
         /// </summary>
         /// <param name="configuration"></param>
         /// <returns></returns>
-        public static Configuration UseMasstransitRabbitMq(this Configuration configuration, Action<IRabbitMqBusFactoryConfigurator> rabbitMqConfigure = null)
+        public static Configuration UseMasstransitRabbitMq(this Configuration configuration, Action<IRabbitMqBusFactoryConfigurator, IRabbitMqHost> rabbitMqConfigure = null)
         {
             var assemblies = new[]
             {
@@ -28,19 +28,19 @@ namespace Jane.Configurations
             //create bus
             var bus = Bus.Factory.CreateUsingRabbitMq(configure =>
             {
-                configure.Host(
-                    configuration.Root["RabbitMq:Host"],
-                    Convert.ToUInt16(configuration.Root["RabbitMq:Port"]),
-                    configuration.Root["RabbitMq:VirtualHost"],
-                    host =>
-                    {
-                        host.Username(configuration.Root["RabbitMq:UserName"]);
-                        host.Password(configuration.Root["RabbitMq:Password"]);
-                    });
+                var host = configure.Host(
+                     configuration.Root["RabbitMq:Host"],
+                     Convert.ToUInt16(configuration.Root["RabbitMq:Port"]),
+                     configuration.Root["RabbitMq:VirtualHost"],
+                     h =>
+                     {
+                         h.Username(configuration.Root["RabbitMq:UserName"]);
+                         h.Password(configuration.Root["RabbitMq:Password"]);
+                     });
 
                 if (rabbitMqConfigure != null)
                 {
-                    rabbitMqConfigure(configure);
+                    rabbitMqConfigure(configure, host);
                 }
             });
 
