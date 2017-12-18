@@ -10,6 +10,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using Jane.Events.Bus;
+using Jane.Events.Bus.Factories;
 
 namespace Jane.Configurations
 {
@@ -57,6 +58,12 @@ namespace Jane.Configurations
                     {
                         RegisterComponentType(type);
                     }
+                }
+
+                //Register Event Bus
+                foreach (var type in assembly.GetTypes().Where(TypeUtils.IsEventHandler))
+                {
+                    RegisterEventHandler(type);
                 }
             }
             return this;
@@ -148,6 +155,15 @@ namespace Jane.Configurations
                 }
 
                 ObjectContainer.RegisterType(interfaceType, type, null, life);
+            }
+        }
+
+        private void RegisterEventHandler(Type type)
+        {
+            var genericArgs = type.GetGenericArguments();
+            if (genericArgs.Length == 1)
+            {
+                ObjectContainer.Resolve<IEventBus>().Register(genericArgs[0], new IocHandlerFactory(ObjectContainer.Current, type));
             }
         }
 

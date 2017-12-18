@@ -10,13 +10,16 @@ namespace Jane.Events.Bus.Factories
     /// </summary>
     public class IocHandlerFactory : IEventHandlerFactory
     {
+        private readonly IObjectContainer _objectContainer;
+
         /// <summary>
         /// Creates a new instance of <see cref="IocHandlerFactory"/> class.
         /// </summary>
-        /// <param name="iocResolver"></param>
+        /// <param name="objectContainer"></param>
         /// <param name="handlerType">Type of the handler</param>
-        public IocHandlerFactory(Type handlerType)
+        public IocHandlerFactory(IObjectContainer objectContainer, Type handlerType)
         {
+            _objectContainer = objectContainer;
             HandlerType = handlerType;
         }
 
@@ -31,7 +34,7 @@ namespace Jane.Events.Bus.Factories
         /// <returns>Resolved handler object</returns>
         public IEventHandler GetHandler()
         {
-            return (IEventHandler)ObjectContainer.Resolve(HandlerType);
+            return (IEventHandler)_objectContainer.Resolve(HandlerType);
         }
 
         /// <summary>
@@ -40,7 +43,7 @@ namespace Jane.Events.Bus.Factories
         /// <param name="handler">Handler to be released</param>
         public void ReleaseHandler(IEventHandler handler)
         {
-            ObjectContainer.Release(handler);
+            _objectContainer.Release(handler);
         }
     }
 }
