@@ -32,6 +32,15 @@ namespace Jane.Collections.Concurrent
         public event PropertyChangedEventHandler PropertyChanged;
 
         /// <summary>
+        /// Attempts to clear all items in the dictionary, notifying observers of any changes.
+        /// </summary>
+        private void ClearWithNotification()
+        {
+            _dictionary.Clear();
+            NotifyObserversOfChange();
+        }
+
+        /// <summary>
         /// Notifies observers of CollectionChanged or PropertyChanged of an update to the dictionary.
         /// </summary>
         private void NotifyObserversOfChange()
@@ -172,6 +181,11 @@ namespace Jane.Collections.Concurrent
         public void Add(TKey key, TValue value)
         {
             TryAddWithNotification(key, value);
+        }
+
+        public void Clear()
+        {
+            ClearWithNotification();
         }
 
         public bool ContainsKey(TKey key)
