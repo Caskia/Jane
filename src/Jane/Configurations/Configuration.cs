@@ -11,6 +11,7 @@ using System.Linq;
 using System.Reflection;
 using Jane.Events.Bus;
 using Jane.Events.Bus.Factories;
+using Jane.Events.Bus.Handlers;
 
 namespace Jane.Configurations
 {
@@ -59,12 +60,6 @@ namespace Jane.Configurations
                         RegisterComponentType(type);
                     }
                 }
-
-                //Register Event Bus
-                foreach (var type in assembly.GetTypes().Where(TypeUtils.IsEventHandler))
-                {
-                    RegisterEventHandler(type);
-                }
             }
             return this;
         }
@@ -76,6 +71,20 @@ namespace Jane.Configurations
             SetDefault<IMachineManager, MachineManager>();
             SetDefault<IMessageBus, NullMessageBus>();
             SetDefault<IEventBus, EventBus>();
+            return this;
+        }
+
+        public Configuration RegisterEventHandler(params Assembly[] assemblies)
+        {
+            foreach (var assembly in assemblies)
+            {
+                //Register Event Bus
+                foreach (var type in assembly.GetTypes().Where(TypeUtils.IsEventHandler))
+                {
+                    RegisterEventHandlerType(type);
+                }
+            }
+
             return this;
         }
 
@@ -158,12 +167,21 @@ namespace Jane.Configurations
             }
         }
 
-        private void RegisterEventHandler(Type type)
+        private void RegisterEventHandlerType(Type type)
         {
-            var genericArgs = type.GetGenericArguments();
-            if (genericArgs.Length == 1)
+            var interfaces = type.GetInterfaces();
+            foreach (var @interface in interfaces)
             {
-                ObjectContainer.Resolve<IEventBus>().Register(genericArgs[0], new IocHandlerFactory(ObjectContainer.Current, type));
+                if (!typeof(IEventHandler).GetTypeInfo().IsAssignableFrom(@interface))
+                {
+                    continue;
+                }
+
+                var genericArgs = @interface.GetGenericArguments();
+                if (genericArgs.Length == 1)
+                {
+                    ObjectContainer.Resolve<IEventBus>().Register(genericArgs[0], new IocHandlerFactory(ObjectContainer.Current, type));
+                }
             }
         }
 
