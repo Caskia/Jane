@@ -13,6 +13,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Jane.MongoDb", "src\Jane.Mo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jane.Masstransit.RabbitMq", "src\Jane.Masstransit.RabbitMq\Jane.Masstransit.RabbitMq.csproj", "{5F1F84C3-A091-43A6-97BD-3CBACDC6F9E3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jane.AspNetCore", "src\Jane.AspNetCore\Jane.AspNetCore.csproj", "{3920426E-1242-41AC-8C0F-520550EFA865}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{5F1F84C3-A091-43A6-97BD-3CBACDC6F9E3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5F1F84C3-A091-43A6-97BD-3CBACDC6F9E3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5F1F84C3-A091-43A6-97BD-3CBACDC6F9E3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3920426E-1242-41AC-8C0F-520550EFA865}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3920426E-1242-41AC-8C0F-520550EFA865}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3920426E-1242-41AC-8C0F-520550EFA865}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3920426E-1242-41AC-8C0F-520550EFA865}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
