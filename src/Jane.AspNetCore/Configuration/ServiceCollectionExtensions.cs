@@ -1,5 +1,5 @@
-﻿using Autofac;
-using Autofac.Extensions.DependencyInjection;
+﻿using Autofac.Extensions.DependencyInjection;
+using Jane.Autofac;
 using Jane.Dependency;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -10,9 +10,10 @@ namespace Jane.Configurations
     {
         public static IServiceProvider AddJane(this IServiceCollection services)
         {
-            if (ObjectContainer.Current is IContainer)
+            if (ObjectContainer.Current is AutofacObjectContainer)
             {
-                return new AutofacServiceProvider(ObjectContainer.Current as IContainer);
+                var objectContainer = ObjectContainer.Current as AutofacObjectContainer;
+                return new AutofacServiceProvider(objectContainer.Container);
             }
             else
             {
