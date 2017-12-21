@@ -26,6 +26,26 @@ namespace Jane.Log4Net
             get { return _log.IsDebugEnabled; }
         }
 
+        public bool IsErrorEnabled
+        {
+            get { return _log.IsErrorEnabled; }
+        }
+
+        public bool IsFatalEnabled
+        {
+            get { return _log.IsFatalEnabled; }
+        }
+
+        public bool IsInfoEnabled
+        {
+            get { return _log.IsInfoEnabled; }
+        }
+
+        public bool IsWarnEnabled
+        {
+            get { return _log.IsWarnEnabled; }
+        }
+
         public void Debug(object message)
         {
             _log.Debug(message);

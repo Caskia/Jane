@@ -16,6 +16,38 @@ namespace Jane.Logging
             }
         }
 
+        public bool IsErrorEnabled
+        {
+            get
+            {
+                return false;
+            }
+        }
+
+        public bool IsFatalEnabled
+        {
+            get
+            {
+                return false;
+            }
+        }
+
+        public bool IsInfoEnabled
+        {
+            get
+            {
+                return false;
+            }
+        }
+
+        public bool IsWarnEnabled
+        {
+            get
+            {
+                return false;
+            }
+        }
+
         public void Debug(object message)
         {
         }
