@@ -13,6 +13,10 @@ namespace Jane.Configurations
             if (ObjectContainer.Current is AutofacObjectContainer)
             {
                 var objectContainer = ObjectContainer.Current as AutofacObjectContainer;
+
+                objectContainer.ContainerBuilder.Populate(services);
+                objectContainer.Build();
+
                 return new AutofacServiceProvider(objectContainer.Container);
             }
             else

@@ -1,5 +1,7 @@
 ﻿using Jane.AspNetCore.Logging;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using System;
 using System.Reflection;
 
 namespace Jane.Configurations
@@ -9,7 +11,7 @@ namespace Jane.Configurations
     /// </summary>
     public static class ConfigurationExtensions
     {
-        public static Configuration UseAspNetCore(this Configuration configuration)
+        public static Configuration UseAspNetCore(this Configuration configuration, IServiceCollection services, out IServiceProvider serviceProvider)
         {
             var assemblies = new[]
            {
@@ -18,6 +20,8 @@ namespace Jane.Configurations
             configuration.RegisterAssemblies(assemblies);
 
             configuration.SetDefault<ILogger, JaneMsLoggerAdapter>();
+
+            serviceProvider = services.AddJane();
 
             return configuration;
         }
