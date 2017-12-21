@@ -38,10 +38,7 @@ namespace Jane.Configurations
                          h.Password(configuration.Root["RabbitMq:Password"]);
                      });
 
-                if (rabbitMqConfigure != null)
-                {
-                    rabbitMqConfigure(configure, host);
-                }
+                rabbitMqConfigure?.Invoke(configure, host);
             });
 
             configuration.SetDefault<IBusControl, IBusControl>(bus);
