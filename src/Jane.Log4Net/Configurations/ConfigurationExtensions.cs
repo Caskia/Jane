@@ -4,7 +4,7 @@ using Jane.Logging;
 namespace Jane.Configurations
 {
     /// <summary>
-    /// configuration class Autofac extensions.
+    /// configuration class Log4Net extensions.
     /// </summary>
     public static class ConfigurationExtensions
     {
