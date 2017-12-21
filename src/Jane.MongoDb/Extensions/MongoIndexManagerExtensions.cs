@@ -21,7 +21,7 @@ namespace Jane.MongoDb.Extensions
             {
                 await indexes.CreateOneAsync(keys, options, cancellationToken).ConfigureAwait(false);
             }
-            catch (MongoCommandException e)
+            catch (MongoCommandException)
             {
                 await indexes.DropOneAsync(options.Name, cancellationToken).ConfigureAwait(false);
                 await AddOrUpdateAsync(indexes, options, keys, cancellationToken).ConfigureAwait(false);
