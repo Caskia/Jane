@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
-namespace Jane.AspNetCore.Configuration
+namespace Jane.Configurations
 {
     public static class ApplicationBuilderExtensions
     {
