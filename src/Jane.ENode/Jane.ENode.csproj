@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="ecommon.autofac" Version="2.5.0" />
+    <PackageReference Include="ecommon.jsonnet" Version="2.5.0" />
+    <PackageReference Include="ecommon.log4net" Version="2.5.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Jane.Autofac\Jane.Autofac.csproj" />
+    <ProjectReference Include="..\Jane\Jane.csproj" />
+  </ItemGroup>
+</Project>

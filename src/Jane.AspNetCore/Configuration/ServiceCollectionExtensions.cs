@@ -21,7 +21,7 @@ namespace Jane.Configurations
             }
             else
             {
-                throw new Exception("Current container not support!");
+                throw new BaseException("Current container not support!");
             }
         }
     }
