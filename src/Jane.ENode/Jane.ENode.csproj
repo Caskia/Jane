@@ -8,7 +8,6 @@
     <PackageReference Include="ecommon.autofac" Version="2.5.0" />
     <PackageReference Include="ecommon.jsonnet" Version="2.5.0" />
     <PackageReference Include="ecommon.log4net" Version="2.5.2" />
-    <PackageReference Include="ENode" Version="2.8.7" />
   </ItemGroup>
 
   <ItemGroup>
