@@ -8,6 +8,22 @@ namespace Jane.Configurations
 {
     public static class ConfigurationExtensions
     {
+        public static ECommonConfiguration BuildECommonContainer(this ECommonConfiguration configuration)
+        {
+            ECommon.Components.ObjectContainer.Build();
+
+            if (ObjectContainer.Current is AutofacObjectContainer && ECommon.Components.ObjectContainer.Current is ECommon.Autofac.AutofacObjectContainer)
+            {
+                var ecommonObjectContainer = ECommon.Components.ObjectContainer.Current as ECommon.Autofac.AutofacObjectContainer;
+                ObjectContainer.SetContainer(new AutofacObjectContainer(ecommonObjectContainer.ContainerBuilder));
+
+                var objectContainer = ObjectContainer.Current as AutofacObjectContainer;
+                objectContainer.SetContainer(ecommonObjectContainer.Container);
+            }
+
+            return configuration;
+        }
+
         public static ECommonConfiguration CreateECommon(this Configuration configuration)
         {
             return ECommonConfiguration.Create()

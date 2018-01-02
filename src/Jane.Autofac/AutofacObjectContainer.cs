@@ -201,6 +201,15 @@ namespace Jane.Autofac
             return _container.ResolveNamed(serviceName, serviceType);
         }
 
+        /// <summary>
+        /// Set container
+        /// </summary>
+        /// <param name="container">container</param>
+        public void SetContainer(IContainer container)
+        {
+            _container = container;
+        }
+
         /// <summary>Try to retrieve a service from the container.
         /// </summary>
         /// <typeparam name="TService">The service type to resolve.</typeparam>
