@@ -12,6 +12,7 @@ using System.Reflection;
 using Jane.Events.Bus;
 using Jane.Events.Bus.Factories;
 using Jane.Events.Bus.Handlers;
+using Jane.PushNotifications;
 
 namespace Jane.Configurations
 {
@@ -71,6 +72,7 @@ namespace Jane.Configurations
             SetDefault<IMachineManager, MachineManager>();
             SetDefault<IMessageBus, NullMessageBus>();
             SetDefault<IEventBus, EventBus>();
+            SetDefault<IPushNotificationService, NullPushNotificationService>();
             return this;
         }
 
