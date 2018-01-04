@@ -29,8 +29,6 @@ namespace Jane.Configurations
 
         public static ECommonConfiguration CreateECommon(this Configuration configuration)
         {
-            LoadENodeConfiguration(configuration);
-
             return ECommonConfiguration.Create()
               .UseECommonAutofac()
               .RegisterCommonComponents()
@@ -38,35 +36,42 @@ namespace Jane.Configurations
               .UseJsonNet();
         }
 
-        private static void LoadENodeConfiguration(this Configuration configuration)
+        public static Configuration LoadENodeConfiguration(this Configuration configuration)
         {
             var enodeConfiguration = new ENodeConfiguration();
-            if (!configuration.Root["ENode:BrokerAdminPort"].IsNullOrEmpty())
-            {
-                enodeConfiguration.BrokerAdminPort = Convert.ToInt32(configuration.Root["ENode:BrokerAdminPort"]);
-            }
-            if (!configuration.Root["ENode:BrokerConsumerPort"].IsNullOrEmpty())
-            {
-                enodeConfiguration.BrokerConsumerPort = Convert.ToInt32(configuration.Root["ENode:BrokerConsumerPort"]);
-            }
-            if (!configuration.Root["ENode:BrokerProducerPort"].IsNullOrEmpty())
-            {
-                enodeConfiguration.BrokerProducerPort = Convert.ToInt32(configuration.Root["ENode:BrokerProducerPort"]);
-            }
-            if (!configuration.Root["ENode:BrokerStorePath"].IsNullOrEmpty())
-            {
-                enodeConfiguration.BrokerStorePath = configuration.Root["ENode:BrokerStorePath"];
-            }
             if (!configuration.Root["ENode:EventStoreConnectionString"].IsNullOrEmpty())
             {
                 enodeConfiguration.EventStoreConnectionString = configuration.Root["ENode:EventStoreConnectionString"];
             }
+
+            return configuration.SetDefault<IENodeConfiguration, ENodeConfiguration>(enodeConfiguration);
+        }
+
+        public static Configuration LoadEQueueConfiguration(this Configuration configuration)
+        {
+            var equeueConfiguration = new EQueueConfiguration();
+            if (!configuration.Root["ENode:BrokerAdminPort"].IsNullOrEmpty())
+            {
+                equeueConfiguration.BrokerAdminPort = Convert.ToInt32(configuration.Root["ENode:BrokerAdminPort"]);
+            }
+            if (!configuration.Root["ENode:BrokerConsumerPort"].IsNullOrEmpty())
+            {
+                equeueConfiguration.BrokerConsumerPort = Convert.ToInt32(configuration.Root["ENode:BrokerConsumerPort"]);
+            }
+            if (!configuration.Root["ENode:BrokerProducerPort"].IsNullOrEmpty())
+            {
+                equeueConfiguration.BrokerProducerPort = Convert.ToInt32(configuration.Root["ENode:BrokerProducerPort"]);
+            }
+            if (!configuration.Root["ENode:BrokerStorePath"].IsNullOrEmpty())
+            {
+                equeueConfiguration.BrokerStorePath = configuration.Root["ENode:BrokerStorePath"];
+            }
             if (!configuration.Root["ENode:NameServerPort"].IsNullOrEmpty())
             {
-                enodeConfiguration.NameServerPort = Convert.ToInt32(configuration.Root["ENode:NameServerPort"]);
+                equeueConfiguration.NameServerPort = Convert.ToInt32(configuration.Root["ENode:NameServerPort"]);
             }
 
-            configuration.SetDefault<IENodeConfiguration, ENodeConfiguration>(enodeConfiguration);
+            return configuration.SetDefault<IEQueueConfiguration, EQueueConfiguration>(equeueConfiguration);
         }
 
         private static ECommonConfiguration UseECommonAutofac(this ECommonConfiguration configuration)
