@@ -50,25 +50,25 @@ namespace Jane.Configurations
         public static Configuration LoadEQueueConfiguration(this Configuration configuration)
         {
             var equeueConfiguration = new EQueueConfiguration();
-            if (!configuration.Root["ENode:BrokerAdminPort"].IsNullOrEmpty())
+            if (!configuration.Root["EQueue:BrokerAdminPort"].IsNullOrEmpty())
             {
-                equeueConfiguration.BrokerAdminPort = Convert.ToInt32(configuration.Root["ENode:BrokerAdminPort"]);
+                equeueConfiguration.BrokerAdminPort = Convert.ToInt32(configuration.Root["EQueue:BrokerAdminPort"]);
             }
-            if (!configuration.Root["ENode:BrokerConsumerPort"].IsNullOrEmpty())
+            if (!configuration.Root["EQueue:BrokerConsumerPort"].IsNullOrEmpty())
             {
-                equeueConfiguration.BrokerConsumerPort = Convert.ToInt32(configuration.Root["ENode:BrokerConsumerPort"]);
+                equeueConfiguration.BrokerConsumerPort = Convert.ToInt32(configuration.Root["EQueue:BrokerConsumerPort"]);
             }
-            if (!configuration.Root["ENode:BrokerProducerPort"].IsNullOrEmpty())
+            if (!configuration.Root["EQueue:BrokerProducerPort"].IsNullOrEmpty())
             {
-                equeueConfiguration.BrokerProducerPort = Convert.ToInt32(configuration.Root["ENode:BrokerProducerPort"]);
+                equeueConfiguration.BrokerProducerPort = Convert.ToInt32(configuration.Root["EQueue:BrokerProducerPort"]);
             }
-            if (!configuration.Root["ENode:BrokerStorePath"].IsNullOrEmpty())
+            if (!configuration.Root["EQueue:BrokerStorePath"].IsNullOrEmpty())
             {
-                equeueConfiguration.BrokerStorePath = configuration.Root["ENode:BrokerStorePath"];
+                equeueConfiguration.BrokerStorePath = configuration.Root["EQueue:BrokerStorePath"];
             }
-            if (!configuration.Root["ENode:NameServerPort"].IsNullOrEmpty())
+            if (!configuration.Root["EQueue:NameServerPort"].IsNullOrEmpty())
             {
-                equeueConfiguration.NameServerPort = Convert.ToInt32(configuration.Root["ENode:NameServerPort"]);
+                equeueConfiguration.NameServerPort = Convert.ToInt32(configuration.Root["EQueue:NameServerPort"]);
             }
 
             return configuration.SetDefault<IEQueueConfiguration, EQueueConfiguration>(equeueConfiguration);
