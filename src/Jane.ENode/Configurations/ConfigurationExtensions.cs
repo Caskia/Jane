@@ -6,6 +6,7 @@ using Jane.ENode;
 using Jane.Extensions;
 using System;
 using ECommonConfiguration = ECommon.Configurations.Configuration;
+using EENode = ENode;
 
 namespace Jane.Configurations
 {
@@ -24,6 +25,13 @@ namespace Jane.Configurations
                 objectContainer.SetContainer(ecommonObjectContainer.Container);
             }
 
+            return configuration;
+        }
+
+        public static EENode.Configurations.ENodeConfiguration BuildENodeContainer(this EENode.Configurations.ENodeConfiguration configuration)
+        {
+            configuration.GetCommonConfiguration()
+                .BuildECommonContainer();
             return configuration;
         }
 
