@@ -10,6 +10,16 @@ namespace Jane.Configurations
     /// </summary>
     public static class ConfigurationExtensions
     {
+        /// <summary>
+        /// Create auto mapper mappings
+        /// </summary>
+        /// <returns></returns>
+        public static Configuration CreateAutoMapperMappings(this Configuration configuration)
+        {
+            ObjectContainer.Resolve<IAutoMapperRegister>().CreateMappings();
+            return configuration;
+        }
+
         /// <summary>Use auto mapper as the object mapper.
         /// </summary>
         /// <returns></returns>
@@ -22,10 +32,6 @@ namespace Jane.Configurations
             configuration.UseTypeFinder(assemblies);
             configuration.SetDefault<IAutoMapperConfiguration, AutoMapperConfiguration>(autoMapperConfiguraion);
             configuration.SetDefault<IAutoMapperRegister, AutoMapperRegister>();
-            ObjectContainer.Resolve<IAutoMapperRegister>().CreateMappings(mapper =>
-            {
-                configuration.SetDefault<IMapper, IMapper>(mapper);
-            });
             return configuration;
         }
     }

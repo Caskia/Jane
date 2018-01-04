@@ -10,17 +10,17 @@ namespace Jane.Reflection
     public class TypeFinder : ITypeFinder
     {
         private readonly IAssemblyFinder _assemblyFinder;
-        private readonly ILogger _logger;
         private readonly object _syncObj = new object();
+        private readonly ILogger Logger;
         private Type[] _types;
 
         public TypeFinder(
             IAssemblyFinder assemblyFinder,
-            ILogger logger
+            ILoggerFactory loggerFactory
             )
         {
             _assemblyFinder = assemblyFinder;
-            _logger = logger;
+            Logger = loggerFactory.Create(typeof(TypeFinder));
         }
 
         public Type[] Find(Func<Type, bool> predicate)
@@ -63,7 +63,7 @@ namespace Jane.Reflection
                 }
                 catch (Exception ex)
                 {
-                    _logger.Warn(ex.ToString(), ex);
+                    Logger.Warn(ex.ToString(), ex);
                 }
             }
 

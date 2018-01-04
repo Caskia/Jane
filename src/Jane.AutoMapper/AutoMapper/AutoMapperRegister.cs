@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Jane.Configurations;
 using Jane.Logging;
 using Jane.Reflection;
 using System;
@@ -11,21 +12,21 @@ namespace Jane.AutoMapper
         private static readonly object SyncObj = new object();
         private static volatile bool _createdMappingsBefore;
         private readonly IAutoMapperConfiguration _autoMapperConfiguration;
-        private readonly ILogger _logger;
         private readonly ITypeFinder _typeFinder;
+        private readonly ILogger Logger;
 
         public AutoMapperRegister(
             IAutoMapperConfiguration autoMapperConfiguration,
-            ILogger logger,
+            ILoggerFactory loggerFactory,
             ITypeFinder typeFinder
             )
         {
             _autoMapperConfiguration = autoMapperConfiguration;
-            _logger = logger;
+            Logger = loggerFactory.Create(typeof(AutoMapperRegister));
             _typeFinder = typeFinder;
         }
 
-        public void CreateMappings(Action<IMapper> registerMapper)
+        public void CreateMappings()
         {
             lock (SyncObj)
             {
@@ -38,6 +39,7 @@ namespace Jane.AutoMapper
                     }
                 };
 
+                IMapper mapper;
                 if (_autoMapperConfiguration.UseStaticMapper)
                 {
                     //We should prevent duplicate mapping in an application, since Mapper is static.
@@ -46,13 +48,16 @@ namespace Jane.AutoMapper
                         Mapper.Initialize(configurer);
                         _createdMappingsBefore = true;
                     }
-                    registerMapper(Mapper.Instance);
+
+                    mapper = Mapper.Instance;
                 }
                 else
                 {
                     var config = new MapperConfiguration(configurer);
-                    registerMapper(config.CreateMapper());
+                    mapper = config.CreateMapper();
                 }
+
+                Configuration.Instance.SetDefault<IMapper, IMapper>();
             }
         }
 
@@ -67,11 +72,11 @@ namespace Jane.AutoMapper
                 }
             );
 
-            _logger.DebugFormat("Found {0} classes define auto mapping attributes", types.Length);
+            Logger.DebugFormat("Found {0} classes define auto mapping attributes", types.Length);
 
             foreach (var type in types)
             {
-                _logger.Debug(type.FullName);
+                Logger.Debug(type.FullName);
                 configuration.CreateAutoAttributeMaps(type);
             }
         }
