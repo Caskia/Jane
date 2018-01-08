@@ -28,8 +28,8 @@ namespace Jane.Configurations
         /// <returns></returns>
         public static Configuration UseAutoMapper(
             this Configuration configuration,
-            Action<IMapperConfigurationExpression> configureMapper,
-            params Assembly[] assemblies
+            Assembly[] assemblies,
+            Action<IMapperConfigurationExpression> configureMapper = null
             )
         {
             if (assemblies == null)
@@ -39,7 +39,7 @@ namespace Jane.Configurations
 
             configuration.UseTypeFinder(assemblies);
 
-            var autoMapperConfiguraion = GetAutoMapperConfigurationsFromAssembly(configureMapper, assemblies);
+            var autoMapperConfiguraion = GetAutoMapperConfigurationsFromAssembly(assemblies, configureMapper);
 
             configuration.SetDefault<IAutoMapperConfiguration, AutoMapperConfiguration>(autoMapperConfiguraion);
             configuration.SetDefault<IAutoMapperRegister, AutoMapperRegister>();
@@ -47,8 +47,8 @@ namespace Jane.Configurations
         }
 
         private static AutoMapperConfiguration GetAutoMapperConfigurationsFromAssembly(
-            Action<IMapperConfigurationExpression> configureMapper,
-            params Assembly[] assemblies
+            Assembly[] assemblies,
+            Action<IMapperConfigurationExpression> configureMapper
             )
         {
             var autoMapperConfiguraion = new AutoMapperConfiguration();
