@@ -1,6 +1,9 @@
 ﻿using AutoMapper;
 using Jane.AutoMapper;
 using Jane.Dependency;
+using Jane.Reflection;
+using System;
+using System.Linq;
 using System.Reflection;
 
 namespace Jane.Configurations
@@ -25,14 +28,48 @@ namespace Jane.Configurations
         /// <returns></returns>
         public static Configuration UseAutoMapper(
             this Configuration configuration,
-            AutoMapperConfiguration autoMapperConfiguraion,
+            Action<IMapperConfigurationExpression> configureMapper,
             params Assembly[] assemblies
             )
         {
+            if (assemblies == null)
+            {
+                throw new ArgumentNullException(nameof(assemblies));
+            }
+
             configuration.UseTypeFinder(assemblies);
+
+            var autoMapperConfiguraion = GetAutoMapperConfigurationsFromAssembly(configureMapper, assemblies);
+
             configuration.SetDefault<IAutoMapperConfiguration, AutoMapperConfiguration>(autoMapperConfiguraion);
             configuration.SetDefault<IAutoMapperRegister, AutoMapperRegister>();
             return configuration;
+        }
+
+        private static AutoMapperConfiguration GetAutoMapperConfigurationsFromAssembly(
+            Action<IMapperConfigurationExpression> configureMapper,
+            params Assembly[] assemblies
+            )
+        {
+            var autoMapperConfiguraion = new AutoMapperConfiguration();
+            if (configureMapper != null)
+            {
+                autoMapperConfiguraion.Configurators.Add(configureMapper);
+            }
+
+            var autoMapMapperTypes = assemblies.SelectMany(a => a.GetMappingTypes(typeof(IAutoMapMapper)));
+            if (autoMapMapperTypes.Count() > 0)
+            {
+                autoMapperConfiguraion.Configurators.Add(expression =>
+                {
+                    foreach (var mapper in autoMapMapperTypes.Select(Activator.CreateInstance).Cast<IAutoMapMapper>())
+                    {
+                        mapper.Map(expression);
+                    }
+                });
+            }
+
+            return autoMapperConfiguraion;
         }
     }
 }
