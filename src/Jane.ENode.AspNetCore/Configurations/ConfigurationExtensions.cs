@@ -20,7 +20,7 @@ namespace Jane.Configurations
         {
             configuration.SetDefault<ILogger, JaneMsLoggerAdapter>();
 
-            serviceProvider = services.AddECommon();
+            serviceProvider = services.AddECommon(configuration);
 
             return configuration;
         }
