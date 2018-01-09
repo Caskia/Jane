@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Jane.Utils;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -21,7 +22,7 @@ namespace Jane.Reflection
 
         public static IEnumerable<Type> GetMappingTypes(this Assembly assembly, Type mappingInterface)
         {
-            return assembly.GetTypes().Where(x => !x.IsAbstract && x.GetInterfaces().Any(y => y.GetTypeInfo().IsGenericType && y.GetGenericTypeDefinition() == mappingInterface));
+            return assembly.GetTypes().Where(x => TypeUtils.IsClassAssignableFrom(x, mappingInterface));
         }
     }
 }
