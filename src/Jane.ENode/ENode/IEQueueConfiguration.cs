@@ -1,4 +1,7 @@
-﻿namespace Jane.ENode
+﻿using System.Collections.Generic;
+using System.Net;
+
+namespace Jane.ENode
 {
     public interface IEQueueConfiguration
     {
@@ -9,6 +12,10 @@
         int BrokerProducerPort { get; set; }
 
         string BrokerStorePath { get; set; }
+
+        string NameServerAddress { get; set; }
+
+        List<IPEndPoint> NameServerEndPoints { get; }
 
         int NameServerPort { get; set; }
     }

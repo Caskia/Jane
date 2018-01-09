@@ -74,6 +74,10 @@ namespace Jane.Configurations
             {
                 equeueConfiguration.BrokerStorePath = configuration.Root["EQueue:BrokerStorePath"];
             }
+            if (!configuration.Root["EQueue:NameServerAddress"].IsNullOrEmpty())
+            {
+                equeueConfiguration.NameServerAddress = configuration.Root["EQueue:NameServerAddress"];
+            }
             if (!configuration.Root["EQueue:NameServerPort"].IsNullOrEmpty())
             {
                 equeueConfiguration.NameServerPort = Convert.ToInt32(configuration.Root["EQueue:NameServerPort"]);
