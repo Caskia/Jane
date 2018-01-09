@@ -31,7 +31,10 @@ namespace Jane.Configurations
 
         public static Configuration Create()
         {
-            Instance = new Configuration();
+            if (Instance == null)
+            {
+                Instance = new Configuration();
+            }
             return Instance;
         }
 
