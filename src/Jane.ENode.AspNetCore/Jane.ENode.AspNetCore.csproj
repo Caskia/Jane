@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Jane.AspNetCore\Jane.AspNetCore.csproj" />
+    <ProjectReference Include="..\Jane.ENode\Jane.ENode.csproj" />
+  </ItemGroup>
+
+</Project>

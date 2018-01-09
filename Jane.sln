@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27130.2003
+VisualStudioVersion = 15.0.27130.2010
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Jane", "src\Jane\Jane.csproj", "{F337207E-C0B0-4620-A36C-7027C5AA2AFC}"
 EndProject
@@ -17,9 +17,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Jane.AspNetCore", "src\Jane
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Jane.ENode", "src\Jane.ENode\Jane.ENode.csproj", "{09EC1C77-FCE8-460A-BB29-9826FCF8CDA7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jane.AutoMapper", "src\Jane.AutoMapper\Jane.AutoMapper.csproj", "{477CE0A7-8C45-4F32-B2D9-E73D9DED08E2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Jane.AutoMapper", "src\Jane.AutoMapper\Jane.AutoMapper.csproj", "{477CE0A7-8C45-4F32-B2D9-E73D9DED08E2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jane.FCM", "src\Jane.FCM\Jane.FCM.csproj", "{F9B229C9-BB67-4CF8-95DA-70B0336D58BE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Jane.FCM", "src\Jane.FCM\Jane.FCM.csproj", "{F9B229C9-BB67-4CF8-95DA-70B0336D58BE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jane.ENode.AspNetCore", "src\Jane.ENode.AspNetCore\Jane.ENode.AspNetCore.csproj", "{3F5F977B-7B05-4495-A763-E707658165B3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -63,6 +65,10 @@ Global
 		{F9B229C9-BB67-4CF8-95DA-70B0336D58BE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F9B229C9-BB67-4CF8-95DA-70B0336D58BE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F9B229C9-BB67-4CF8-95DA-70B0336D58BE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3F5F977B-7B05-4495-A763-E707658165B3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3F5F977B-7B05-4495-A763-E707658165B3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3F5F977B-7B05-4495-A763-E707658165B3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3F5F977B-7B05-4495-A763-E707658165B3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
