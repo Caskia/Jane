@@ -1,4 +1,6 @@
 ﻿using Jane.AspNetCore.Logging;
+using Jane.AspNetCore.Runtime.Session;
+using Jane.Runtime.Session;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using System;
@@ -19,6 +21,7 @@ namespace Jane.Configurations
             )
         {
             configuration.SetDefault<ILogger, JaneMsLoggerAdapter>();
+            configuration.SetDefault<IPrincipalAccessor, AspNetCorePrincipalAccessor>();
 
             serviceProvider = services.AddECommon(configuration);
 
