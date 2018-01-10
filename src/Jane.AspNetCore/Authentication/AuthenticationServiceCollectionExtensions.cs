@@ -1,4 +1,5 @@
 ﻿using Jane.AspNetCore.Authentication.JwtBearer;
+using Jane.Extensions;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Configuration;
@@ -6,6 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using JaneConfiguration = Jane.Configurations.Configuration;
@@ -53,7 +55,18 @@ namespace Jane.AspNetCore.Authentication
         {
             var tokenAuthConfig = new TokenAuthConfiguration();
 
-            tokenAuthConfig.SecurityKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(configuration["JwtBearer:SecurityKey"]));
+            if (!configuration["JwtBearer:SecurityKey"].IsNullOrEmpty())
+            {
+                tokenAuthConfig.SecurityKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(configuration["JwtBearer:SecurityKey"]));
+            }
+
+            if (!configuration["JwtBearer:CspKey"].IsNullOrEmpty())
+            {
+                var rsa = new RSACryptoServiceProvider();
+                rsa.ImportCspBlob(Convert.FromBase64String(configuration["JwtBearer:CspKey"]));
+                tokenAuthConfig.SecurityKey = new RsaSecurityKey(rsa);
+            }
+
             tokenAuthConfig.Issuer = configuration["JwtBearer:Issuer"];
             tokenAuthConfig.Audience = configuration["JwtBearer:Audience"];
             tokenAuthConfig.SigningCredentials = new SigningCredentials(tokenAuthConfig.SecurityKey, SecurityAlgorithms.HmacSha256);
