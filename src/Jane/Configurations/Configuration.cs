@@ -15,6 +15,7 @@ using Jane.Events.Bus.Handlers;
 using Jane.PushNotifications;
 using Jane.Runtime;
 using Jane.Runtime.Remoting;
+using Jane.Runtime.Session;
 
 namespace Jane.Configurations
 {
@@ -80,6 +81,7 @@ namespace Jane.Configurations
             SetDefault<IPushNotificationService, NullPushNotificationService>();
             SetDefault<IAmbientDataContext, AsyncLocalAmbientDataContext>();
             SetDefaultType(typeof(IAmbientScopeProvider<>), typeof(DataContextAmbientScopeProvider<>), null, DependencyLifeStyle.Transient);
+            SetDefault<IJaneSession, ClaimsJaneSession>();
             return this;
         }
 
