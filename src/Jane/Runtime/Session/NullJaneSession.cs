@@ -5,9 +5,9 @@ namespace Jane.Runtime.Session
     /// <summary>
     /// Implements null object pattern for <see cref="IJaneSession"/>.
     /// </summary>
-    public class NullSession : SessionBase
+    public class NullJaneSession : JaneSessionBase
     {
-        private NullSession()
+        private NullJaneSession()
                     : base(
                           new DataContextAmbientScopeProvider<SessionOverride>(new AsyncLocalAmbientDataContext())
                     )
@@ -17,7 +17,7 @@ namespace Jane.Runtime.Session
         /// <summary>
         /// Singleton instance.
         /// </summary>
-        public static NullSession Instance { get; } = new NullSession();
+        public static NullJaneSession Instance { get; } = new NullJaneSession();
 
         public override long? ImpersonatorUserId => null;
 
