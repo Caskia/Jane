@@ -32,7 +32,7 @@ namespace Jane.Logging
                     break;
 
                 default:
-                    throw new BaseException("Unknown LogSeverity value: " + severity);
+                    throw new JaneException("Unknown LogSeverity value: " + severity);
             }
         }
 
@@ -61,7 +61,7 @@ namespace Jane.Logging
                     break;
 
                 default:
-                    throw new BaseException("Unknown LogSeverity value: " + severity);
+                    throw new JaneException("Unknown LogSeverity value: " + severity);
             }
         }
 
@@ -90,7 +90,7 @@ namespace Jane.Logging
                     break;
 
                 default:
-                    throw new BaseException("Unknown LogSeverity value: " + severity);
+                    throw new JaneException("Unknown LogSeverity value: " + severity);
             }
         }
     }

@@ -4,7 +4,7 @@ using System;
 namespace Jane
 {
     [Serializable]
-    public class UserFriendlyException : BaseException, IHasLogSeverity, IHasErrorCode
+    public class UserFriendlyException : JaneException, IHasLogSeverity, IHasErrorCode
     {
         /// <summary>
         /// Constructor.

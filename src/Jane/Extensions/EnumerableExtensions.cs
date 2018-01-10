@@ -52,7 +52,7 @@ namespace Jane.Extensions
             }
             else
             {
-                throw new BaseException("Calculate weighted average's weight sum is zero!");
+                throw new JaneException("Calculate weighted average's weight sum is zero!");
             }
         }
 

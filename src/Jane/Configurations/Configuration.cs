@@ -13,6 +13,8 @@ using Jane.Events.Bus;
 using Jane.Events.Bus.Factories;
 using Jane.Events.Bus.Handlers;
 using Jane.PushNotifications;
+using Jane.Runtime;
+using Jane.Runtime.Remoting;
 
 namespace Jane.Configurations
 {
@@ -76,6 +78,8 @@ namespace Jane.Configurations
             SetDefault<IMessageBus, NullMessageBus>();
             SetDefault<IEventBus, EventBus>();
             SetDefault<IPushNotificationService, NullPushNotificationService>();
+            SetDefault<IAmbientDataContext, AsyncLocalAmbientDataContext>();
+            SetDefaultType(typeof(IAmbientScopeProvider<>), typeof(DataContextAmbientScopeProvider<>), null, DependencyLifeStyle.Transient);
             return this;
         }
 
@@ -116,6 +120,12 @@ namespace Jane.Configurations
             where TImplementer : class, TService
         {
             ObjectContainer.RegisterInstance<TService, TImplementer>(instance, serviceName);
+            return this;
+        }
+
+        public Configuration SetDefaultType(Type serviceType, Type implementationType, string serviceName = null, DependencyLifeStyle life = DependencyLifeStyle.Singleton)
+        {
+            ObjectContainer.RegisterType(serviceType, implementationType, serviceName, life);
             return this;
         }
 

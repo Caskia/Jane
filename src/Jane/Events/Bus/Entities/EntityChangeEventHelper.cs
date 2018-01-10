@@ -100,7 +100,7 @@ namespace Jane.Events.Bus.Entities
                         break;
 
                     default:
-                        throw new BaseException("Unknown EntityChangeType: " + changedEntity.ChangeType);
+                        throw new JaneException("Unknown EntityChangeType: " + changedEntity.ChangeType);
                 }
             }
         }

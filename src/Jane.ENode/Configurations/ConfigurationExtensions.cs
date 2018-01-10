@@ -97,7 +97,7 @@ namespace Jane.Configurations
             }
             else
             {
-                throw new BaseException("Current container not support!");
+                throw new JaneException("Current container not support!");
             }
 
             return configuration;

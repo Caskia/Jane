@@ -7,7 +7,7 @@ namespace Jane.Domain.Entities
     /// This exception is thrown if an entity excepted to be found but not found.
     /// </summary>
     [Serializable]
-    public class EntityNotFoundException : BaseException
+    public class EntityNotFoundException : JaneException
     {
         /// <summary>
         /// Creates a new <see cref="EntityNotFoundException"/> object.

@@ -7,38 +7,38 @@ namespace Jane
     /// Base exception type for those are thrown by system for specific exceptions.
     /// </summary>
     [Serializable]
-    public class BaseException : Exception
+    public class JaneException : Exception
     {
         /// <summary>
-        /// Creates a new <see cref="BaseException"/> object.
+        /// Creates a new <see cref="JaneException"/> object.
         /// </summary>
-        public BaseException()
+        public JaneException()
         {
         }
 
         /// <summary>
-        /// Creates a new <see cref="BaseException"/> object.
+        /// Creates a new <see cref="JaneException"/> object.
         /// </summary>
         /// <param name="message">Exception message</param>
-        public BaseException(string message)
+        public JaneException(string message)
             : base(message)
         {
         }
 
         /// <summary>
-        /// Creates a new <see cref="BaseException"/> object.
+        /// Creates a new <see cref="JaneException"/> object.
         /// </summary>
         /// <param name="message">Exception message</param>
         /// <param name="innerException">Inner exception</param>
-        public BaseException(string message, Exception innerException)
+        public JaneException(string message, Exception innerException)
             : base(message, innerException)
         {
         }
 
         /// <summary>
-        /// Creates a new <see cref="BaseException"/> object.
+        /// Creates a new <see cref="JaneException"/> object.
         /// </summary>
-        public BaseException(SerializationInfo serializationInfo, StreamingContext context)
+        public JaneException(SerializationInfo serializationInfo, StreamingContext context)
             : base(serializationInfo, context)
         {
         }

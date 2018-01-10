@@ -13,12 +13,12 @@ namespace Jane.ObjectMapping
 
         public TDestination Map<TDestination>(object source)
         {
-            throw new BaseException("Jane.ObjectMapping.IObjectMapper should be implemented in order to map objects.");
+            throw new JaneException("Jane.ObjectMapping.IObjectMapper should be implemented in order to map objects.");
         }
 
         public TDestination Map<TSource, TDestination>(TSource source, TDestination destination)
         {
-            throw new BaseException("Jane.ObjectMapping.IObjectMapper should be implemented in order to map objects.");
+            throw new JaneException("Jane.ObjectMapping.IObjectMapper should be implemented in order to map objects.");
         }
     }
 }
