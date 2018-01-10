@@ -36,7 +36,7 @@ namespace Jane
         }
 
         /// <summary>
-        /// Creates a new <see cref="AbpException"/> object.
+        /// Creates a new <see cref="BaseException"/> object.
         /// </summary>
         public BaseException(SerializationInfo serializationInfo, StreamingContext context)
             : base(serializationInfo, context)
