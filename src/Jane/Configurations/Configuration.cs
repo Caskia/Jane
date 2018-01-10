@@ -81,6 +81,7 @@ namespace Jane.Configurations
             SetDefault<IPushNotificationService, NullPushNotificationService>();
             SetDefault<IAmbientDataContext, AsyncLocalAmbientDataContext>();
             SetDefaultType(typeof(IAmbientScopeProvider<>), typeof(DataContextAmbientScopeProvider<>), null, DependencyLifeStyle.Transient);
+            SetDefault<IPrincipalAccessor, DefaultPrincipalAccessor>();
             SetDefault<IJaneSession, ClaimsJaneSession>();
             return this;
         }
