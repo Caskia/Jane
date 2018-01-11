@@ -1,21 +1,23 @@
 ﻿using Jane.Dependency;
+using Jane.Events.Bus;
+using Jane.Events.Bus.Factories;
+using Jane.Events.Bus.Handlers;
 using Jane.Extensions;
-using Jane.Utils;
 using Jane.Logging;
 using Jane.MessageBus;
+using Jane.PushNotifications;
+using Jane.Runtime;
+using Jane.Runtime.Remoting;
+using Jane.Runtime.Session;
+using Jane.Threading;
+using Jane.Threading.Timers;
+using Jane.Utils;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using Jane.Events.Bus;
-using Jane.Events.Bus.Factories;
-using Jane.Events.Bus.Handlers;
-using Jane.PushNotifications;
-using Jane.Runtime;
-using Jane.Runtime.Remoting;
-using Jane.Runtime.Session;
 
 namespace Jane.Configurations
 {
@@ -83,6 +85,7 @@ namespace Jane.Configurations
             SetDefaultType(typeof(IAmbientScopeProvider<>), typeof(DataContextAmbientScopeProvider<>), null, DependencyLifeStyle.Transient);
             SetDefault<IPrincipalAccessor, DefaultPrincipalAccessor>();
             SetDefault<IJaneSession, ClaimsJaneSession>();
+            SetDefault<IRunnable, JaneTimer>(null, DependencyLifeStyle.Transient);
             return this;
         }
 
