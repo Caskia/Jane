@@ -1,7 +1,10 @@
 ﻿using Jane.AspNetCore.Logging;
 using Jane.AspNetCore.Runtime.Session;
 using Jane.Runtime.Session;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Logging;
 using System;
 using ECommonConfiguration = ECommon.Configurations.Configuration;
@@ -22,6 +25,10 @@ namespace Jane.Configurations
         {
             configuration.SetDefault<ILogger, JaneMsLoggerAdapter>();
             configuration.SetDefault<IPrincipalAccessor, AspNetCorePrincipalAccessor>();
+
+            //See https://github.com/aspnet/Mvc/issues/3936 to know why we added these services.
+            services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.TryAddSingleton<IActionContextAccessor, ActionContextAccessor>();
 
             serviceProvider = services.AddECommon(configuration);
 
