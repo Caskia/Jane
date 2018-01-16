@@ -90,6 +90,7 @@ namespace Jane.Configurations
             SetDefault<IJaneSession, ClaimsJaneSession>();
             SetDefault<IRunnable, JaneTimer>(null, DependencyLifeStyle.Transient);
             SetDefault<ICachingConfiguration, CachingConfiguration>();
+            SetDefault<JaneMemoryCache, JaneMemoryCache>(null, DependencyLifeStyle.Transient);
             SetDefault<ICacheManager, JaneMemoryCacheManager>();
             return this;
         }

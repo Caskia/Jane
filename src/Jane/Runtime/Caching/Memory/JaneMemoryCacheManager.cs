@@ -14,7 +14,6 @@ namespace Jane.Runtime.Caching.Memory
         public JaneMemoryCacheManager(ICachingConfiguration configuration)
             : base(configuration)
         {
-            ObjectContainer.RegisterType(typeof(JaneMemoryCache), null, DependencyLifeStyle.Transient);
         }
 
         protected override ICache CreateCacheImplementation(string name)

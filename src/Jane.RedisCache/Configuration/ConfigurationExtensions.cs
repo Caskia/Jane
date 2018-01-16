@@ -1,4 +1,5 @@
-﻿using Jane.Runtime.Caching;
+﻿using Jane.Dependency;
+using Jane.Runtime.Caching;
 using Jane.Runtime.Caching.Redis;
 using System.Reflection;
 
@@ -22,6 +23,7 @@ namespace Jane.Configurations
             };
             configuration.RegisterAssemblies(assemblies);
 
+            configuration.SetDefault<RedisCache, RedisCache>(null, DependencyLifeStyle.Transient);
             configuration.SetDefault<ICacheManager, RedisCacheManager>();
 
             return configuration;
