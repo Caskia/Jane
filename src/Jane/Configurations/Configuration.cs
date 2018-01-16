@@ -7,6 +7,9 @@ using Jane.Logging;
 using Jane.MessageBus;
 using Jane.PushNotifications;
 using Jane.Runtime;
+using Jane.Runtime.Caching;
+using Jane.Runtime.Caching.Configuration;
+using Jane.Runtime.Caching.Memory;
 using Jane.Runtime.Remoting;
 using Jane.Runtime.Session;
 using Jane.Threading;
@@ -86,6 +89,8 @@ namespace Jane.Configurations
             SetDefault<IPrincipalAccessor, DefaultPrincipalAccessor>();
             SetDefault<IJaneSession, ClaimsJaneSession>();
             SetDefault<IRunnable, JaneTimer>(null, DependencyLifeStyle.Transient);
+            SetDefault<ICachingConfiguration, CachingConfiguration>();
+            SetDefault<ICacheManager, JaneMemoryCacheManager>();
             return this;
         }
 
