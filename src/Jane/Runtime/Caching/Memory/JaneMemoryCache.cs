@@ -1,6 +1,6 @@
-﻿using System;
+﻿using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Options;
-using Microsoft.Extensions.Caching.Memory;
+using System;
 
 namespace Jane.Runtime.Caching.Memory
 {
@@ -38,6 +38,17 @@ namespace Jane.Runtime.Caching.Memory
         public override object GetOrDefault(string key)
         {
             return _memoryCache.Get(key);
+        }
+
+        public override long Increment(string key, long value = 1)
+        {
+            lock (SyncObj)
+            {
+                var result = _memoryCache.Get<long>(key);
+                result += value;
+                Set(key, value);
+                return result;
+            }
         }
 
         public override void Remove(string key)

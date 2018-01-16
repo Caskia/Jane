@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using StackExchange.Redis;
 
 namespace Jane.Runtime.Caching.Redis
@@ -30,6 +31,28 @@ namespace Jane.Runtime.Caching.Redis
             return (int)retVal;
         }
 
+        public static async Task<int> KeyCountAsync(this IDatabase database, string prefix)
+        {
+            if (database == null)
+            {
+                throw new ArgumentException("Database cannot be null", nameof(database));
+            }
+
+            if (string.IsNullOrWhiteSpace(prefix))
+            {
+                throw new ArgumentException("Prefix cannot be empty", nameof(database));
+            }
+
+            var retVal = await database.ScriptEvaluateAsync("return table.getn(redis.call('keys', ARGV[1]))", values: new RedisValue[] { prefix });
+
+            if (retVal.IsNull)
+            {
+                return 0;
+            }
+
+            return (int)retVal;
+        }
+
         public static void KeyDeleteWithPrefix(this IDatabase database, string prefix)
         {
             if (database == null)
@@ -43,6 +66,25 @@ namespace Jane.Runtime.Caching.Redis
             }
 
             database.ScriptEvaluate(@"
+                local keys = redis.call('keys', ARGV[1])
+                for i=1,#keys,5000 do
+                redis.call('del', unpack(keys, i, math.min(i+4999, #keys)))
+                end", values: new RedisValue[] { prefix });
+        }
+
+        public static async Task KeyDeleteWithPrefixAsync(this IDatabase database, string prefix)
+        {
+            if (database == null)
+            {
+                throw new ArgumentException("Database cannot be null", nameof(database));
+            }
+
+            if (string.IsNullOrWhiteSpace(prefix))
+            {
+                throw new ArgumentException("Prefix cannot be empty", nameof(database));
+            }
+
+            await database.ScriptEvaluateAsync(@"
                 local keys = redis.call('keys', ARGV[1])
                 for i=1,#keys,5000 do
                 redis.call('del', unpack(keys, i, math.min(i+4999, #keys)))

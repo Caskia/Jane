@@ -1,4 +1,5 @@
 ﻿using Jane.IO;
+using Jane.Runtime.Caching;
 using System;
 using System.IO;
 using System.Text;
@@ -7,19 +8,19 @@ namespace Jane
 {
     public class MachineManager : IMachineManager
     {
-        //#region Fields
+        #region Fields
 
-        //private readonly IRedisRepositoryBase _redisRepository;
+        private readonly ICacheManager _cacheManager;
 
-        //#endregion Fields
+        #endregion Fields
 
         #region Ctor
 
         public MachineManager(
-            //IRedisRepositoryBase redisRepository
+            ICacheManager cacheManager
             )
         {
-            //_redisRepository = redisRepository;
+            _cacheManager = cacheManager;
         }
 
         #endregion Ctor
@@ -37,8 +38,7 @@ namespace Jane
             }
             if (!short.TryParse(fileContent, out machineId))
             {
-                //machineId = Convert.ToInt16(_redisRepository.Increment("machine_id"));
-                machineId = 1;
+                machineId = Convert.ToInt16(_cacheManager.GetCache(JaneCacheNames.ApplicationSettings).Increment("machine_id"));
                 File.WriteAllText(machineIdFile, machineId.ToString(), Encoding.UTF8);
             }
             return machineId;

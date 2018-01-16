@@ -1,5 +1,6 @@
 ﻿using StackExchange.Redis;
 using System;
+using System.Threading.Tasks;
 
 namespace Jane.Runtime.Caching.Redis
 {
@@ -31,15 +32,41 @@ namespace Jane.Runtime.Caching.Redis
             _database.KeyDeleteWithPrefix(GetLocalizedKey("*"));
         }
 
+        public override async Task ClearAsync()
+        {
+            await _database.KeyDeleteWithPrefixAsync(GetLocalizedKey("*"));
+        }
+
         public override object GetOrDefault(string key)
         {
             var objbyte = _database.StringGet(GetLocalizedKey(key));
             return objbyte.HasValue ? Deserialize(objbyte) : null;
         }
 
+        public override async Task<object> GetOrDefaultAsync(string key)
+        {
+            var objbyte = await _database.StringGetAsync(GetLocalizedKey(key));
+            return objbyte.HasValue ? Deserialize(objbyte) : null;
+        }
+
+        public override long Increment(string key, long value = 1)
+        {
+            return _database.StringIncrement(GetLocalizedKey(key), value);
+        }
+
+        public override async Task<long> IncrementAsync(string key, long value = 1)
+        {
+            return await _database.StringIncrementAsync(GetLocalizedKey(key), value);
+        }
+
         public override void Remove(string key)
         {
             _database.KeyDelete(GetLocalizedKey(key));
+        }
+
+        public override async Task RemoveAsync(string key)
+        {
+            await _database.KeyDeleteAsync(GetLocalizedKey(key));
         }
 
         public override void Set(string key, object value, TimeSpan? slidingExpireTime = null, TimeSpan? absoluteExpireTime = null)
@@ -52,6 +79,22 @@ namespace Jane.Runtime.Caching.Redis
             var type = value.GetType();
 
             _database.StringSet(
+                GetLocalizedKey(key),
+                Serialize(value, type),
+                absoluteExpireTime ?? slidingExpireTime ?? DefaultAbsoluteExpireTime ?? DefaultSlidingExpireTime
+                );
+        }
+
+        public override async Task SetAsync(string key, object value, TimeSpan? slidingExpireTime = null, TimeSpan? absoluteExpireTime = null)
+        {
+            if (value == null)
+            {
+                throw new JaneException("Can not insert null values to the cache!");
+            }
+
+            var type = value.GetType();
+
+            await _database.StringSetAsync(
                 GetLocalizedKey(key),
                 Serialize(value, type),
                 absoluteExpireTime ?? slidingExpireTime ?? DefaultAbsoluteExpireTime ?? DefaultSlidingExpireTime

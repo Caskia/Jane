@@ -151,12 +151,19 @@ namespace Jane.Runtime.Caching
             return Task.FromResult(GetOrDefault(key));
         }
 
+        public abstract long Increment(string key, long value = 1);
+
+        public virtual Task<long> IncrementAsync(string key, long value = 1)
+        {
+            return Task.FromResult(Increment(key, value));
+        }
+
         public abstract void Remove(string key);
 
         public virtual Task RemoveAsync(string key)
         {
             Remove(key);
-            return Task.FromResult(0);
+            return Task.CompletedTask;
         }
 
         public abstract void Set(string key, object value, TimeSpan? slidingExpireTime = null, TimeSpan? absoluteExpireTime = null);
@@ -164,7 +171,7 @@ namespace Jane.Runtime.Caching
         public virtual Task SetAsync(string key, object value, TimeSpan? slidingExpireTime = null, TimeSpan? absoluteExpireTime = null)
         {
             Set(key, value, slidingExpireTime);
-            return Task.FromResult(0);
+            return Task.CompletedTask;
         }
     }
 }

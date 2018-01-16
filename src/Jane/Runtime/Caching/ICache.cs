@@ -9,9 +9,10 @@ namespace Jane.Runtime.Caching
     public interface ICache : IDisposable
     {
         /// <summary>
-        /// Unique name of the cache.
+        /// Default absolute expire time of cache items.
+        /// Default value: null (not used).
         /// </summary>
-        string Name { get; }
+        TimeSpan? DefaultAbsoluteExpireTime { get; set; }
 
         /// <summary>
         /// Default sliding expire time of cache items.
@@ -21,10 +22,19 @@ namespace Jane.Runtime.Caching
         TimeSpan DefaultSlidingExpireTime { get; set; }
 
         /// <summary>
-        /// Default absolute expire time of cache items.
-        /// Default value: null (not used).
+        /// Unique name of the cache.
         /// </summary>
-        TimeSpan? DefaultAbsoluteExpireTime { get; set; }
+        string Name { get; }
+
+        /// <summary>
+        /// Clears all items in this cache.
+        /// </summary>
+        void Clear();
+
+        /// <summary>
+        /// Clears all items in this cache.
+        /// </summary>
+        Task ClearAsync();
 
         /// <summary>
         /// Gets an item from the cache.
@@ -61,6 +71,34 @@ namespace Jane.Runtime.Caching
         Task<object> GetOrDefaultAsync(string key);
 
         /// <summary>
+        /// Auto increment a cached item
+        /// </summary>
+        /// <param name="key">key</param>
+        /// <param name="value">increment</param>
+        /// <returns>cached item</returns>
+        long Increment(string key, long value = 1);
+
+        /// <summary>
+        /// Auto increment a cached item
+        /// </summary>
+        /// <param name="key">key</param>
+        /// <param name="value">increment</param>
+        /// <returns>cached item</returns>
+        Task<long> IncrementAsync(string key, long value = 1);
+
+        /// <summary>
+        /// Removes a cache item by it's key.
+        /// </summary>
+        /// <param name="key">Key</param>
+        void Remove(string key);
+
+        /// <summary>
+        /// Removes a cache item by it's key (does nothing if given key does not exists in the cache).
+        /// </summary>
+        /// <param name="key">Key</param>
+        Task RemoveAsync(string key);
+
+        /// <summary>
         /// Saves/Overrides an item in the cache by a key.
         /// Use one of the expire times at most (<paramref name="slidingExpireTime"/> or <paramref name="absoluteExpireTime"/>).
         /// If none of them is specified, then
@@ -85,27 +123,5 @@ namespace Jane.Runtime.Caching
         /// <param name="slidingExpireTime">Sliding expire time</param>
         /// <param name="absoluteExpireTime">Absolute expire time</param>
         Task SetAsync(string key, object value, TimeSpan? slidingExpireTime = null, TimeSpan? absoluteExpireTime = null);
-
-        /// <summary>
-        /// Removes a cache item by it's key.
-        /// </summary>
-        /// <param name="key">Key</param>
-        void Remove(string key);
-
-        /// <summary>
-        /// Removes a cache item by it's key (does nothing if given key does not exists in the cache).
-        /// </summary>
-        /// <param name="key">Key</param>
-        Task RemoveAsync(string key);
-
-        /// <summary>
-        /// Clears all items in this cache.
-        /// </summary>
-        void Clear();
-
-        /// <summary>
-        /// Clears all items in this cache.
-        /// </summary>
-        Task ClearAsync();
     }
 }
