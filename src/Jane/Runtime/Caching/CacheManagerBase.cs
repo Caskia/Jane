@@ -1,5 +1,4 @@
-﻿using Jane.Dependency;
-using Jane.Runtime.Caching.Configuration;
+﻿using Jane.Runtime.Caching.Configuration;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -11,7 +10,7 @@ namespace Jane.Runtime.Caching
     /// <summary>
     /// Base class for cache managers.
     /// </summary>
-    public abstract class CacheManagerBase : ICacheManager, ISingletonDependency
+    public abstract class CacheManagerBase : ICacheManager
     {
         protected readonly ConcurrentDictionary<string, ICache> Caches;
         protected readonly ICachingConfiguration Configuration;
