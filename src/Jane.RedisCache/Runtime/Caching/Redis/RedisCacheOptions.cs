@@ -27,7 +27,7 @@ namespace Jane.Runtime.Caching.Redis
 
         private static int GetDefaultDatabaseId()
         {
-            var appSetting = JaneConfiguration.Instance.Root["Redis:ConnectionString"];
+            var appSetting = JaneConfiguration.Instance.Root["Redis:DatabaseId"];
             if (appSetting.IsNullOrEmpty())
             {
                 return -1;
