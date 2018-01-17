@@ -4,15 +4,14 @@ using System.Linq;
 using System.Net;
 using System.Net.NetworkInformation;
 using System.Net.Sockets;
-using System.Threading.Tasks;
 
 namespace Jane.Utils
 {
     public class SocketUtils
     {
-        public static async Task<IPEndPoint> GetIPEndPointFromHostNameAsync(string hostName, int port, AddressFamily? addressFamily = AddressFamily.InterNetwork, bool throwIfMoreThanOneIP = true)
+        public static IPEndPoint GetIPEndPointFromHostName(string hostName, int port, AddressFamily? addressFamily = AddressFamily.InterNetwork, bool throwIfMoreThanOneIP = true)
         {
-            var ipAddresses = await Dns.GetHostAddressesAsync(hostName);
+            var ipAddresses = Dns.GetHostAddresses(hostName);
 
             if (addressFamily.HasValue)
             {
