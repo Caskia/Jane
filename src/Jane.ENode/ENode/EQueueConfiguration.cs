@@ -27,9 +27,6 @@ namespace Jane.ENode
 
         public int BrokerAdminPort { get; set; } = 10003;
 
-        /// <summary>
-        /// tet
-        /// </summary>
         public IPEndPoint BrokerConsumerEndPoint
         {
             get
