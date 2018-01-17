@@ -1,13 +1,44 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.NetworkInformation;
 using System.Net.Sockets;
+using System.Threading.Tasks;
 
 namespace Jane.Utils
 {
     public class SocketUtils
     {
+        public static async Task<IPEndPoint> GetIPEndPointFromHostNameAsync(string hostName, int port, AddressFamily? addressFamily = AddressFamily.InterNetwork, bool throwIfMoreThanOneIP = true)
+        {
+            var ipAddresses = await Dns.GetHostAddressesAsync(hostName);
+
+            if (addressFamily.HasValue)
+            {
+                ipAddresses = ipAddresses
+                    .Where(a => a.AddressFamily == addressFamily.Value)
+                    .ToArray();
+            }
+
+            if (ipAddresses.Length == 0)
+            {
+                throw new ArgumentException(
+                    "Unable to retrieve address from specified host name.",
+                    "hostName"
+                );
+            }
+            else if (throwIfMoreThanOneIP && ipAddresses.Length > 1)
+            {
+                throw new ArgumentException(
+                   "There is more that one IP address to the specified host.",
+                   "hostName"
+               );
+            }
+
+            return new IPEndPoint(ipAddresses.FirstOrDefault(), port);
+        }
+
         public static IPAddress GetLocalIPV4()
         {
             var networkTypes = new List<NetworkInterfaceType>()
