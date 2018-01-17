@@ -5,9 +5,21 @@ namespace Jane.ENode
 {
     public interface IEQueueConfiguration
     {
+        IPEndPoint BrokerAdminEndPoint { get; }
+
+        string BrokerAdminHost { get; set; }
+
         int BrokerAdminPort { get; set; }
 
+        IPEndPoint BrokerConsumerEndPoint { get; }
+
+        string BrokerConsumerHost { get; set; }
+
         int BrokerConsumerPort { get; set; }
+
+        IPEndPoint BrokerProducerEndPoint { get; }
+
+        string BrokerProducerHost { get; set; }
 
         int BrokerProducerPort { get; set; }
 

@@ -58,13 +58,25 @@ namespace Jane.Configurations
         public static Configuration LoadEQueueConfiguration(this Configuration configuration)
         {
             var equeueConfiguration = new EQueueConfiguration();
+            if (!configuration.Root["EQueue:BrokerAdminHost"].IsNullOrEmpty())
+            {
+                equeueConfiguration.BrokerAdminHost = configuration.Root["EQueue:BrokerAdminHost"];
+            }
             if (!configuration.Root["EQueue:BrokerAdminPort"].IsNullOrEmpty())
             {
                 equeueConfiguration.BrokerAdminPort = Convert.ToInt32(configuration.Root["EQueue:BrokerAdminPort"]);
             }
+            if (!configuration.Root["EQueue:BrokerConsumerHost"].IsNullOrEmpty())
+            {
+                equeueConfiguration.BrokerConsumerHost = configuration.Root["EQueue:BrokerConsumerHost"];
+            }
             if (!configuration.Root["EQueue:BrokerConsumerPort"].IsNullOrEmpty())
             {
                 equeueConfiguration.BrokerConsumerPort = Convert.ToInt32(configuration.Root["EQueue:BrokerConsumerPort"]);
+            }
+            if (!configuration.Root["EQueue:BrokerProducerHost"].IsNullOrEmpty())
+            {
+                equeueConfiguration.BrokerProducerHost = configuration.Root["EQueue:BrokerProducerHost"];
             }
             if (!configuration.Root["EQueue:BrokerProducerPort"].IsNullOrEmpty())
             {
