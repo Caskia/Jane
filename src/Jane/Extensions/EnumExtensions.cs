@@ -39,5 +39,10 @@ namespace Jane.Extensions
             }
             throw new ArgumentException("Not found.", "description");
         }
+
+        public static T To<T>(this Enum enumVal, Type enumType)
+        {
+            return (T)Enum.ToObject(enumType, enumVal);
+        }
     }
 }
