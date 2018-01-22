@@ -3,7 +3,7 @@
 namespace Jane.Entities.Auditing
 {
     [Serializable]
-    public abstract class CreationAuditedVersionEntity : CreationAuditedVersionEntity<int>, IEntity
+    public abstract class CreationAuditedVersionEntity : CreationAuditedVersionEntity<int>
     {
     }
 
