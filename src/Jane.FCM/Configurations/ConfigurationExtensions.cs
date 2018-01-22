@@ -13,7 +13,7 @@ namespace Jane.Configurations
         /// </summary>
         /// <param name="configuration"></param>
         /// <returns></returns>
-        public static Configuration UseMasstransitRabbitMq(this Configuration configuration)
+        public static Configuration UseFCM(this Configuration configuration)
         {
             configuration.SetDefault<IFCMConfiguration, FCMConfiguration>(new FCMConfiguration
             (
