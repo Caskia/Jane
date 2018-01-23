@@ -12,7 +12,7 @@ namespace Jane.Entities.Auditing
         /// <summary>
         /// Constructor.
         /// </summary>
-        protected CreationAudited()
+        public CreationAudited()
         {
             CreationTime = Clock.Now;
         }
