@@ -168,7 +168,7 @@ namespace Jane.Configurations
             var environmentName = System.Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
             if (!environmentName.IsNullOrWhiteSpace())
             {
-                builder = builder.AddJsonFile($"appsettings.{environmentName.ToLower()}.json", optional: true, reloadOnChange: true);
+                builder = builder.AddJsonFile($"appsettings.{environmentName}.json", optional: true, reloadOnChange: true);
             }
 
             Root = builder.Build();
