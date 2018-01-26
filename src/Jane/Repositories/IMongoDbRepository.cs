@@ -1,4 +1,7 @@
 ﻿using Jane.Entities;
+using System;
+using System.Collections.Generic;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 namespace Jane.Repositories
@@ -6,6 +9,14 @@ namespace Jane.Repositories
     public interface IMongoDbRepository<TEntity, TPrimary> : IRepository<TEntity, TPrimary>
        where TEntity : class, IEntity<TPrimary>
     {
+        #region Select/Get/Query
+
+        List<TEntity> GetAllList(string filter, Expression<Func<TEntity, object>> sort, Expression<Func<TEntity, object>> sortDescending, int? skip, int? count);
+
+        Task<List<TEntity>> GetAllListAsync(string filter, Expression<Func<TEntity, object>> sort, Expression<Func<TEntity, object>> sortDescending, int? skip, int? count);
+
+        #endregion Select/Get/Query
+
         #region Update
 
         long UpdateMany(string filterDefinition, string updateDefinition);
@@ -17,6 +28,14 @@ namespace Jane.Repositories
         Task<long> UpdateOneAsync(string filterDefinition, string updateDefinition);
 
         #endregion Update
+
+        #region Aggregates
+
+        long LongCount(string filter);
+
+        Task<long> LongCountAsync(string filter);
+
+        #endregion Aggregates
     }
 
     public interface IMongoDbRepository<TEntity> : IMongoDbRepository<TEntity, int>

@@ -1,6 +1,7 @@
 ﻿using Jane.Entities;
 using Jane.MongoDb.Indexes;
 using Jane.Repositories;
+using MongoDB.Bson;
 using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
@@ -104,6 +105,50 @@ namespace Jane.MongoDb.Repositories
         public List<TEntity> GetAllList(Expression<Func<TEntity, bool>> predicate)
         {
             return Collection.Find(predicate).ToList();
+        }
+
+        public List<TEntity> GetAllList(string filter, Expression<Func<TEntity, object>> sort, Expression<Func<TEntity, object>> sortDescending, int? skip, int? count)
+        {
+            var finder = Collection.Find(filter);
+            if (sort != null)
+            {
+                finder = finder.SortBy(sort);
+            }
+            if (sortDescending != null)
+            {
+                finder = finder.SortByDescending(sort);
+            }
+            if (skip.HasValue)
+            {
+                finder = finder.Skip(skip);
+            }
+            if (count.HasValue)
+            {
+                finder = finder.Limit(count);
+            }
+            return finder.ToList();
+        }
+
+        public async Task<List<TEntity>> GetAllListAsync(string filter, Expression<Func<TEntity, object>> sort, Expression<Func<TEntity, object>> sortDescending, int? skip, int? count)
+        {
+            var finder = Collection.Find(filter);
+            if (sort != null)
+            {
+                finder = finder.SortBy(sort);
+            }
+            if (sortDescending != null)
+            {
+                finder = finder.SortByDescending(sort);
+            }
+            if (skip.HasValue)
+            {
+                finder = finder.Skip(skip);
+            }
+            if (count.HasValue)
+            {
+                finder = finder.Limit(count);
+            }
+            return await finder.ToListAsync();
         }
 
         public async Task<List<TEntity>> GetAllListAsync()
@@ -327,6 +372,11 @@ namespace Jane.MongoDb.Repositories
             return Task.FromResult(Count(predicate));
         }
 
+        public long LongCount(string filter)
+        {
+            return Collection.Find(filter).Count();
+        }
+
         public long LongCount()
         {
             return Collection.AsQueryable().LongCount();
@@ -335,6 +385,11 @@ namespace Jane.MongoDb.Repositories
         public long LongCount(Expression<Func<TEntity, bool>> predicate)
         {
             return Collection.AsQueryable().LongCount(predicate);
+        }
+
+        public async Task<long> LongCountAsync(string filter)
+        {
+            return await Collection.Find(filter).CountAsync();
         }
 
         public async Task<long> LongCountAsync()
