@@ -11,9 +11,9 @@ namespace Jane.Repositories
     {
         #region Select/Get/Query
 
-        List<TEntity> GetAllList(string filter, Expression<Func<TEntity, object>> sort, Expression<Func<TEntity, object>> sortDescending, int? skip, int? count);
+        List<TEntity> GetAllList(string filter, string sorts, int? skip, int? count);
 
-        Task<List<TEntity>> GetAllListAsync(string filter, Expression<Func<TEntity, object>> sort, Expression<Func<TEntity, object>> sortDescending, int? skip, int? count);
+        Task<List<TEntity>> GetAllListAsync(string filter, string sorts, int? skip, int? count);
 
         #endregion Select/Get/Query
 

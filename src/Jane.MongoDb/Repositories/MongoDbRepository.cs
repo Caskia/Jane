@@ -1,4 +1,5 @@
 ﻿using Jane.Entities;
+using Jane.Extensions;
 using Jane.MongoDb.Indexes;
 using Jane.Repositories;
 using MongoDB.Bson;
@@ -107,48 +108,14 @@ namespace Jane.MongoDb.Repositories
             return Collection.Find(predicate).ToList();
         }
 
-        public List<TEntity> GetAllList(string filter, Expression<Func<TEntity, object>> sort, Expression<Func<TEntity, object>> sortDescending, int? skip, int? count)
+        public List<TEntity> GetAllList(string filter, string sorts, int? skip, int? count)
         {
-            var finder = Collection.Find(filter);
-            if (sort != null)
-            {
-                finder = finder.SortBy(sort);
-            }
-            if (sortDescending != null)
-            {
-                finder = finder.SortByDescending(sort);
-            }
-            if (skip.HasValue)
-            {
-                finder = finder.Skip(skip);
-            }
-            if (count.HasValue)
-            {
-                finder = finder.Limit(count);
-            }
-            return finder.ToList();
+            return BuildFinder(filter, sorts, skip, count).ToList();
         }
 
-        public async Task<List<TEntity>> GetAllListAsync(string filter, Expression<Func<TEntity, object>> sort, Expression<Func<TEntity, object>> sortDescending, int? skip, int? count)
+        public async Task<List<TEntity>> GetAllListAsync(string filter, string sorts, int? skip, int? count)
         {
-            var finder = Collection.Find(filter);
-            if (sort != null)
-            {
-                finder = finder.SortBy(sort);
-            }
-            if (sortDescending != null)
-            {
-                finder = finder.SortByDescending(sort);
-            }
-            if (skip.HasValue)
-            {
-                finder = finder.Skip(skip);
-            }
-            if (count.HasValue)
-            {
-                finder = finder.Limit(count);
-            }
-            return await finder.ToListAsync();
+            return await BuildFinder(filter, sorts, skip, count).ToListAsync();
         }
 
         public async Task<List<TEntity>> GetAllListAsync()
@@ -415,6 +382,95 @@ namespace Jane.MongoDb.Repositories
                 );
 
             return Expression.Lambda<Func<TEntity, bool>>(lambdaBody, lambdaParam);
+        }
+
+        protected IFindFluent<TEntity, TEntity> BuildFinder(string filter, string sorts, int? skip, int? count)
+        {
+            var finder = Collection.Find(filter);
+
+            if (!sorts.IsNullOrEmpty())
+            {
+                var sortDetail = ConvertSorts(sorts);
+
+                var sorter = Builders<TEntity>.Sort.Descending("_id");
+
+                SortDefinition<TEntity> sortDefinition = null;
+
+                foreach (var sortForAscending in sortDetail.sortsForAscending)
+                {
+                    if (sortDefinition == null)
+                    {
+                        sortDefinition = sorter.Ascending(sortForAscending);
+                    }
+                    else
+                    {
+                        sortDefinition = sortDefinition.Ascending(sortForAscending);
+                    }
+                }
+
+                foreach (var sortForDescending in sortDetail.sortsForDescending)
+                {
+                    if (sortDefinition == null)
+                    {
+                        sortDefinition = sorter.Descending(sortForDescending);
+                    }
+                    else
+                    {
+                        sortDefinition = sortDefinition.Descending(sortForDescending);
+                    }
+                }
+
+                finder = finder.Sort(sorter);
+            }
+
+            if (skip.HasValue)
+            {
+                finder = finder.Skip(skip);
+            }
+            if (count.HasValue)
+            {
+                finder = finder.Limit(count);
+            }
+
+            return finder;
+        }
+
+        protected (List<string> sortsForAscending, List<string> sortsForDescending) ConvertSorts(string sortFormat)
+        {
+            var sortsForAscending = new List<string>();
+            var sortsForDescending = new List<string>();
+
+            var sorts = sortFormat.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+            foreach (var sortPair in sorts)
+            {
+                var pairs = sortPair.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                if (pairs.Length > 2)
+                {
+                    throw new ArgumentException(nameof(sortFormat));
+                }
+
+                if (pairs.Length == 2)
+                {
+                    if (pairs[1].ToLower() == "desc")
+                    {
+                        sortsForDescending.Add(pairs[0]);
+                    }
+                    else if (pairs[1].ToLower() == "asc")
+                    {
+                        sortsForAscending.Add(pairs[0]);
+                    }
+                    else
+                    {
+                        throw new ArgumentException(nameof(sortFormat));
+                    }
+                }
+                else
+                {
+                    sortsForAscending.Add(pairs[0]);
+                }
+            }
+
+            return (sortsForAscending, sortsForDescending);
         }
 
         protected void SetId(TEntity entityAsObject)
