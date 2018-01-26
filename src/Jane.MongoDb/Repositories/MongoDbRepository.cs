@@ -309,22 +309,22 @@ namespace Jane.MongoDb.Repositories
 
         public int Count()
         {
-            throw new NotImplementedException();
+            return Collection.AsQueryable().Count();
         }
 
         public int Count(Expression<Func<TEntity, bool>> predicate)
         {
-            throw new NotImplementedException();
+            return Collection.AsQueryable().Count(predicate);
         }
 
         public Task<int> CountAsync()
         {
-            throw new NotImplementedException();
+            return Task.FromResult(Count());
         }
 
         public Task<int> CountAsync(Expression<Func<TEntity, bool>> predicate)
         {
-            throw new NotImplementedException();
+            return Task.FromResult(Count(predicate));
         }
 
         public long LongCount()
