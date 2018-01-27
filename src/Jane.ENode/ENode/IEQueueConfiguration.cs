@@ -17,6 +17,10 @@ namespace Jane.ENode
 
         int BrokerConsumerPort { get; set; }
 
+        string BrokerGroupName { get; set; }
+
+        string BrokerName { get; set; }
+
         IPEndPoint BrokerProducerEndPoint { get; }
 
         string BrokerProducerHost { get; set; }
@@ -26,7 +30,6 @@ namespace Jane.ENode
         string BrokerStorePath { get; set; }
 
         string NameServerAddress { get; set; }
-
         List<IPEndPoint> NameServerEndPoints { get; }
 
         int NameServerPort { get; set; }

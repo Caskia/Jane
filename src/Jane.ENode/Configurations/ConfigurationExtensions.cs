@@ -86,6 +86,14 @@ namespace Jane.Configurations
             {
                 equeueConfiguration.BrokerStorePath = configuration.Root["EQueue:BrokerStorePath"];
             }
+            if (!configuration.Root["EQueue:BrokerName"].IsNullOrEmpty())
+            {
+                equeueConfiguration.BrokerName = configuration.Root["EQueue:BrokerName"];
+            }
+            if (!configuration.Root["EQueue:BrokerGroupName"].IsNullOrEmpty())
+            {
+                equeueConfiguration.BrokerGroupName = configuration.Root["EQueue:BrokerGroupName"];
+            }
             if (!configuration.Root["EQueue:NameServerAddress"].IsNullOrEmpty())
             {
                 equeueConfiguration.NameServerAddress = configuration.Root["EQueue:NameServerAddress"];

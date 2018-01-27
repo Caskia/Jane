@@ -46,6 +46,11 @@ namespace Jane.ENode
 
         public int BrokerConsumerPort { get; set; } = 10002;
 
+        public string BrokerGroupName { get; set; } = "DefaultGroup"
+
+
+        public string BrokerName { get; set; } = "Default";
+
         public IPEndPoint BrokerProducerEndPoint
         {
             get
