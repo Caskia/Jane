@@ -19,7 +19,16 @@ namespace Jane.MongoDb.Indexes
         {
             get
             {
-                return Database.GetCollection<TEntity>(typeof(TEntity).Name + "s");
+                return Database.GetCollection<TEntity>(CollectionName);
+            }
+        }
+
+        public virtual string CollectionName
+        {
+            get
+            {
+                var entityName = typeof(TEntity).Name;
+                return entityName.EndsWith("s") ? entityName : (entityName + "s");
             }
         }
 
