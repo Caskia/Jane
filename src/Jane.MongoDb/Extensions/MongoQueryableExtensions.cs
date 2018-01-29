@@ -1,4 +1,5 @@
-﻿using MongoDB.Driver.Linq;
+﻿using MongoDB.Driver;
+using MongoDB.Driver.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,17 +9,17 @@ namespace Jane.MongoDb.Extensions
 {
     public static class MongoQueryableExtensions
     {
-        public static async Task<int> CountAsync<TEntity>(this IQueryable<TEntity> queryable)
+        public static async Task<int> QCountAsync<TEntity>(this IQueryable<TEntity> queryable)
         {
             return await queryable.UsingMongoQueryable(async mq => await mq.CountAsync());
         }
 
-        public static async Task<long> LongCountAsync<TEntity>(this IQueryable<TEntity> queryable)
+        public static async Task<long> QLongCountAsync<TEntity>(this IQueryable<TEntity> queryable)
         {
             return await queryable.UsingMongoQueryable(async mq => await mq.LongCountAsync());
         }
 
-        public static async Task<List<TEntity>> ToListAsync<TEntity>(this IQueryable<TEntity> queryable)
+        public static async Task<List<TEntity>> QToListAsync<TEntity>(this IQueryable<TEntity> queryable)
         {
             return await queryable.UsingMongoQueryable(async mq => await mq.ToListAsync());
         }
