@@ -59,7 +59,7 @@ namespace Jane.MongoDb.Repositories
             {
                 var sortDetail = ConvertSorts(sorts);
 
-                var sorter = Builders<TEntity>.Sort.Descending("_id");
+                var sorter = Builders<TEntity>.Sort;
 
                 SortDefinition<TEntity> sortDefinition = null;
 
@@ -87,7 +87,7 @@ namespace Jane.MongoDb.Repositories
                     }
                 }
 
-                finder = finder.Sort(sorter);
+                finder = finder.Sort(sortDefinition);
             }
 
             if (skip.HasValue)
