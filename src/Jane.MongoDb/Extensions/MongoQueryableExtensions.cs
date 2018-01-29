@@ -9,17 +9,17 @@ namespace Jane.MongoDb.Extensions
 {
     public static class MongoQueryableExtensions
     {
-        public static async Task<int> QCountAsync<TEntity>(this IQueryable<TEntity> queryable)
+        public static async Task<int> CountByQueryableAsync<TEntity>(this IQueryable<TEntity> queryable)
         {
             return await queryable.UsingMongoQueryable(async mq => await mq.CountAsync());
         }
 
-        public static async Task<long> QLongCountAsync<TEntity>(this IQueryable<TEntity> queryable)
+        public static async Task<long> LongCountByQueryableAsync<TEntity>(this IQueryable<TEntity> queryable)
         {
             return await queryable.UsingMongoQueryable(async mq => await mq.LongCountAsync());
         }
 
-        public static async Task<List<TEntity>> QToListAsync<TEntity>(this IQueryable<TEntity> queryable)
+        public static async Task<List<TEntity>> ToListByQueryableAsync<TEntity>(this IQueryable<TEntity> queryable)
         {
             return await queryable.UsingMongoQueryable(async mq => await mq.ToListAsync());
         }
