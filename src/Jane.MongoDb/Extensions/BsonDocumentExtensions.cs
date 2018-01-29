@@ -16,7 +16,7 @@ namespace Jane.MongoDb.Extensions
         {
             var serializerRegistry = BsonSerializer.SerializerRegistry;
             var documentSerializer = serializerRegistry.GetSerializer<T>();
-            return filter.Render(documentSerializer, serializerRegistry).ToJson();
+            return filter.Render(documentSerializer, serializerRegistry).ToString();
         }
 
         public static string ToBsonDocumentString(this object obj, Type nominalType, IBsonSerializer serializer = null, Action<BsonSerializationContext.Builder> configurator = null, BsonSerializationArgs args = default(BsonSerializationArgs))
