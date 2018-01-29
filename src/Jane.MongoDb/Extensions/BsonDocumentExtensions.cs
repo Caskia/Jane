@@ -1,5 +1,6 @@
 ﻿using MongoDB.Bson;
 using MongoDB.Bson.Serialization;
+using MongoDB.Driver;
 using System;
 
 namespace Jane.MongoDb.Extensions
@@ -9,6 +10,13 @@ namespace Jane.MongoDb.Extensions
         public static string ToBsonDocumentString<TNominalType>(this TNominalType obj, IBsonSerializer<TNominalType> serializer = null, Action<BsonSerializationContext.Builder> configurator = null, BsonSerializationArgs args = default(BsonSerializationArgs))
         {
             return obj.ToBsonDocument<TNominalType>(serializer, configurator, args).ToString();
+        }
+
+        public static string ToBsonDocumentString<T>(this FilterDefinition<T> filter)
+        {
+            var serializerRegistry = BsonSerializer.SerializerRegistry;
+            var documentSerializer = serializerRegistry.GetSerializer<T>();
+            return filter.Render(documentSerializer, serializerRegistry).ToJson();
         }
 
         public static string ToBsonDocumentString(this object obj, Type nominalType, IBsonSerializer serializer = null, Action<BsonSerializationContext.Builder> configurator = null, BsonSerializationArgs args = default(BsonSerializationArgs))
