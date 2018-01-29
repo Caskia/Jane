@@ -10,7 +10,7 @@ namespace Jane.AspNetCore.Cors
 {
     public static class CorsServiceCollectionExtensions
     {
-        public static void AddCorsPolicy(this IServiceCollection services, IConfigurationRoot _appConfiguration)
+        public static void AddCorsPolicy(this IServiceCollection services, IConfigurationRoot appConfiguration)
         {
             services.TryAdd(ServiceDescriptor.Transient<ICorsService, WildCardCorsService>());
             services.AddCors(options =>
@@ -19,7 +19,7 @@ namespace Jane.AspNetCore.Cors
                 {
                     //App:CorsOrigins in appsettings.json can contain more than one address with splitted by comma.
                     builder
-                        .WithOrigins(_appConfiguration["App:CorsOrigins"].Split(",", StringSplitOptions.RemoveEmptyEntries).Select(o => o.RemovePostFix("/")).ToArray())
+                        .WithOrigins(appConfiguration["App:CorsOrigins"].Split(",", StringSplitOptions.RemoveEmptyEntries).Select(o => o.RemovePostFix("/")).ToArray())
                         .AllowAnyHeader()
                         .AllowAnyMethod()
                         .AllowCredentials();
