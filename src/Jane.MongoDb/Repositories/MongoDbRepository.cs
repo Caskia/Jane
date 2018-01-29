@@ -17,10 +17,9 @@ namespace Jane.MongoDb.Repositories
     /// </summary>
     /// <typeparam name="TEntity">Type of the Entity for this repository</typeparam>
     /// <typeparam name="TPrimaryKey">Primary key of the entity</typeparam>
-    public class MongoDbRepository<TEntity, TPrimaryKey> : IMongoDbRepository<TEntity, TPrimaryKey>
+    public class MongoDbRepository<TEntity, TPrimaryKey> : MongoDbBase<TEntity, TPrimaryKey>, IMongoDbRepository<TEntity, TPrimaryKey>
         where TEntity : class, IEntity<TPrimaryKey>
     {
-        private readonly IMongoDbProvider _databaseProvider;
         private readonly IIdGenerator _idGenerator;
 
         public MongoDbRepository(
@@ -28,31 +27,9 @@ namespace Jane.MongoDb.Repositories
             IMongoDbCollectionIndexManager<TEntity, TPrimaryKey> mongoDbCollectionIndexManager,
             IIdGenerator idGenerator
             )
+            : base(databaseProvider)
         {
-            _databaseProvider = databaseProvider;
             _idGenerator = idGenerator;
-        }
-
-        public virtual IMongoCollection<TEntity> Collection
-        {
-            get
-            {
-                return Database.GetCollection<TEntity>(CollectionName);
-            }
-        }
-
-        public virtual string CollectionName
-        {
-            get
-            {
-                var entityName = typeof(TEntity).Name;
-                return entityName.EndsWith("s") ? entityName : (entityName + "s");
-            }
-        }
-
-        public virtual IMongoDatabase Database
-        {
-            get { return _databaseProvider.GetDatabase(); }
         }
 
         #region Select/Get/Query
