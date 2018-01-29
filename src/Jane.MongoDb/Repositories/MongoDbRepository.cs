@@ -31,26 +31,135 @@ namespace Jane.MongoDb.Repositories
             _idGenerator = idGenerator;
         }
 
+        public virtual FindOptions FindOptions
+        {
+            get
+            {
+                return null;
+            }
+        }
+
+        protected static Expression<Func<TEntity, bool>> CreateEqualityExpressionForId(TPrimaryKey id)
+        {
+            var lambdaParam = Expression.Parameter(typeof(TEntity));
+
+            var lambdaBody = Expression.Equal(
+                Expression.PropertyOrField(lambdaParam, "Id"),
+                Expression.Constant(id, typeof(TPrimaryKey))
+                );
+
+            return Expression.Lambda<Func<TEntity, bool>>(lambdaBody, lambdaParam);
+        }
+
+        protected IFindFluent<TEntity, TEntity> BuildFinder(string filter, string sorts, int? skip, int? count)
+        {
+            var finder = Collection.Find(filter, FindOptions);
+
+            if (!sorts.IsNullOrEmpty())
+            {
+                var sortDetail = ConvertSorts(sorts);
+
+                var sorter = Builders<TEntity>.Sort.Descending("_id");
+
+                SortDefinition<TEntity> sortDefinition = null;
+
+                foreach (var sortForAscending in sortDetail.sortsForAscending)
+                {
+                    if (sortDefinition == null)
+                    {
+                        sortDefinition = sorter.Ascending(sortForAscending);
+                    }
+                    else
+                    {
+                        sortDefinition = sortDefinition.Ascending(sortForAscending);
+                    }
+                }
+
+                foreach (var sortForDescending in sortDetail.sortsForDescending)
+                {
+                    if (sortDefinition == null)
+                    {
+                        sortDefinition = sorter.Descending(sortForDescending);
+                    }
+                    else
+                    {
+                        sortDefinition = sortDefinition.Descending(sortForDescending);
+                    }
+                }
+
+                finder = finder.Sort(sorter);
+            }
+
+            if (skip.HasValue)
+            {
+                finder = finder.Skip(skip);
+            }
+            if (count.HasValue)
+            {
+                finder = finder.Limit(count);
+            }
+
+            return finder;
+        }
+
+        protected (List<string> sortsForAscending, List<string> sortsForDescending) ConvertSorts(string sortFormat)
+        {
+            var sortsForAscending = new List<string>();
+            var sortsForDescending = new List<string>();
+
+            var sorts = sortFormat.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+            foreach (var sortPair in sorts)
+            {
+                var pairs = sortPair.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                if (pairs.Length > 2)
+                {
+                    throw new ArgumentException(nameof(sortFormat));
+                }
+
+                if (pairs.Length == 2)
+                {
+                    if (pairs[1].ToLower() == "desc")
+                    {
+                        sortsForDescending.Add(pairs[0]);
+                    }
+                    else if (pairs[1].ToLower() == "asc")
+                    {
+                        sortsForAscending.Add(pairs[0]);
+                    }
+                    else
+                    {
+                        throw new ArgumentException(nameof(sortFormat));
+                    }
+                }
+                else
+                {
+                    sortsForAscending.Add(pairs[0]);
+                }
+            }
+
+            return (sortsForAscending, sortsForDescending);
+        }
+
         #region Select/Get/Query
 
         public TEntity FirstOrDefault(TPrimaryKey id)
         {
-            return Collection.Find(CreateEqualityExpressionForId(id)).FirstOrDefault();
+            return Collection.Find(CreateEqualityExpressionForId(id), FindOptions).FirstOrDefault();
         }
 
         public TEntity FirstOrDefault(Expression<Func<TEntity, bool>> predicate)
         {
-            return Collection.Find(predicate).FirstOrDefault();
+            return Collection.Find(predicate, FindOptions).FirstOrDefault();
         }
 
         public async Task<TEntity> FirstOrDefaultAsync(TPrimaryKey id)
         {
-            return await Collection.Find(CreateEqualityExpressionForId(id)).FirstOrDefaultAsync();
+            return await Collection.Find(CreateEqualityExpressionForId(id), FindOptions).FirstOrDefaultAsync();
         }
 
         public async Task<TEntity> FirstOrDefaultAsync(Expression<Func<TEntity, bool>> predicate)
         {
-            return await Collection.Find(predicate).FirstOrDefaultAsync();
+            return await Collection.Find(predicate, FindOptions).FirstOrDefaultAsync();
         }
 
         public TEntity Get(TPrimaryKey id)
@@ -81,7 +190,7 @@ namespace Jane.MongoDb.Repositories
 
         public List<TEntity> GetAllList(Expression<Func<TEntity, bool>> predicate)
         {
-            return Collection.Find(predicate).ToList();
+            return Collection.Find(predicate, FindOptions).ToList();
         }
 
         public List<TEntity> GetAllList(string filter, string sorts, int? skip, int? count)
@@ -101,7 +210,7 @@ namespace Jane.MongoDb.Repositories
 
         public async Task<List<TEntity>> GetAllListAsync(Expression<Func<TEntity, bool>> predicate)
         {
-            return await Collection.Find(predicate).ToListAsync();
+            return await Collection.Find(predicate, FindOptions).ToListAsync();
         }
 
         public async Task<TEntity> GetAsync(TPrimaryKey id)
@@ -132,7 +241,7 @@ namespace Jane.MongoDb.Repositories
 
         public async Task<TEntity> SingleAsync(Expression<Func<TEntity, bool>> predicate)
         {
-            return await Collection.Find(predicate).SingleAsync();
+            return await Collection.Find(predicate, FindOptions).SingleAsync();
         }
 
         #endregion Select/Get/Query
@@ -317,7 +426,7 @@ namespace Jane.MongoDb.Repositories
 
         public long LongCount(string filter)
         {
-            return Collection.Find(filter).Count();
+            return Collection.Find(filter, FindOptions).Count();
         }
 
         public long LongCount()
@@ -332,7 +441,7 @@ namespace Jane.MongoDb.Repositories
 
         public async Task<long> LongCountAsync(string filter)
         {
-            return await Collection.Find(filter).CountAsync();
+            return await Collection.Find(filter, FindOptions).CountAsync();
         }
 
         public async Task<long> LongCountAsync()
@@ -347,107 +456,6 @@ namespace Jane.MongoDb.Repositories
         }
 
         #endregion Aggregates
-
-        protected static Expression<Func<TEntity, bool>> CreateEqualityExpressionForId(TPrimaryKey id)
-        {
-            var lambdaParam = Expression.Parameter(typeof(TEntity));
-
-            var lambdaBody = Expression.Equal(
-                Expression.PropertyOrField(lambdaParam, "Id"),
-                Expression.Constant(id, typeof(TPrimaryKey))
-                );
-
-            return Expression.Lambda<Func<TEntity, bool>>(lambdaBody, lambdaParam);
-        }
-
-        protected IFindFluent<TEntity, TEntity> BuildFinder(string filter, string sorts, int? skip, int? count)
-        {
-            var finder = Collection.Find(filter);
-
-            if (!sorts.IsNullOrEmpty())
-            {
-                var sortDetail = ConvertSorts(sorts);
-
-                var sorter = Builders<TEntity>.Sort.Descending("_id");
-
-                SortDefinition<TEntity> sortDefinition = null;
-
-                foreach (var sortForAscending in sortDetail.sortsForAscending)
-                {
-                    if (sortDefinition == null)
-                    {
-                        sortDefinition = sorter.Ascending(sortForAscending);
-                    }
-                    else
-                    {
-                        sortDefinition = sortDefinition.Ascending(sortForAscending);
-                    }
-                }
-
-                foreach (var sortForDescending in sortDetail.sortsForDescending)
-                {
-                    if (sortDefinition == null)
-                    {
-                        sortDefinition = sorter.Descending(sortForDescending);
-                    }
-                    else
-                    {
-                        sortDefinition = sortDefinition.Descending(sortForDescending);
-                    }
-                }
-
-                finder = finder.Sort(sorter);
-            }
-
-            if (skip.HasValue)
-            {
-                finder = finder.Skip(skip);
-            }
-            if (count.HasValue)
-            {
-                finder = finder.Limit(count);
-            }
-
-            return finder;
-        }
-
-        protected (List<string> sortsForAscending, List<string> sortsForDescending) ConvertSorts(string sortFormat)
-        {
-            var sortsForAscending = new List<string>();
-            var sortsForDescending = new List<string>();
-
-            var sorts = sortFormat.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
-            foreach (var sortPair in sorts)
-            {
-                var pairs = sortPair.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
-                if (pairs.Length > 2)
-                {
-                    throw new ArgumentException(nameof(sortFormat));
-                }
-
-                if (pairs.Length == 2)
-                {
-                    if (pairs[1].ToLower() == "desc")
-                    {
-                        sortsForDescending.Add(pairs[0]);
-                    }
-                    else if (pairs[1].ToLower() == "asc")
-                    {
-                        sortsForAscending.Add(pairs[0]);
-                    }
-                    else
-                    {
-                        throw new ArgumentException(nameof(sortFormat));
-                    }
-                }
-                else
-                {
-                    sortsForAscending.Add(pairs[0]);
-                }
-            }
-
-            return (sortsForAscending, sortsForDescending);
-        }
 
         protected void SetId(TEntity entityAsObject)
         {
