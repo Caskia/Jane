@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27130.2010
+VisualStudioVersion = 15.0.27130.2024
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Jane", "src\Jane\Jane.csproj", "{F337207E-C0B0-4620-A36C-7027C5AA2AFC}"
 EndProject
@@ -23,7 +23,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Jane.FCM", "src\Jane.FCM\Ja
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Jane.ENode.AspNetCore", "src\Jane.ENode.AspNetCore\Jane.ENode.AspNetCore.csproj", "{3F5F977B-7B05-4495-A763-E707658165B3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jane.RedisCache", "src\Jane.RedisCache\Jane.RedisCache.csproj", "{34E27FDA-5DAC-41E3-A7D4-D73B89A57587}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Jane.RedisCache", "src\Jane.RedisCache\Jane.RedisCache.csproj", "{34E27FDA-5DAC-41E3-A7D4-D73B89A57587}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jane.Web", "src\Jane.Web\Jane.Web.csproj", "{0858D380-F50F-4FA2-A862-8EB590DE0021}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -75,6 +77,10 @@ Global
 		{34E27FDA-5DAC-41E3-A7D4-D73B89A57587}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{34E27FDA-5DAC-41E3-A7D4-D73B89A57587}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{34E27FDA-5DAC-41E3-A7D4-D73B89A57587}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0858D380-F50F-4FA2-A862-8EB590DE0021}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0858D380-F50F-4FA2-A862-8EB590DE0021}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0858D380-F50F-4FA2-A862-8EB590DE0021}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0858D380-F50F-4FA2-A862-8EB590DE0021}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
