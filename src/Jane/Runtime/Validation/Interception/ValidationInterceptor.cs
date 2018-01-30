@@ -9,11 +9,8 @@ namespace Jane.Runtime.Validation.Interception
     /// </summary>
     public class ValidationInterceptor : IInterceptor
     {
-        private readonly IObjectContainer _objectContainer;
-
-        public ValidationInterceptor(IObjectContainer objectContainer)
+        public ValidationInterceptor()
         {
-            _objectContainer = objectContainer;
         }
 
         public void Intercept(IInvocation invocation)
@@ -24,7 +21,7 @@ namespace Jane.Runtime.Validation.Interception
                 return;
             }
 
-            var validator = _objectContainer.Resolve<MethodInvocationValidator>();
+            var validator = ObjectContainer.Current.Resolve<MethodInvocationValidator>();
             validator.Initialize(invocation.MethodInvocationTarget, invocation.Arguments);
             validator.Validate();
 
