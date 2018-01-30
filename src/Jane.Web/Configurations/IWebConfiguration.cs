@@ -2,7 +2,7 @@
 
 namespace Jane.Configurations
 {
-    public interface IJaneWebConfiguration : ISingletonDependency
+    public interface IWebConfiguration : ISingletonDependency
     {
         /// <summary>
         /// If this is set to true, all exception and details are sent directly to clients on an error.

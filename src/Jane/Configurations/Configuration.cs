@@ -1,4 +1,5 @@
 ﻿using Jane.Aspects;
+using Jane.Authorization;
 using Jane.Dependency;
 using Jane.Events.Bus;
 using Jane.Events.Bus.Factories;
@@ -98,6 +99,7 @@ namespace Jane.Configurations
             SetDefault<ICacheManager, JaneMemoryCacheManager>();
             SetDefault<IValidationConfiguration, ValidationConfiguration>();
             SetDefault<MethodInvocationValidator, MethodInvocationValidator>(null, DependencyLifeStyle.Transient);
+            SetDefault<IAuthorizationHelper, AuthorizationHelper>(null, DependencyLifeStyle.Transient);
             return this;
         }
 

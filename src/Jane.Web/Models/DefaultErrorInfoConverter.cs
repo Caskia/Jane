@@ -11,10 +11,10 @@ namespace Jane.Web.Models
     //TODO@Halil: I did not like constructing ErrorInfo this way. It works wlll but I think we should change it later...
     internal class DefaultErrorInfoConverter : IExceptionToErrorInfoConverter
     {
-        private readonly IJaneWebConfiguration _configuration;
+        private readonly IWebConfiguration _configuration;
 
         public DefaultErrorInfoConverter(
-            IJaneWebConfiguration configuration
+            IWebConfiguration configuration
         )
         {
             _configuration = configuration;

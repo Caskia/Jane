@@ -1,5 +1,7 @@
 ﻿using Jane.AspNetCore.Logging;
+using Jane.AspNetCore.Mvc.Validation;
 using Jane.AspNetCore.Runtime.Session;
+using Jane.Dependency;
 using Jane.Runtime.Session;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
@@ -26,6 +28,8 @@ namespace Jane.Configurations
 
             configuration.SetDefault<ILogger, JaneMsLoggerAdapter>();
             configuration.SetDefault<IPrincipalAccessor, AspNetCorePrincipalAccessor>();
+
+            configuration.SetDefault<MvcActionInvocationValidator, MvcActionInvocationValidator>(null, DependencyLifeStyle.Transient);
 
             //See https://github.com/aspnet/Mvc/issues/3936 to know why we added these services.
             services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();

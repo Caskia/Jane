@@ -21,7 +21,7 @@ namespace Jane.Runtime.Validation.Interception
                 return;
             }
 
-            var validator = ObjectContainer.Current.Resolve<MethodInvocationValidator>();
+            var validator = ObjectContainer.Resolve<MethodInvocationValidator>();
             validator.Initialize(invocation.MethodInvocationTarget, invocation.Arguments);
             validator.Validate();
 

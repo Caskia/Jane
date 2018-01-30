@@ -1,6 +1,6 @@
 ﻿namespace Jane.Configurations
 {
-    public class JaneWebConfiguration : IJaneWebConfiguration
+    public class WebConfiguration : IWebConfiguration
     {
         public bool SendAllExceptionsToClients { get; set; } = false;
     }

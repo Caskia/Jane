@@ -8,7 +8,7 @@ namespace Jane.Web.Models
     public class ErrorInfoBuilder : IErrorInfoBuilder, ISingletonDependency
     {
         /// <inheritdoc/>
-        public ErrorInfoBuilder(IJaneWebConfiguration configuration)
+        public ErrorInfoBuilder(IWebConfiguration configuration)
         {
             Converter = new DefaultErrorInfoConverter(configuration);
         }
