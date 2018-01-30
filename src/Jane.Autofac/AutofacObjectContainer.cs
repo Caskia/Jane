@@ -177,7 +177,7 @@ namespace Jane.Autofac
                 {
                     registrationBuilder.SingleInstance();
                 }
-                if (interceptors != null)
+                if (interceptors != null && interceptors.Length > 0)
                 {
                     registrationBuilder
                         .EnableInterfaceInterceptors()
@@ -195,7 +195,7 @@ namespace Jane.Autofac
                 {
                     registrationBuilder.SingleInstance();
                 }
-                if (interceptors != null)
+                if (interceptors != null && interceptors.Length > 0)
                 {
                     registrationBuilder
                         .EnableInterfaceInterceptors()
@@ -224,7 +224,7 @@ namespace Jane.Autofac
                 {
                     registrationBuilder.SingleInstance();
                 }
-                if (interceptors != null)
+                if (interceptors != null && interceptors.Length > 0)
                 {
                     registrationBuilder
                         .EnableInterfaceInterceptors()
@@ -242,7 +242,7 @@ namespace Jane.Autofac
                 {
                     registrationBuilder.SingleInstance();
                 }
-                if (interceptors != null)
+                if (interceptors != null && interceptors.Length > 0)
                 {
                     registrationBuilder
                         .EnableInterfaceInterceptors()
