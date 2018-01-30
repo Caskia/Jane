@@ -7,6 +7,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Jane.Autofac\Jane.Autofac.csproj" />
     <ProjectReference Include="..\Jane.Log4Net\Jane.Log4Net.csproj" />
+    <ProjectReference Include="..\Jane.Web\Jane.Web.csproj" />
   </ItemGroup>
 
   <ItemGroup>
