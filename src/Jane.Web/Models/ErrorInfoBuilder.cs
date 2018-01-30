@@ -1,11 +1,10 @@
 ﻿using Jane.Configurations;
-using Jane.Dependency;
 using System;
 
 namespace Jane.Web.Models
 {
     /// <inheritdoc/>
-    public class ErrorInfoBuilder : IErrorInfoBuilder, ISingletonDependency
+    public class ErrorInfoBuilder : IErrorInfoBuilder
     {
         /// <inheritdoc/>
         public ErrorInfoBuilder(IWebConfiguration configuration)
