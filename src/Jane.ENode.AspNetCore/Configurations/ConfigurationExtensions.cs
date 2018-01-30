@@ -28,18 +28,6 @@ namespace Jane.Configurations
             out IServiceProvider serviceProvider
             )
         {
-            var assemblies = new[]
-            {
-                Assembly.Load("Jane.AspNetCore"),
-                Assembly.Load("Jane.ENode.AspNetCore")
-            };
-            Configuration.Instance.RegisterAssemblies(assemblies);
-
-            configuration.SetDefault<ILogger, JaneMsLoggerAdapter>();
-            configuration.SetDefault<IPrincipalAccessor, AspNetCorePrincipalAccessor>();
-
-            configuration.SetDefault<MvcActionInvocationValidator, MvcActionInvocationValidator>(null, LifeStyle.Transient);
-
             //See https://github.com/aspnet/Mvc/issues/3936 to know why we added these services.
             services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.TryAddSingleton<IActionContextAccessor, ActionContextAccessor>();

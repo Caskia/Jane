@@ -22,16 +22,7 @@ namespace Jane.Configurations
     {
         public static Configuration UseAspNetCore(this Configuration configuration, IServiceCollection services, out IServiceProvider serviceProvider)
         {
-            var assemblies = new[]
-           {
-                Assembly.Load("Jane.AspNetCore")
-            };
-            configuration.RegisterAssemblies(assemblies);
-
-            configuration.SetDefault<ILogger, JaneMsLoggerAdapter>();
-            configuration.SetDefault<IPrincipalAccessor, AspNetCorePrincipalAccessor>();
-
-            configuration.SetDefault<MvcActionInvocationValidator, MvcActionInvocationValidator>(null, DependencyLifeStyle.Transient);
+            configuration.UseAspNetCore();
 
             //See https://github.com/aspnet/Mvc/issues/3936 to know why we added these services.
             services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
@@ -47,6 +38,22 @@ namespace Jane.Configurations
             services.ConfigureJaneMvcJsonOptions();
 
             serviceProvider = services.AddJane();
+
+            return configuration;
+        }
+
+        public static Configuration UseAspNetCore(this Configuration configuration)
+        {
+            var assemblies = new[]
+            {
+                Assembly.Load("Jane.AspNetCore")
+            };
+            configuration.RegisterAssemblies(assemblies);
+
+            configuration.SetDefault<ILogger, JaneMsLoggerAdapter>();
+            configuration.SetDefault<IPrincipalAccessor, AspNetCorePrincipalAccessor>();
+
+            configuration.SetDefault<MvcActionInvocationValidator, MvcActionInvocationValidator>(null, DependencyLifeStyle.Transient);
 
             return configuration;
         }
