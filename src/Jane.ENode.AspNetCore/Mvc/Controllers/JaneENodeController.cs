@@ -77,7 +77,7 @@ namespace Jane.ENode.AspNetCore.Mvc.Controllers
             return _commandService.ExecuteAsync(command, commandReturnType).TimeoutAfter(millisecondsDelay);
         }
 
-        private Task<AsyncTaskResult> SendCommandAsync(ICommand command)
+        protected Task<AsyncTaskResult> SendCommandAsync(ICommand command)
         {
             return _commandService.SendAsync(command);
         }
