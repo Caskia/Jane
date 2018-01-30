@@ -11,6 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Reflection;
 using ECommonConfiguration = ECommon.Configurations.Configuration;
 using EENode = ENode;
 
@@ -27,6 +28,13 @@ namespace Jane.Configurations
             out IServiceProvider serviceProvider
             )
         {
+            var assemblies = new[]
+            {
+                Assembly.Load("Jane.AspNetCore"),
+                Assembly.Load("Jane.ENode.AspNetCore")
+            };
+            Configuration.Instance.RegisterAssemblies(assemblies);
+
             configuration.SetDefault<ILogger, JaneMsLoggerAdapter>();
             configuration.SetDefault<IPrincipalAccessor, AspNetCorePrincipalAccessor>();
 

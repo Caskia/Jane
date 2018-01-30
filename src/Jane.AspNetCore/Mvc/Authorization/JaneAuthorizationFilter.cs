@@ -3,7 +3,6 @@ using Jane.AspNetCore.Mvc.Extensions;
 using Jane.AspNetCore.Mvc.Results;
 using Jane.Authorization;
 using Jane.Dependency;
-using Jane.Events.Bus;
 using Jane.Web.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Authorization;
