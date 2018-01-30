@@ -99,6 +99,7 @@ namespace Jane.Configurations
             SetDefault<ICacheManager, JaneMemoryCacheManager>();
             SetDefault<IValidationConfiguration, ValidationConfiguration>();
             SetDefault<MethodInvocationValidator, MethodInvocationValidator>(null, DependencyLifeStyle.Transient);
+            SetDefault<IAuthorizationConfiguration, AuthorizationConfiguration>();
             SetDefault<IAuthorizationHelper, AuthorizationHelper>(null, DependencyLifeStyle.Transient);
             return this;
         }
