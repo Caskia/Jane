@@ -62,6 +62,29 @@ namespace Jane.Dependency
             Current.RegisterType(serviceType, implementationType, serviceName, life);
         }
 
+        /// <summary>Register a implementer type as a service implementation.
+        /// </summary>
+        /// <param name="serviceType">The service type.</param>
+        /// <param name="interceptors">The interceptors</param>
+        /// <param name="serviceName">The service name.</param>
+        /// <param name="life">The life cycle of the implementer type.</param>
+        public static void RegisterTypeWithInterceptors(Type implementationType, Type[] interceptors, string serviceName = null, DependencyLifeStyle life = DependencyLifeStyle.Singleton)
+        {
+            Current.RegisterTypeWithInterceptors(implementationType, interceptors, serviceName, life);
+        }
+
+        /// <summary>Register a implementer type as a service implementation.
+        /// </summary>
+        /// <param name="serviceType">The service type.</param>
+        /// <param name="implementationType">The implementation type.</param>
+        /// <param name="interceptors">The interceptors</param>
+        /// <param name="serviceName">The service name.</param>
+        /// <param name="life">The life cycle of the implementer type.</param>
+        public static void RegisterTypeWithInterceptors(Type serviceType, Type implementationType, Type[] interceptors, string serviceName = null, DependencyLifeStyle life = DependencyLifeStyle.Singleton)
+        {
+            Current.RegisterTypeWithInterceptors(serviceType, implementationType, interceptors, serviceName, life);
+        }
+
         /// <summary>
         /// Release a service
         /// </summary>

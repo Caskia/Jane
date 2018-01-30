@@ -136,7 +136,7 @@ namespace Jane.Web.Models
 
             if (exception is JaneValidationException)
             {
-                return new ErrorInfo(L("ValidationError"))
+                return new ErrorInfo("your request is not valid!")
                 {
                     ValidationErrors = GetValidationErrorInfos(exception as JaneValidationException),
                     Details = GetValidationErrorNarrative(exception as JaneValidationException)
@@ -151,7 +151,7 @@ namespace Jane.Web.Models
                 {
                     return new ErrorInfo(
                         string.Format(
-                            L("EntityNotFound"),
+                            "there is no entity {0} with id = {1}!",
                             entityNotFoundException.EntityType.Name,
                             entityNotFoundException.Id
                         )
@@ -163,13 +163,13 @@ namespace Jane.Web.Models
                 );
             }
 
-            if (exception is Jane.Authorization.JaneAuthorizationException)
+            if (exception is JaneAuthorizationException)
             {
-                var authorizationException = exception as Jane.Authorization.JaneAuthorizationException;
+                var authorizationException = exception as JaneAuthorizationException;
                 return new ErrorInfo(authorizationException.Message);
             }
 
-            return new ErrorInfo(L("InternalServerError"));
+            return new ErrorInfo("An internal error occurred during your request!");
         }
 
         private ValidationErrorInfo[] GetValidationErrorInfos(JaneValidationException validationException)
@@ -194,7 +194,7 @@ namespace Jane.Web.Models
         private string GetValidationErrorNarrative(JaneValidationException validationException)
         {
             var detailBuilder = new StringBuilder();
-            detailBuilder.AppendLine(L("ValidationNarrativeTitle"));
+            detailBuilder.AppendLine("The following errors were detected during validation.");
 
             foreach (var validationResult in validationException.ValidationErrors)
             {
@@ -203,18 +203,6 @@ namespace Jane.Web.Models
             }
 
             return detailBuilder.ToString();
-        }
-
-        private string L(string name)
-        {
-            try
-            {
-                return _localizationManager.GetString(JaneWebConsts.LocalizaionSourceName, name);
-            }
-            catch (Exception)
-            {
-                return name;
-            }
         }
     }
 }

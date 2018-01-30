@@ -1,4 +1,5 @@
-﻿using Jane.Dependency;
+﻿using Jane.Aspects;
+using Jane.Dependency;
 using Jane.Events.Bus;
 using Jane.Events.Bus.Factories;
 using Jane.Events.Bus.Handlers;
@@ -55,6 +56,8 @@ namespace Jane.Configurations
 
         public Configuration RegisterAssemblies(params Assembly[] assemblies)
         {
+            RegisterInterceptors();
+
             var registeredTypes = new List<Type>();
             foreach (var assembly in assemblies)
             {
@@ -180,7 +183,7 @@ namespace Jane.Configurations
         private void RegisterComponentType(Type type)
         {
             var life = ParseComponentLife(type);
-            ObjectContainer.RegisterType(type, null, life);
+            ComponentRegistrar.RegisterType(type, null, life);
             foreach (var interfaceType in type.GetInterfaces())
             {
                 if (interfaceType == typeof(ISingletonDependency))
@@ -193,7 +196,7 @@ namespace Jane.Configurations
                     continue;
                 }
 
-                ObjectContainer.RegisterType(interfaceType, type, null, life);
+                ComponentRegistrar.RegisterType(interfaceType, type, null, life);
             }
         }
 
@@ -213,6 +216,11 @@ namespace Jane.Configurations
                     ObjectContainer.Resolve<IEventBus>().Register(genericArgs[0], new IocHandlerFactory(ObjectContainer.Current, type));
                 }
             }
+        }
+
+        private void RegisterInterceptors()
+        {
+            ValidationInterceptorRegistrar.Initialize(ObjectContainer.Current);
         }
 
         #endregion Private Methods

@@ -1,5 +1,7 @@
 ﻿using System;
 using Autofac;
+using Autofac.Builder;
+using Autofac.Extras.DynamicProxy;
 using Jane.Dependency;
 
 namespace Jane.Autofac
@@ -152,6 +154,99 @@ namespace Jane.Autofac
                 if (life == DependencyLifeStyle.Singleton)
                 {
                     registrationBuilder.SingleInstance();
+                }
+            }
+        }
+
+        /// <summary>Register a implementer type as a service implementation.
+        /// </summary>
+        /// <param name="serviceType">The service type.</param>
+        /// <param name="interceptors">The interceptors</param>
+        /// <param name="serviceName">The service name.</param>
+        /// <param name="life">The life cycle of the implementer type.</param>
+        public void RegisterTypeWithInterceptors(Type implementationType, Type[] interceptors, string serviceName = null, DependencyLifeStyle life = DependencyLifeStyle.Singleton)
+        {
+            if (implementationType.IsGenericType)
+            {
+                var registrationBuilder = _containerBuilder.RegisterGeneric(implementationType);
+                if (serviceName != null)
+                {
+                    registrationBuilder.Named(serviceName, implementationType);
+                }
+                if (life == DependencyLifeStyle.Singleton)
+                {
+                    registrationBuilder.SingleInstance();
+                }
+                if (interceptors != null)
+                {
+                    registrationBuilder
+                        .EnableInterfaceInterceptors()
+                        .InterceptedBy(interceptors);
+                }
+            }
+            else
+            {
+                var registrationBuilder = _containerBuilder.RegisterType(implementationType);
+                if (serviceName != null)
+                {
+                    registrationBuilder.Named(serviceName, implementationType);
+                }
+                if (life == DependencyLifeStyle.Singleton)
+                {
+                    registrationBuilder.SingleInstance();
+                }
+                if (interceptors != null)
+                {
+                    registrationBuilder
+                        .EnableInterfaceInterceptors()
+                        .InterceptedBy(interceptors);
+                }
+            }
+        }
+
+        /// <summary>Register a implementer type as a service implementation.
+        /// </summary>
+        /// <param name="serviceType">The service type.</param>
+        /// <param name="implementationType">The implementation type.</param>
+        /// <param name="interceptors">The interceptors</param>
+        /// <param name="serviceName">The service name.</param>
+        /// <param name="life">The life cycle of the implementer type.</param>
+        public void RegisterTypeWithInterceptors(Type serviceType, Type implementationType, Type[] interceptors, string serviceName = null, DependencyLifeStyle life = DependencyLifeStyle.Singleton)
+        {
+            if (implementationType.IsGenericType && serviceType.IsGenericType)
+            {
+                var registrationBuilder = _containerBuilder.RegisterGeneric(implementationType).As(serviceType);
+                if (serviceName != null)
+                {
+                    registrationBuilder.Named(serviceName, implementationType);
+                }
+                if (life == DependencyLifeStyle.Singleton)
+                {
+                    registrationBuilder.SingleInstance();
+                }
+                if (interceptors != null)
+                {
+                    registrationBuilder
+                        .EnableInterfaceInterceptors()
+                        .InterceptedBy(interceptors);
+                }
+            }
+            else
+            {
+                var registrationBuilder = _containerBuilder.RegisterType(implementationType).As(serviceType);
+                if (serviceName != null)
+                {
+                    registrationBuilder.Named(serviceName, serviceType);
+                }
+                if (life == DependencyLifeStyle.Singleton)
+                {
+                    registrationBuilder.SingleInstance();
+                }
+                if (interceptors != null)
+                {
+                    registrationBuilder
+                        .EnableInterfaceInterceptors()
+                        .InterceptedBy(interceptors);
                 }
             }
         }
