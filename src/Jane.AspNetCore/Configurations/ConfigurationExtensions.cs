@@ -44,6 +44,8 @@ namespace Jane.Configurations
 
         public static Configuration UseAspNetCore(this Configuration configuration)
         {
+            configuration.UseWeb();
+
             var assemblies = new[]
             {
                 Assembly.Load("Jane.AspNetCore")
