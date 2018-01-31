@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc.Filters;
+﻿using Jane.AspNetCore.Mvc.Extensions;
+using Microsoft.AspNetCore.Mvc.Filters;
 using System;
 
 namespace Jane.AspNetCore.Mvc.Attributes
