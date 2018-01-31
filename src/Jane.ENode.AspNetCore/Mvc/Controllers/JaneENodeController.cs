@@ -4,6 +4,7 @@ using ECommon.IO;
 using ENode.Commanding;
 using Jane.AspNetCore.Mvc.Controllers;
 using System.Threading.Tasks;
+using System;
 
 namespace Jane.ENode.AspNetCore.Mvc.Controllers
 {
@@ -32,9 +33,14 @@ namespace Jane.ENode.AspNetCore.Mvc.Controllers
             {
                 if (Request.Headers != null)
                 {
-                    if (!Request.Headers["access_token"].IsNullOrEmpty())
+                    if (!Request.Headers["authorization"].IsNullOrEmpty())
                     {
-                        return Request.Headers["access_token"];
+                        var authorization = Request.Headers["authorization"].ToString();
+                        var items = authorization.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                        if (items.Length == 2)
+                        {
+                            return items[1];
+                        }
                     }
                 }
 
