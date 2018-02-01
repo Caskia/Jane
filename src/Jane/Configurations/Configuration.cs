@@ -187,7 +187,7 @@ namespace Jane.Configurations
             var dirPath = $"{basePath}{Path.DirectorySeparatorChar}{configDirName}";
             var skipDirectory = dirPath.Length;
             if (!dirPath.EndsWith("" + Path.DirectorySeparatorChar)) skipDirectory++;
-            var fileNames = Directory.EnumerateFiles(dirPath, "*", SearchOption.AllDirectories)
+            var fileNames = Directory.EnumerateFiles(dirPath, "*.json", SearchOption.AllDirectories)
                 .Select(f => f.Substring(skipDirectory));
             foreach (var fileName in fileNames)
             {

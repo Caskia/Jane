@@ -28,8 +28,8 @@ namespace Jane
         public short GetMachineId()
         {
             short machineId;
-            var configDir = $"{AppDomain.CurrentDomain.BaseDirectory}/Config";
-            var machineIdFile = $"{configDir}/machineid.txt";
+            var configDir = $"{AppDomain.CurrentDomain.BaseDirectory}/config";
+            var machineIdFile = $"{configDir}{Path.DirectorySeparatorChar}machineid.txt";
             DirectoryHelper.CreateIfNotExists(configDir);
             var fileContent = string.Empty;
             if (File.Exists(machineIdFile))
