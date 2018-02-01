@@ -183,7 +183,7 @@ namespace Jane.Configurations
             }
 
             //external setting for docker
-            var configDirName = "config";
+            var configDirName = "docker-config";
             var dirPath = $"{basePath}{Path.DirectorySeparatorChar}{configDirName}";
             var skipDirectory = dirPath.Length;
             if (!dirPath.EndsWith("" + Path.DirectorySeparatorChar)) skipDirectory++;
