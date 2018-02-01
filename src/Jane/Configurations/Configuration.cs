@@ -185,13 +185,16 @@ namespace Jane.Configurations
             //external setting for docker
             var configDirName = "docker-config";
             var dirPath = $"{basePath}{Path.DirectorySeparatorChar}{configDirName}";
-            var skipDirectory = dirPath.Length;
-            if (!dirPath.EndsWith("" + Path.DirectorySeparatorChar)) skipDirectory++;
-            var fileNames = Directory.EnumerateFiles(dirPath, "*.json", SearchOption.AllDirectories)
-                .Select(f => f.Substring(skipDirectory));
-            foreach (var fileName in fileNames)
+            if (Directory.Exists(dirPath))
             {
-                builder = builder.AddJsonFile($"{configDirName}{Path.DirectorySeparatorChar}{fileName}", optional: true, reloadOnChange: true);
+                var skipDirectory = dirPath.Length;
+                if (!dirPath.EndsWith("" + Path.DirectorySeparatorChar)) skipDirectory++;
+                var fileNames = Directory.EnumerateFiles(dirPath, "*.json", SearchOption.AllDirectories)
+                    .Select(f => f.Substring(skipDirectory));
+                foreach (var fileName in fileNames)
+                {
+                    builder = builder.AddJsonFile($"{configDirName}{Path.DirectorySeparatorChar}{fileName}", optional: true, reloadOnChange: true);
+                }
             }
 
             //enviroment variables
