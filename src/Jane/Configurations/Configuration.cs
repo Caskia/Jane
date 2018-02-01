@@ -170,16 +170,32 @@ namespace Jane.Configurations
 
         private void BuildConfiguration()
         {
-            var builder = new ConfigurationBuilder()
-                 .SetBasePath(Directory.GetCurrentDirectory())
-                 .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
+            var basePath = Directory.GetCurrentDirectory();
 
-            var environmentName = System.Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
+            //default setting
+            var builder = new ConfigurationBuilder()
+                 .SetBasePath(basePath)
+                 .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
+            var environmentName = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
             if (!environmentName.IsNullOrWhiteSpace())
             {
                 builder = builder.AddJsonFile($"appsettings.{environmentName}.json", optional: true, reloadOnChange: true);
             }
 
+            //external setting for docker
+            var configDirName = "config";
+            var dirPath = $"{basePath}{Path.DirectorySeparatorChar}{configDirName}";
+            var skipDirectory = dirPath.Length;
+            if (!dirPath.EndsWith("" + Path.DirectorySeparatorChar)) skipDirectory++;
+            var fileNames = Directory.EnumerateFiles(dirPath, "*", SearchOption.AllDirectories)
+                .Select(f => f.Substring(skipDirectory));
+            foreach (var fileName in fileNames)
+            {
+                builder = builder.AddJsonFile($"{configDirName}{Path.DirectorySeparatorChar}{fileName}", optional: true, reloadOnChange: true);
+            }
+
+            //enviroment variables
+            builder.AddEnvironmentVariables();
             Root = builder.Build();
         }
 
