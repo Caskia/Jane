@@ -78,12 +78,17 @@ namespace Jane.ENode.AspNetCore.Mvc.Controllers
 
         #endregion Authorize Properties
 
-        protected Task<AsyncTaskResult<CommandResult>> ExecuteCommandAsync(ICommand command, CommandReturnType commandReturnType = CommandReturnType.CommandExecuted, int millisecondsDelay = 5000)
+        protected async Task<AsyncTaskResult<CommandResult>> ExecuteCommandAsync(ICommand command, CommandReturnType commandReturnType = CommandReturnType.CommandExecuted, int millisecondsDelay = 5000, bool autoProcessResultException = true)
         {
-            return _commandService.ExecuteAsync(command, commandReturnType).TimeoutAfter(millisecondsDelay);
+            var result = await _commandService.ExecuteAsync(command, commandReturnType).TimeoutAfter(millisecondsDelay);
+            if (autoProcessResultException)
+            {
+                ProcessExecuteCommandAsyncResultException(result);
+            }
+            return result;
         }
 
-        protected void ProcessExecuteCommandAsyncResult(AsyncTaskResult<CommandResult> result)
+        protected void ProcessExecuteCommandAsyncResultException(AsyncTaskResult<CommandResult> result)
         {
             if (result.Status != AsyncTaskStatus.Success)
             {
@@ -96,7 +101,7 @@ namespace Jane.ENode.AspNetCore.Mvc.Controllers
             }
         }
 
-        protected void ProcessSendCommandAsyncResult(AsyncTaskResult result)
+        protected void ProcessSendCommandAsyncResultException(AsyncTaskResult result)
         {
             if (result.Status != AsyncTaskStatus.Success)
             {
@@ -104,9 +109,14 @@ namespace Jane.ENode.AspNetCore.Mvc.Controllers
             }
         }
 
-        protected Task<AsyncTaskResult> SendCommandAsync(ICommand command)
+        protected async Task<AsyncTaskResult> SendCommandAsync(ICommand command, bool autoProcessResultException = true)
         {
-            return _commandService.SendAsync(command);
+            var result = await _commandService.SendAsync(command);
+            if (autoProcessResultException)
+            {
+                ProcessSendCommandAsyncResultException(result);
+            }
+            return result;
         }
     }
 }
