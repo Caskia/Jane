@@ -83,6 +83,27 @@ namespace Jane.ENode.AspNetCore.Mvc.Controllers
             return _commandService.ExecuteAsync(command, commandReturnType).TimeoutAfter(millisecondsDelay);
         }
 
+        protected void ProcessExecuteCommandAsyncResult(AsyncTaskResult<CommandResult> result)
+        {
+            if (result.Status != AsyncTaskStatus.Success)
+            {
+                throw new UserFriendlyException("internal network meets problems!");
+            }
+
+            if (result.Data.Status != CommandStatus.Success)
+            {
+                throw new UserFriendlyException(result.Data.Result);
+            }
+        }
+
+        protected void ProcessSendCommandAsyncResult(AsyncTaskResult result)
+        {
+            if (result.Status != AsyncTaskStatus.Success)
+            {
+                throw new UserFriendlyException("internal network meets problems!");
+            }
+        }
+
         protected Task<AsyncTaskResult> SendCommandAsync(ICommand command)
         {
             return _commandService.SendAsync(command);
