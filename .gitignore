@@ -31,6 +31,7 @@ x64/
 *.log
 *.vspscc
 *.vssscc
+*.nupkg
 .builds
 
 # Visual C++ cache files
