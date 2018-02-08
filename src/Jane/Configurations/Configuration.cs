@@ -176,7 +176,7 @@ namespace Jane.Configurations
             var builder = new ConfigurationBuilder()
                  .SetBasePath(basePath)
                  .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
-            var environmentName = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
+            var environmentName = JaneEnvironment.GetEnvironment();
             if (!environmentName.IsNullOrWhiteSpace())
             {
                 builder = builder.AddJsonFile($"appsettings.{environmentName}.json", optional: true, reloadOnChange: true);
