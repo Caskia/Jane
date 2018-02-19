@@ -16,7 +16,7 @@ namespace Jane.Runtime.Caching.Redis
 
         private static string GetDefaultConnectionString()
         {
-            var connStr = JaneConfiguration.Instance.Root["Redis:ConnectionString"]; ;
+            var connStr = JaneConfiguration.Instance.Root["Redis:ConnectionString"];
             if (connStr == null || connStr.IsNullOrWhiteSpace())
             {
                 return "localhost";
