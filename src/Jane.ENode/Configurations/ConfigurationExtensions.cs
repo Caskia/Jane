@@ -52,6 +52,11 @@ namespace Jane.Configurations
                 enodeConfiguration.EventStoreConnectionString = configuration.Root["ENode:EventStoreConnectionString"];
             }
 
+            if (!configuration.Root["ENode:EventStoreDatabaseName"].IsNullOrEmpty())
+            {
+                enodeConfiguration.EventStoreDatabaseName = configuration.Root["ENode:EventStoreDatabaseName"];
+            }
+
             if (!configuration.Root["ENode:LockServiceConnectionString"].IsNullOrEmpty())
             {
                 enodeConfiguration.LockServiceConnectionString = configuration.Root["ENode:LockServiceConnectionString"];
@@ -59,8 +64,7 @@ namespace Jane.Configurations
 
             if (!configuration.Root["ENode:LockServiceDatabaseId"].IsNullOrEmpty())
             {
-                int databaseId;
-                if (!int.TryParse(configuration.Root["ENode:LockServiceDatabaseId"], out databaseId))
+                if (!int.TryParse(configuration.Root["ENode:LockServiceDatabaseId"], out int databaseId))
                 {
                     databaseId = -1;
                 }
