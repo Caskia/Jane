@@ -1,5 +1,4 @@
-﻿using Jane.Runtime.UniqueIdGenerator;
-using System;
+﻿using System;
 
 namespace Jane
 {
@@ -7,7 +6,7 @@ namespace Jane
     {
         #region Fields
 
-        private static Generator idGenerator = null;
+        private static Runtime.UniqueIdGenerator.IdGenerator idGenerator = null;
 
         #endregion Fields
 
@@ -15,19 +14,19 @@ namespace Jane
 
         public IdGenerator(IMachineManager machineManager)
         {
-            idGenerator = new Generator(machineManager.GetMachineId(), new DateTime(2017, 12, 8));
+            idGenerator = new Runtime.UniqueIdGenerator.IdGenerator(machineManager.GetMachineId(), new DateTime(2017, 12, 8, 0, 0, 0, DateTimeKind.Utc));
         }
 
         #endregion Ctor
 
         public long NextId()
         {
-            return (long)idGenerator.NextLong();
+            return idGenerator.CreateId();
         }
 
         public string NextIdString()
         {
-            return idGenerator.Next();
+            return idGenerator.CreateId().ToString();
         }
     }
 }
