@@ -1,9 +1,13 @@
 ﻿using Autofac;
 using ECommon.Configurations;
+using ECommon.JsonNet;
+using ECommon.Serializing;
 using Jane.Autofac;
 using Jane.Dependency;
 using Jane.ENode;
 using Jane.Extensions;
+using Jane.Json.Converters;
+using Newtonsoft.Json.Converters;
 using System;
 using ECommonConfiguration = ECommon.Configurations.Configuration;
 using EENode = ENode;
@@ -41,7 +45,7 @@ namespace Jane.Configurations
               .UseECommonAutofac()
               .RegisterCommonComponents()
               .UseLog4Net()
-              .UseJsonNet();
+              .UseECommonJsonNet();
         }
 
         public static Configuration LoadENodeConfiguration(this Configuration configuration)
@@ -140,6 +144,15 @@ namespace Jane.Configurations
                 throw new JaneException("Current container not support!");
             }
 
+            return configuration;
+        }
+
+        private static ECommonConfiguration UseECommonJsonNet(this ECommonConfiguration configuration)
+        {
+            var serializer = new NewtonsoftJsonSerializer();
+            serializer.Settings.Converters.Add(new LongConverter());
+            serializer.Settings.Converters.Add(new StringEnumConverter());
+            configuration.SetDefault<IJsonSerializer, NewtonsoftJsonSerializer>(serializer);
             return configuration;
         }
     }
