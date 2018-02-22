@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿using System;
+using System.Reflection;
 
 namespace Jane.Configurations
 {
@@ -12,13 +13,16 @@ namespace Jane.Configurations
         /// </summary>
         /// <param name="configuration"></param>
         /// <returns></returns>
-        public static Configuration UseMongoDb(this Configuration configuration)
+        public static Configuration UseMongoDb(this Configuration configuration, Action action = null)
         {
             var assemblies = new[]
             {
                 Assembly.GetAssembly(typeof(MongoDbConfiguration))
             };
             configuration.RegisterAssemblies(assemblies);
+
+            action?.Invoke();
+
             return configuration;
         }
     }
