@@ -17,7 +17,7 @@ namespace Jane.MongoDb
         {
             if (_mongoClient == null)
             {
-                _mongoClient = new MongoClient(_configuration.ConnectionString + "?maxPoolSize=500");
+                _mongoClient = new MongoClient(_configuration.ConnectionString/* + "?maxPoolSize=100"*/);
             }
             return _mongoClient;
         }
