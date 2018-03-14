@@ -95,9 +95,18 @@ namespace Jane.ENode.AspNetCore.Mvc.Controllers
                 throw new UserFriendlyException("internal network meets problems!");
             }
 
-            if (result.Data.Status != CommandStatus.Success)
+            switch (result.Data.Status)
             {
-                throw new UserFriendlyException(result.Data.Result);
+                case CommandStatus.Success:
+                    break;
+
+                case CommandStatus.NothingChanged:
+                    break;
+
+                case CommandStatus.None:
+                case CommandStatus.Failed:
+                default:
+                    throw new UserFriendlyException(result.Data.Result);
             }
         }
 
