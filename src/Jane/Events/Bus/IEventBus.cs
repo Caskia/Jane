@@ -18,10 +18,26 @@ namespace Jane.Events.Bus
         /// </summary>
         /// <param name="action">Action to handle events</param>
         /// <typeparam name="TEventData">Event type</typeparam>
+        IDisposable AsyncRegister<TEventData>(Func<TEventData, Task> action) where TEventData : IEventData;
+
+        /// <summary>
+        /// Registers to an event.
+        /// Same (given) instance of the async handler is used for all event occurrences.
+        /// </summary>
+        /// <typeparam name="TEventData">Event type</typeparam>
+        /// <param name="handler">Object to handle the event</param>
+        IDisposable AsyncRegister<TEventData>(IAsyncEventHandler<TEventData> handler) where TEventData : IEventData;
+
+        /// <summary>
+        /// Registers to an event.
+        /// Given action is called for all event occurrences.
+        /// </summary>
+        /// <param name="action">Action to handle events</param>
+        /// <typeparam name="TEventData">Event type</typeparam>
         IDisposable Register<TEventData>(Action<TEventData> action) where TEventData : IEventData;
 
         /// <summary>
-        /// Registers to an event. 
+        /// Registers to an event.
         /// Same (given) instance of the handler is used for all event occurrences.
         /// </summary>
         /// <typeparam name="TEventData">Event type</typeparam>
@@ -34,7 +50,7 @@ namespace Jane.Events.Bus
         /// </summary>
         /// <typeparam name="TEventData">Event type</typeparam>
         /// <typeparam name="THandler">Type of the event handler</typeparam>
-        IDisposable Register<TEventData, THandler>() where TEventData : IEventData where THandler : IEventHandler<TEventData>, new();
+        IDisposable Register<TEventData, THandler>() where TEventData : IEventData where THandler : IEventHandler, new();
 
         /// <summary>
         /// Registers to an event.
@@ -49,19 +65,33 @@ namespace Jane.Events.Bus
         /// Given factory is used to create/release handlers
         /// </summary>
         /// <typeparam name="TEventData">Event type</typeparam>
-        /// <param name="handlerFactory">A factory to create/release handlers</param>
-        IDisposable Register<TEventData>(IEventHandlerFactory handlerFactory) where TEventData : IEventData;
+        /// <param name="factory">A factory to create/release handlers</param>
+        IDisposable Register<TEventData>(IEventHandlerFactory factory) where TEventData : IEventData;
 
         /// <summary>
         /// Registers to an event.
         /// </summary>
         /// <param name="eventType">Event type</param>
-        /// <param name="handlerFactory">A factory to create/release handlers</param>
-        IDisposable Register(Type eventType, IEventHandlerFactory handlerFactory);
+        /// <param name="factory">A factory to create/release handlers</param>
+        IDisposable Register(Type eventType, IEventHandlerFactory factory);
 
-        #endregion
+        #endregion Register
 
         #region Unregister
+
+        /// <summary>
+        /// Unregisters from an event.
+        /// </summary>
+        /// <typeparam name="TEventData">Event type</typeparam>
+        /// <param name="action"></param>
+        void AsyncUnregister<TEventData>(Func<TEventData, Task> action) where TEventData : IEventData;
+
+        /// <summary>
+        /// Unregisters from an event.
+        /// </summary>
+        /// <typeparam name="TEventData">Event type</typeparam>
+        /// <param name="handler">Handler object that is registered before</param>
+        void AsyncUnregister<TEventData>(IAsyncEventHandler<TEventData> handler) where TEventData : IEventData;
 
         /// <summary>
         /// Unregisters from an event.
@@ -110,7 +140,7 @@ namespace Jane.Events.Bus
         /// <param name="eventType">Event type</param>
         void UnregisterAll(Type eventType);
 
-        #endregion
+        #endregion Unregister
 
         #region Trigger
 
@@ -178,7 +208,6 @@ namespace Jane.Events.Bus
         /// <returns>The task to handle async operation</returns>
         Task TriggerAsync(Type eventType, object eventSource, IEventData eventData);
 
-
-        #endregion
+        #endregion Trigger
     }
 }

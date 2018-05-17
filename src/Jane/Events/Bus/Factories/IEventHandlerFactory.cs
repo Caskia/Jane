@@ -1,4 +1,5 @@
 using Jane.Events.Bus.Handlers;
+using System;
 
 namespace Jane.Events.Bus.Factories
 {
@@ -12,6 +13,12 @@ namespace Jane.Events.Bus.Factories
         /// </summary>
         /// <returns>The event handler</returns>
         IEventHandler GetHandler();
+
+        /// <summary>
+        /// Gets type of the handler (without creating an instance).
+        /// </summary>
+        /// <returns></returns>
+        Type GetHandlerType();
 
         /// <summary>
         /// Releases an event handler.

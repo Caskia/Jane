@@ -12,6 +12,8 @@ using System.Linq;
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Runtime.CompilerServices;
+using Jane.Threading;
 
 namespace Jane.Events.Bus
 {
@@ -48,6 +50,52 @@ namespace Jane.Events.Bus
         public ILogger Logger { get; set; }
 
         /// <inheritdoc/>
+        public IDisposable AsyncRegister<TEventData>(Func<TEventData, Task> action) where TEventData : IEventData
+        {
+            return Register(typeof(TEventData), new AsyncActionEventHandler<TEventData>(action));
+        }
+
+        /// <inheritdoc/>
+        public IDisposable AsyncRegister<TEventData>(IAsyncEventHandler<TEventData> handler) where TEventData : IEventData
+        {
+            return Register(typeof(TEventData), handler);
+        }
+
+        /// <inheritdoc/>
+        public void AsyncUnregister<TEventData>(Func<TEventData, Task> action) where TEventData : IEventData
+        {
+            Check.NotNull(action, nameof(action));
+
+            GetOrCreateHandlerFactories(typeof(TEventData))
+                .Locking(factories =>
+                {
+                    factories.RemoveAll(
+                        factory =>
+                        {
+                            var singleInstanceFactory = factory as SingleInstanceHandlerFactory;
+                            if (singleInstanceFactory == null)
+                            {
+                                return false;
+                            }
+
+                            var actionHandler = singleInstanceFactory.HandlerInstance as AsyncActionEventHandler<TEventData>;
+                            if (actionHandler == null)
+                            {
+                                return false;
+                            }
+
+                            return actionHandler.Action == action;
+                        });
+                });
+        }
+
+        /// <inheritdoc/>
+        public void AsyncUnregister<TEventData>(IAsyncEventHandler<TEventData> handler) where TEventData : IEventData
+        {
+            Unregister(typeof(TEventData), handler);
+        }
+
+        /// <inheritdoc/>
         public IDisposable Register<TEventData>(Action<TEventData> action) where TEventData : IEventData
         {
             return Register(typeof(TEventData), new ActionEventHandler<TEventData>(action));
@@ -62,7 +110,7 @@ namespace Jane.Events.Bus
         /// <inheritdoc/>
         public IDisposable Register<TEventData, THandler>()
             where TEventData : IEventData
-            where THandler : IEventHandler<TEventData>, new()
+            where THandler : IEventHandler, new()
         {
             return Register(typeof(TEventData), new TransientEventHandlerFactory<THandler>());
         }
@@ -74,18 +122,18 @@ namespace Jane.Events.Bus
         }
 
         /// <inheritdoc/>
-        public IDisposable Register<TEventData>(IEventHandlerFactory handlerFactory) where TEventData : IEventData
+        public IDisposable Register<TEventData>(IEventHandlerFactory factory) where TEventData : IEventData
         {
-            return Register(typeof(TEventData), handlerFactory);
+            return Register(typeof(TEventData), factory);
         }
 
         /// <inheritdoc/>
-        public IDisposable Register(Type eventType, IEventHandlerFactory handlerFactory)
+        public IDisposable Register(Type eventType, IEventHandlerFactory factory)
         {
             GetOrCreateHandlerFactories(eventType)
-                .Locking(factories => factories.Add(handlerFactory));
+                .Locking(factories => factories.Add(factory));
 
-            return new FactoryUnregistrar(this, eventType, handlerFactory);
+            return new FactoryUnregistrar(this, eventType, factory);
         }
 
         /// <inheritdoc/>
@@ -111,7 +159,46 @@ namespace Jane.Events.Bus
         {
             var exceptions = new List<Exception>();
 
-            TriggerHandlingException(eventType, eventSource, eventData, exceptions);
+            eventData.EventSource = eventSource;
+
+            foreach (var handlerFactories in GetHandlerFactories(eventType))
+            {
+                foreach (var handlerFactory in handlerFactories.EventHandlerFactories)
+                {
+                    var handlerType = handlerFactory.GetHandlerType();
+
+                    if (IsAsyncEventHandler(handlerType))
+                    {
+                        AsyncHelper.RunSync(() => TriggerAsyncHandlingException(handlerFactory, handlerFactories.EventType, eventData, exceptions));
+                    }
+                    else if (IsEventHandler(handlerType))
+                    {
+                        TriggerHandlingException(handlerFactory, handlerFactories.EventType, eventData, exceptions);
+                    }
+                    else
+                    {
+                        var message = $"Event handler to register for event type {eventType.Name} does not implement IEventHandler<{eventType.Name}> or IAsyncEventHandler<{eventType.Name}> interface!";
+                        exceptions.Add(new JaneException(message));
+                    }
+                }
+            }
+
+            //Implements generic argument inheritance. See IEventDataWithInheritableGenericArgument
+            if (eventType.GetTypeInfo().IsGenericType &&
+                eventType.GetGenericArguments().Length == 1 &&
+                typeof(IEventDataWithInheritableGenericArgument).IsAssignableFrom(eventType))
+            {
+                var genericArg = eventType.GetGenericArguments()[0];
+                var baseArg = genericArg.GetTypeInfo().BaseType;
+                if (baseArg != null)
+                {
+                    var baseEventType = eventType.GetGenericTypeDefinition().MakeGenericType(baseArg);
+                    var constructorArgs = ((IEventDataWithInheritableGenericArgument)eventData).GetConstructorArgs();
+                    var baseEventData = (IEventData)Activator.CreateInstance(baseEventType, constructorArgs);
+                    baseEventData.EventTime = eventData.EventTime;
+                    Trigger(baseEventType, eventData.EventSource, baseEventData);
+                }
+            }
 
             if (exceptions.Any())
             {
@@ -133,24 +220,7 @@ namespace Jane.Events.Bus
         /// <inheritdoc/>
         public Task TriggerAsync<TEventData>(object eventSource, TEventData eventData) where TEventData : IEventData
         {
-            ExecutionContext.SuppressFlow();
-
-            var task = Task.Factory.StartNew(
-                () =>
-                {
-                    try
-                    {
-                        Trigger(eventSource, eventData);
-                    }
-                    catch (Exception ex)
-                    {
-                        Logger.Warn(ex.ToString(), ex);
-                    }
-                });
-
-            ExecutionContext.RestoreFlow();
-
-            return task;
+            return TriggerAsync(typeof(TEventData), eventSource, eventData);
         }
 
         /// <inheritdoc/>
@@ -160,26 +230,62 @@ namespace Jane.Events.Bus
         }
 
         /// <inheritdoc/>
-        public Task TriggerAsync(Type eventType, object eventSource, IEventData eventData)
+        public async Task TriggerAsync(Type eventType, object eventSource, IEventData eventData)
         {
-            ExecutionContext.SuppressFlow();
+            var exceptions = new List<Exception>();
 
-            var task = Task.Factory.StartNew(
-                () =>
+            eventData.EventSource = eventSource;
+
+            await new SynchronizationContextRemover();
+
+            foreach (var handlerFactories in GetHandlerFactories(eventType))
+            {
+                foreach (var handlerFactory in handlerFactories.EventHandlerFactories)
                 {
-                    try
-                    {
-                        Trigger(eventType, eventSource, eventData);
-                    }
-                    catch (Exception ex)
-                    {
-                        Logger.Warn(ex.ToString(), ex);
-                    }
-                });
+                    var handlerType = handlerFactory.GetHandlerType();
 
-            ExecutionContext.RestoreFlow();
+                    if (IsAsyncEventHandler(handlerType))
+                    {
+                        await TriggerAsyncHandlingException(handlerFactory, handlerFactories.EventType, eventData, exceptions);
+                    }
+                    else if (IsEventHandler(handlerType))
+                    {
+                        TriggerHandlingException(handlerFactory, handlerFactories.EventType, eventData, exceptions);
+                    }
+                    else
+                    {
+                        var message = $"Event handler to register for event type {eventType.Name} does not implement IEventHandler<{eventType.Name}> or IAsyncEventHandler<{eventType.Name}> interface!";
+                        exceptions.Add(new JaneException(message));
+                    }
+                }
+            }
 
-            return task;
+            //Implements generic argument inheritance. See IEventDataWithInheritableGenericArgument
+            if (eventType.GetTypeInfo().IsGenericType &&
+                eventType.GetGenericArguments().Length == 1 &&
+                typeof(IEventDataWithInheritableGenericArgument).IsAssignableFrom(eventType))
+            {
+                var genericArg = eventType.GetGenericArguments()[0];
+                var baseArg = genericArg.GetTypeInfo().BaseType;
+                if (baseArg != null)
+                {
+                    var baseEventType = eventType.GetGenericTypeDefinition().MakeGenericType(baseArg);
+                    var constructorArgs = ((IEventDataWithInheritableGenericArgument)eventData).GetConstructorArgs();
+                    var baseEventData = (IEventData)Activator.CreateInstance(baseEventType, constructorArgs);
+                    baseEventData.EventTime = eventData.EventTime;
+                    await TriggerAsync(baseEventType, eventData.EventSource, baseEventData);
+                }
+            }
+
+            if (exceptions.Any())
+            {
+                if (exceptions.Count == 1)
+                {
+                    exceptions[0].ReThrow();
+                }
+
+                throw new AggregateException("More than one error has occurred while triggering the event: " + eventType, exceptions);
+            }
         }
 
         /// <inheritdoc/>
@@ -288,63 +394,116 @@ namespace Jane.Events.Bus
             return _handlerFactories.GetOrAdd(eventType, (type) => new List<IEventHandlerFactory>());
         }
 
-        private void TriggerHandlingException(Type eventType, object eventSource, IEventData eventData, List<Exception> exceptions)
+        private bool IsAsyncEventHandler(Type handlerType)
         {
-            //TODO: This method can be optimized by adding all possibilities to a dictionary.
+            return handlerType.GetInterfaces()
+                .Where(i => i.IsGenericType)
+                .Any(i => i.GetGenericTypeDefinition() == typeof(IAsyncEventHandler<>));
+        }
 
-            eventData.EventSource = eventSource;
+        private bool IsEventHandler(Type handlerType)
+        {
+            return handlerType.GetInterfaces()
+                .Where(i => i.IsGenericType)
+                .Any(i => i.GetGenericTypeDefinition() == typeof(IEventHandler<>));
+        }
 
-            foreach (var handlerFactories in GetHandlerFactories(eventType))
+        private async Task TriggerAsyncHandlingException(IEventHandlerFactory asyncHandlerFactory, Type eventType, IEventData eventData, List<Exception> exceptions)
+        {
+            var asyncEventHandler = asyncHandlerFactory.GetHandler();
+
+            try
             {
-                foreach (var handlerFactory in handlerFactories.EventHandlerFactories)
+                if (asyncEventHandler == null)
                 {
-                    var eventHandler = handlerFactory.GetHandler();
-
-                    try
-                    {
-                        if (eventHandler == null)
-                        {
-                            throw new Exception($"Registered event handler for event type {handlerFactories.EventType.Name} does not implement IEventHandler<{handlerFactories.EventType.Name}> interface!");
-                        }
-
-                        var handlerType = typeof(IEventHandler<>).MakeGenericType(handlerFactories.EventType);
-
-                        var method = handlerType.GetMethod(
-                            "HandleEvent",
-                            new[] { handlerFactories.EventType }
-                        );
-
-                        method.Invoke(eventHandler, new object[] { eventData });
-                    }
-                    catch (TargetInvocationException ex)
-                    {
-                        exceptions.Add(ex.InnerException);
-                    }
-                    catch (Exception ex)
-                    {
-                        exceptions.Add(ex);
-                    }
-                    finally
-                    {
-                        handlerFactory.ReleaseHandler(eventHandler);
-                    }
+                    throw new ArgumentNullException($"Registered async event handler for event type {eventType.Name} is null!");
                 }
+
+                var asyncHandlerType = typeof(IAsyncEventHandler<>).MakeGenericType(eventType);
+
+                var method = asyncHandlerType.GetMethod(
+                    "HandleEventAsync",
+                    new[] { eventType }
+                );
+
+                await (Task)method.Invoke(asyncEventHandler, new object[] { eventData });
+            }
+            catch (TargetInvocationException ex)
+            {
+                exceptions.Add(ex.InnerException);
+            }
+            catch (Exception ex)
+            {
+                exceptions.Add(ex);
+            }
+            finally
+            {
+                asyncHandlerFactory.ReleaseHandler(asyncEventHandler);
+            }
+        }
+
+        private void TriggerHandlingException(IEventHandlerFactory handlerFactory, Type eventType, IEventData eventData, List<Exception> exceptions)
+        {
+            var eventHandler = handlerFactory.GetHandler();
+            try
+            {
+                if (eventHandler == null)
+                {
+                    throw new ArgumentNullException($"Registered event handler for event type {eventType.Name} is null!");
+                }
+
+                var handlerType = typeof(IEventHandler<>).MakeGenericType(eventType);
+
+                var method = handlerType.GetMethod(
+                    "HandleEvent",
+                    new[] { eventType }
+                );
+
+                method.Invoke(eventHandler, new object[] { eventData });
+            }
+            catch (TargetInvocationException ex)
+            {
+                exceptions.Add(ex.InnerException);
+            }
+            catch (Exception ex)
+            {
+                exceptions.Add(ex);
+            }
+            finally
+            {
+                handlerFactory.ReleaseHandler(eventHandler);
+            }
+        }
+
+        // Reference from
+        // https://blogs.msdn.microsoft.com/benwilli/2017/02/09/an-alternative-to-configureawaitfalse-everywhere/
+        private struct SynchronizationContextRemover : INotifyCompletion
+        {
+            public bool IsCompleted
+            {
+                get { return SynchronizationContext.Current == null; }
             }
 
-            //Implements generic argument inheritance. See IEventDataWithInheritableGenericArgument
-            if (eventType.GetTypeInfo().IsGenericType &&
-                eventType.GetGenericArguments().Length == 1 &&
-                typeof(IEventDataWithInheritableGenericArgument).IsAssignableFrom(eventType))
+            public SynchronizationContextRemover GetAwaiter()
             {
-                var genericArg = eventType.GetGenericArguments()[0];
-                var baseArg = genericArg.GetTypeInfo().BaseType;
-                if (baseArg != null)
+                return this;
+            }
+
+            public void GetResult()
+            {
+            }
+
+            public void OnCompleted(Action continuation)
+            {
+                var prevContext = SynchronizationContext.Current;
+                try
                 {
-                    var baseEventType = eventType.GetGenericTypeDefinition().MakeGenericType(baseArg);
-                    var constructorArgs = ((IEventDataWithInheritableGenericArgument)eventData).GetConstructorArgs();
-                    var baseEventData = (IEventData)Activator.CreateInstance(baseEventType, constructorArgs);
-                    baseEventData.EventTime = eventData.EventTime;
-                    Trigger(baseEventType, eventData.EventSource, baseEventData);
+                    SynchronizationContext.SetSynchronizationContext(null);
+                    continuation();
+                }
+                finally
+                {
+                    SynchronizationContext.SetSynchronizationContext(prevContext);
                 }
             }
         }

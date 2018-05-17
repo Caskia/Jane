@@ -23,6 +23,28 @@ namespace Jane.Events.Bus
         public static NullEventBus Instance { get { return SingletonInstance; } }
 
         /// <inheritdoc/>
+        public IDisposable AsyncRegister<TEventData>(Func<TEventData, Task> action) where TEventData : IEventData
+        {
+            return NullDisposable.Instance;
+        }
+
+        /// <inheritdoc/>
+        public IDisposable AsyncRegister<TEventData>(IAsyncEventHandler<TEventData> handler) where TEventData : IEventData
+        {
+            return NullDisposable.Instance;
+        }
+
+        /// <inheritdoc/>
+        public void AsyncUnregister<TEventData>(Func<TEventData, Task> action) where TEventData : IEventData
+        {
+        }
+
+        /// <inheritdoc/>
+        public void AsyncUnregister<TEventData>(IAsyncEventHandler<TEventData> handler) where TEventData : IEventData
+        {
+        }
+
+        /// <inheritdoc/>
         public IDisposable Register<TEventData>(Action<TEventData> action) where TEventData : IEventData
         {
             return NullDisposable.Instance;
@@ -37,7 +59,7 @@ namespace Jane.Events.Bus
         /// <inheritdoc/>
         public IDisposable Register<TEventData, THandler>()
             where TEventData : IEventData
-            where THandler : IEventHandler<TEventData>, new()
+            where THandler : IEventHandler, new()
         {
             return NullDisposable.Instance;
         }
@@ -83,25 +105,25 @@ namespace Jane.Events.Bus
         /// <inheritdoc/>
         public Task TriggerAsync<TEventData>(TEventData eventData) where TEventData : IEventData
         {
-            return new Task(() => { });
+            return Task.CompletedTask;
         }
 
         /// <inheritdoc/>
         public Task TriggerAsync<TEventData>(object eventSource, TEventData eventData) where TEventData : IEventData
         {
-            return new Task(() => { });
+            return Task.CompletedTask;
         }
 
         /// <inheritdoc/>
         public Task TriggerAsync(Type eventType, IEventData eventData)
         {
-            return new Task(() => { });
+            return Task.CompletedTask;
         }
 
         /// <inheritdoc/>
         public Task TriggerAsync(Type eventType, object eventSource, IEventData eventData)
         {
-            return new Task(() => { });
+            return Task.CompletedTask;
         }
 
         /// <inheritdoc/>

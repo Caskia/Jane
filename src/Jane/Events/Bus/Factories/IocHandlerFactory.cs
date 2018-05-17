@@ -26,7 +26,7 @@ namespace Jane.Events.Bus.Factories
         /// <summary>
         /// Type of the handler.
         /// </summary>
-        public Type HandlerType { get; private set; }
+        public Type HandlerType { get; }
 
         /// <summary>
         /// Resolves handler object from Ioc container.
@@ -35,6 +35,11 @@ namespace Jane.Events.Bus.Factories
         public IEventHandler GetHandler()
         {
             return (IEventHandler)_objectContainer.Resolve(HandlerType);
+        }
+
+        public Type GetHandlerType()
+        {
+            return HandlerType;
         }
 
         /// <summary>
