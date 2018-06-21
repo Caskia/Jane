@@ -22,7 +22,6 @@ namespace Jane.ENode
                 }
 
                 _brokerEndPoints = new List<IPEndPoint>();
-
                 if (string.IsNullOrWhiteSpace(BrokerAddresses))
                 {
                     var defaultNameServer = new IPEndPoint(SocketUtils.GetLocalIPV4(), 9092);

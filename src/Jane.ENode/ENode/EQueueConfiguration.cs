@@ -108,6 +108,7 @@ namespace Jane.ENode
                     return _nameServerEndPoints;
                 }
 
+                _nameServerEndPoints = new List<IPEndPoint>();
                 if (string.IsNullOrWhiteSpace(NameServerAddress))
                 {
                     var defaultNameServer = new IPEndPoint(SocketUtils.GetLocalIPV4(), NameServerPort);
