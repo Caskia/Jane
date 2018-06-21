@@ -130,6 +130,17 @@ namespace Jane.Configurations
             return configuration.SetDefault<IEQueueConfiguration, EQueueConfiguration>(equeueConfiguration);
         }
 
+        public static Configuration LoadKafkaConfiguration(this Configuration configuration)
+        {
+            var kafkaConfiguration = new KafkaConfiguration();
+            if (!configuration.Root["Kafka:BrokerAddresses"].IsNullOrEmpty())
+            {
+                kafkaConfiguration.BrokerAddresses = configuration.Root["Kafka:BrokerAddresses"];
+            }
+
+            return configuration.SetDefault<IKafkaConfiguration, KafkaConfiguration>(kafkaConfiguration);
+        }
+
         private static ECommonConfiguration UseECommonAutofac(this ECommonConfiguration configuration)
         {
             ContainerBuilder containerBuilder;

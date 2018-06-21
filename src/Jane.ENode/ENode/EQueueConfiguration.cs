@@ -8,18 +8,30 @@ namespace Jane.ENode
 {
     public class EQueueConfiguration : IEQueueConfiguration
     {
+        private IPEndPoint _brokerAdminEndPoint;
+        private IPEndPoint _brokerConsumerEndPoint;
+        private IPEndPoint _brokerProducerEndPoint;
+        private List<IPEndPoint> _nameServerEndPoints;
+
         public IPEndPoint BrokerAdminEndPoint
         {
             get
             {
+                if (_brokerAdminEndPoint != null)
+                {
+                    return _brokerAdminEndPoint;
+                }
+
                 if (BrokerAdminHost.IsNullOrEmpty())
                 {
-                    return new IPEndPoint(SocketUtils.GetLocalIPV4(), BrokerAdminPort);
+                    _brokerAdminEndPoint = new IPEndPoint(SocketUtils.GetLocalIPV4(), BrokerAdminPort);
                 }
                 else
                 {
-                    return SocketUtils.GetIPEndPointFromHostName(BrokerAdminHost, BrokerAdminPort);
+                    _brokerAdminEndPoint = SocketUtils.GetIPEndPointFromHostName(BrokerAdminHost, BrokerAdminPort);
                 }
+
+                return _brokerAdminEndPoint;
             }
         }
 
@@ -31,14 +43,21 @@ namespace Jane.ENode
         {
             get
             {
+                if (_brokerConsumerEndPoint != null)
+                {
+                    return _brokerConsumerEndPoint;
+                }
+
                 if (BrokerConsumerHost.IsNullOrEmpty())
                 {
-                    return new IPEndPoint(SocketUtils.GetLocalIPV4(), BrokerConsumerPort);
+                    _brokerConsumerEndPoint = new IPEndPoint(SocketUtils.GetLocalIPV4(), BrokerConsumerPort);
                 }
                 else
                 {
-                    return SocketUtils.GetIPEndPointFromHostName(BrokerConsumerHost, BrokerConsumerPort);
+                    _brokerConsumerEndPoint = SocketUtils.GetIPEndPointFromHostName(BrokerConsumerHost, BrokerConsumerPort);
                 }
+
+                return _brokerConsumerEndPoint;
             }
         }
 
@@ -54,14 +73,21 @@ namespace Jane.ENode
         {
             get
             {
+                if (_brokerProducerEndPoint != null)
+                {
+                    return _brokerProducerEndPoint;
+                }
+
                 if (BrokerProducerHost.IsNullOrEmpty())
                 {
-                    return new IPEndPoint(SocketUtils.GetLocalIPV4(), BrokerProducerPort);
+                    _brokerProducerEndPoint = new IPEndPoint(SocketUtils.GetLocalIPV4(), BrokerProducerPort);
                 }
                 else
                 {
-                    return SocketUtils.GetIPEndPointFromHostName(BrokerProducerHost, BrokerProducerPort);
+                    _brokerProducerEndPoint = SocketUtils.GetIPEndPointFromHostName(BrokerProducerHost, BrokerProducerPort);
                 }
+
+                return _brokerProducerEndPoint;
             }
         }
 
@@ -77,12 +103,15 @@ namespace Jane.ENode
         {
             get
             {
-                var ipEndPoints = new List<IPEndPoint>();
+                if (_nameServerEndPoints != null && _nameServerEndPoints.Count > 0)
+                {
+                    return _nameServerEndPoints;
+                }
 
                 if (string.IsNullOrWhiteSpace(NameServerAddress))
                 {
                     var defaultNameServer = new IPEndPoint(SocketUtils.GetLocalIPV4(), NameServerPort);
-                    ipEndPoints.Add(defaultNameServer);
+                    _nameServerEndPoints.Add(defaultNameServer);
                 }
                 else
                 {
@@ -91,10 +120,10 @@ namespace Jane.ENode
                     {
                         var array = address.Split(new string[] { ":" }, StringSplitOptions.RemoveEmptyEntries);
                         var endpoint = SocketUtils.GetIPEndPointFromHostName(array[0], int.Parse(array[1]));
-                        ipEndPoints.Add(endpoint);
+                        _nameServerEndPoints.Add(endpoint);
                     }
                 }
-                return ipEndPoints;
+                return _nameServerEndPoints;
             }
         }
 
