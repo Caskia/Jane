@@ -15,6 +15,7 @@ using Jane.Runtime.Caching.Memory;
 using Jane.Runtime.Remoting;
 using Jane.Runtime.Session;
 using Jane.Runtime.Validation.Interception;
+using Jane.Scheduling;
 using Jane.Threading;
 using Jane.Threading.Timers;
 using Jane.Utils;
@@ -101,6 +102,7 @@ namespace Jane.Configurations
             SetDefault<MethodInvocationValidator, MethodInvocationValidator>(null, DependencyLifeStyle.Transient);
             SetDefault<IAuthorizationConfiguration, AuthorizationConfiguration>();
             SetDefault<IAuthorizationHelper, AuthorizationHelper>(null, DependencyLifeStyle.Transient);
+            SetDefault<IScheduleService, ScheduleService>();
             return this;
         }
 
