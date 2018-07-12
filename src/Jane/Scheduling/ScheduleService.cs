@@ -70,7 +70,7 @@ namespace Jane.Scheduling
                     {
                         if (!task.Stopped)
                         {
-                            task.Timer.Change(task.DueTime, task.Period);
+                            task.Timer.Change(task.Period, task.Period);
                         }
                     }
                     catch (ObjectDisposedException) { }
