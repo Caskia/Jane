@@ -19,7 +19,7 @@ namespace Jane.MongoDb.Extensions
             }
             try
             {
-                await indexes.CreateOneAsync(keys, options, cancellationToken).ConfigureAwait(false);
+                await indexes.CreateOneAsync(new CreateIndexModel<TDocument>(keys, options), null, cancellationToken).ConfigureAwait(false);
             }
             catch (MongoCommandException)
             {

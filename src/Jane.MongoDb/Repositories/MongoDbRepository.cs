@@ -152,14 +152,14 @@ namespace Jane.MongoDb.Repositories
             return Collection.Find(predicate, FindOptions).FirstOrDefault();
         }
 
-        public async Task<TEntity> FirstOrDefaultAsync(TPrimaryKey id)
+        public Task<TEntity> FirstOrDefaultAsync(TPrimaryKey id)
         {
-            return await Collection.Find(CreateEqualityExpressionForId(id), FindOptions).FirstOrDefaultAsync();
+            return Collection.Find(CreateEqualityExpressionForId(id), FindOptions).FirstOrDefaultAsync();
         }
 
-        public async Task<TEntity> FirstOrDefaultAsync(Expression<Func<TEntity, bool>> predicate)
+        public Task<TEntity> FirstOrDefaultAsync(Expression<Func<TEntity, bool>> predicate)
         {
-            return await Collection.Find(predicate, FindOptions).FirstOrDefaultAsync();
+            return Collection.Find(predicate, FindOptions).FirstOrDefaultAsync();
         }
 
         public TEntity Get(TPrimaryKey id)
@@ -198,19 +198,19 @@ namespace Jane.MongoDb.Repositories
             return BuildFinder(filter, sorts, skip, count).ToList();
         }
 
-        public async Task<List<TEntity>> GetAllListAsync(string filter, string sorts, int? skip, int? count)
+        public Task<List<TEntity>> GetAllListAsync(string filter, string sorts, int? skip, int? count)
         {
-            return await BuildFinder(filter, sorts, skip, count).ToListAsync();
+            return BuildFinder(filter, sorts, skip, count).ToListAsync();
         }
 
-        public async Task<List<TEntity>> GetAllListAsync()
+        public Task<List<TEntity>> GetAllListAsync()
         {
-            return await Collection.AsQueryable().ToListAsync();
+            return Collection.AsQueryable().ToListAsync();
         }
 
-        public async Task<List<TEntity>> GetAllListAsync(Expression<Func<TEntity, bool>> predicate)
+        public Task<List<TEntity>> GetAllListAsync(Expression<Func<TEntity, bool>> predicate)
         {
-            return await Collection.Find(predicate, FindOptions).ToListAsync();
+            return Collection.Find(predicate, FindOptions).ToListAsync();
         }
 
         public async Task<TEntity> GetAsync(TPrimaryKey id)
@@ -239,9 +239,9 @@ namespace Jane.MongoDb.Repositories
             return GetAll().Single(predicate);
         }
 
-        public async Task<TEntity> SingleAsync(Expression<Func<TEntity, bool>> predicate)
+        public Task<TEntity> SingleAsync(Expression<Func<TEntity, bool>> predicate)
         {
-            return await Collection.Find(predicate, FindOptions).SingleAsync();
+            return Collection.Find(predicate, FindOptions).SingleAsync();
         }
 
         #endregion Select/Get/Query
@@ -385,19 +385,19 @@ namespace Jane.MongoDb.Repositories
             Collection.DeleteOne(CreateEqualityExpressionForId(id));
         }
 
-        public async Task DeleteAsync(TEntity entity)
+        public Task DeleteAsync(TEntity entity)
         {
-            await DeleteAsync(entity.Id);
+            return DeleteAsync(entity.Id);
         }
 
-        public async Task DeleteAsync(Expression<Func<TEntity, bool>> predicate)
+        public Task DeleteAsync(Expression<Func<TEntity, bool>> predicate)
         {
-            await Collection.DeleteManyAsync(predicate);
+            return Collection.DeleteManyAsync(predicate);
         }
 
-        public async Task DeleteAsync(TPrimaryKey id)
+        public Task DeleteAsync(TPrimaryKey id)
         {
-            await Collection.DeleteOneAsync(CreateEqualityExpressionForId(id));
+            return Collection.DeleteOneAsync(CreateEqualityExpressionForId(id));
         }
 
         #endregion Delete
@@ -426,7 +426,7 @@ namespace Jane.MongoDb.Repositories
 
         public long LongCount(string filter)
         {
-            return Collection.Find(filter, FindOptions).Count();
+            return Collection.Find(filter, FindOptions).CountDocuments();
         }
 
         public long LongCount()
@@ -439,20 +439,20 @@ namespace Jane.MongoDb.Repositories
             return Collection.AsQueryable().LongCount(predicate);
         }
 
-        public async Task<long> LongCountAsync(string filter)
+        public Task<long> LongCountAsync(string filter)
         {
-            return await Collection.Find(filter, FindOptions).CountAsync();
+            return Collection.Find(filter, FindOptions).CountDocumentsAsync();
         }
 
-        public async Task<long> LongCountAsync()
+        public Task<long> LongCountAsync()
         {
             var filter = Builders<TEntity>.Filter.Empty;
-            return await Collection.CountAsync(filter);
+            return Collection.CountDocumentsAsync(filter);
         }
 
-        public async Task<long> LongCountAsync(Expression<Func<TEntity, bool>> predicate)
+        public Task<long> LongCountAsync(Expression<Func<TEntity, bool>> predicate)
         {
-            return await Collection.CountAsync(predicate);
+            return Collection.CountDocumentsAsync(predicate);
         }
 
         #endregion Aggregates
