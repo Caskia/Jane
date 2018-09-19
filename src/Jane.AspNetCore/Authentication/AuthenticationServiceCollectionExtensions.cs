@@ -6,6 +6,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using System;
+using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
@@ -16,9 +17,9 @@ namespace Jane.AspNetCore.Authentication
 {
     public static class AuthenticationServiceCollectionExtensions
     {
-        public static AuthenticationBuilder ConfigureJwtBearer(this AuthenticationBuilder builder, IConfiguration configuration)
+        public static AuthenticationBuilder ConfigureJwtBearer(this AuthenticationBuilder builder, IConfiguration configuration, Action<TokenAuthConfiguration> setupAction = null)
         {
-            var tokenAuthConfig = ConfigJwtTokenAuth(configuration);
+            var tokenAuthConfig = ConfigJwtTokenAuth(configuration, setupAction);
             return builder.AddJwtBearer(options =>
                  {
                      options.Audience = tokenAuthConfig.Audience;
@@ -51,7 +52,7 @@ namespace Jane.AspNetCore.Authentication
                  });
         }
 
-        private static TokenAuthConfiguration ConfigJwtTokenAuth(IConfiguration configuration)
+        private static TokenAuthConfiguration ConfigJwtTokenAuth(IConfiguration configuration, Action<TokenAuthConfiguration> setupAction = null)
         {
             var tokenAuthConfig = new TokenAuthConfiguration();
 
@@ -71,6 +72,8 @@ namespace Jane.AspNetCore.Authentication
             tokenAuthConfig.Audience = configuration["JwtBearer:Audience"];
             tokenAuthConfig.SigningCredentials = new SigningCredentials(tokenAuthConfig.SecurityKey, SecurityAlgorithms.HmacSha256);
             tokenAuthConfig.Expiration = TimeSpan.FromDays(Convert.ToInt32(configuration["JwtBearer:ExpirationDays"]));
+
+            setupAction?.Invoke(tokenAuthConfig);
 
             JaneConfiguration.Instance.SetDefault<TokenAuthConfiguration, TokenAuthConfiguration>(tokenAuthConfig);
             return tokenAuthConfig;
@@ -96,6 +99,20 @@ namespace Jane.AspNetCore.Authentication
             //Set auth token from querystring
             context.Token = qsAuthToken;
             return Task.CompletedTask;
+        }
+
+        private static byte[] ReadStream(Stream input)
+        {
+            byte[] buffer = new byte[16 * 1024];
+            using (MemoryStream ms = new MemoryStream())
+            {
+                int read;
+                while ((read = input.Read(buffer, 0, buffer.Length)) > 0)
+                {
+                    ms.Write(buffer, 0, read);
+                }
+                return ms.ToArray();
+            }
         }
     }
 }
