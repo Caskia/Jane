@@ -1,4 +1,4 @@
-﻿using Jane.Dependency;
+﻿using System;
 
 namespace Jane
 {
@@ -7,5 +7,7 @@ namespace Jane
         long NextId();
 
         string NextIdString();
+
+        Guid Guid();
     }
 }

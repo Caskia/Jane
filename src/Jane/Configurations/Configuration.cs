@@ -12,6 +12,7 @@ using Jane.Runtime;
 using Jane.Runtime.Caching;
 using Jane.Runtime.Caching.Configuration;
 using Jane.Runtime.Caching.Memory;
+using Jane.Runtime.Guids;
 using Jane.Runtime.Remoting;
 using Jane.Runtime.Session;
 using Jane.Runtime.Validation.Interception;
@@ -85,6 +86,8 @@ namespace Jane.Configurations
         public Configuration RegisterCommonComponents()
         {
             SetDefault<ILoggerFactory, EmptyLoggerFactory>();
+            SetDefault<SequentialGuidGeneratorOptions, SequentialGuidGeneratorOptions>();
+            SetDefault<SequentialGuidGenerator, SequentialGuidGenerator>();
             SetDefault<IIdGenerator, IdGenerator>();
             SetDefault<IMachineManager, MachineManager>();
             SetDefault<IMessageBus, NullMessageBus>();
