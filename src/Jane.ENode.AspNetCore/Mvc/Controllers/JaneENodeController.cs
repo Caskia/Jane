@@ -92,7 +92,7 @@ namespace Jane.ENode.AspNetCore.Mvc.Controllers
         {
             if (result.Status != AsyncTaskStatus.Success)
             {
-                throw new UserFriendlyException("internal network meets problems!");
+                throw new UserFriendlyException("internal network meets problems!", result.ErrorMessage);
             }
 
             switch (result.Data.Status)
@@ -114,7 +114,7 @@ namespace Jane.ENode.AspNetCore.Mvc.Controllers
         {
             if (result.Status != AsyncTaskStatus.Success)
             {
-                throw new UserFriendlyException("internal network meets problems!");
+                throw new UserFriendlyException("internal network meets problems!", result.ErrorMessage);
             }
         }
 
