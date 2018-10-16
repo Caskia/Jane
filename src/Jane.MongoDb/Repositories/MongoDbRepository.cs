@@ -51,7 +51,7 @@ namespace Jane.MongoDb.Repositories
             return Expression.Lambda<Func<TEntity, bool>>(lambdaBody, lambdaParam);
         }
 
-        protected IFindFluent<TEntity, TEntity> BuildFinder(string filter, string sorts, int? skip, int? count)
+        protected IFindFluent<TEntity, TEntity> BuildFinder(string filter, string projection, string sorts, int? skip, int? count)
         {
             var finder = Collection.Find(filter, FindOptions);
 
@@ -90,6 +90,11 @@ namespace Jane.MongoDb.Repositories
                 finder = finder.Sort(sortDefinition);
             }
 
+            if (!projection.IsNullOrEmpty())
+            {
+                finder = finder.Project<TEntity>(projection);
+            }
+
             if (skip.HasValue)
             {
                 finder = finder.Skip(skip);
@@ -99,6 +104,16 @@ namespace Jane.MongoDb.Repositories
                 finder = finder.Limit(count);
             }
 
+            return finder;
+        }
+
+        protected IFindFluent<TEntity, TEntity> BuildFinder(Expression<Func<TEntity, bool>> predicate, string projection = null)
+        {
+            var finder = Collection.Find(predicate, FindOptions);
+            if (!projection.IsNullOrEmpty())
+            {
+                finder.Project<TEntity>(projection);
+            }
             return finder;
         }
 
@@ -142,24 +157,44 @@ namespace Jane.MongoDb.Repositories
 
         #region Select/Get/Query
 
+        public TEntity FirstOrDefault(TPrimaryKey id, string projection)
+        {
+            return BuildFinder(CreateEqualityExpressionForId(id), projection).FirstOrDefault();
+        }
+
+        public TEntity FirstOrDefault(Expression<Func<TEntity, bool>> predicate, string projection)
+        {
+            return BuildFinder(predicate, projection).FirstOrDefault();
+        }
+
         public TEntity FirstOrDefault(TPrimaryKey id)
         {
-            return Collection.Find(CreateEqualityExpressionForId(id), FindOptions).FirstOrDefault();
+            return BuildFinder(CreateEqualityExpressionForId(id)).FirstOrDefault();
         }
 
         public TEntity FirstOrDefault(Expression<Func<TEntity, bool>> predicate)
         {
-            return Collection.Find(predicate, FindOptions).FirstOrDefault();
+            return BuildFinder(predicate).FirstOrDefault();
+        }
+
+        public Task<TEntity> FirstOrDefaultAsync(TPrimaryKey id, string projection)
+        {
+            return BuildFinder(CreateEqualityExpressionForId(id), projection).FirstOrDefaultAsync();
+        }
+
+        public Task<TEntity> FirstOrDefaultAsync(Expression<Func<TEntity, bool>> predicate, string projection)
+        {
+            return BuildFinder(predicate, projection).FirstOrDefaultAsync();
         }
 
         public Task<TEntity> FirstOrDefaultAsync(TPrimaryKey id)
         {
-            return Collection.Find(CreateEqualityExpressionForId(id), FindOptions).FirstOrDefaultAsync();
+            return BuildFinder(CreateEqualityExpressionForId(id)).FirstOrDefaultAsync();
         }
 
         public Task<TEntity> FirstOrDefaultAsync(Expression<Func<TEntity, bool>> predicate)
         {
-            return Collection.Find(predicate, FindOptions).FirstOrDefaultAsync();
+            return BuildFinder(predicate).FirstOrDefaultAsync();
         }
 
         public TEntity Get(TPrimaryKey id)
@@ -195,12 +230,22 @@ namespace Jane.MongoDb.Repositories
 
         public List<TEntity> GetAllList(string filter, string sorts, int? skip, int? count)
         {
-            return BuildFinder(filter, sorts, skip, count).ToList();
+            return BuildFinder(filter, null, sorts, skip, count).ToList();
+        }
+
+        public List<TEntity> GetAllList(string filter, string projection, string sorts, int? skip, int? count)
+        {
+            return BuildFinder(filter, projection, sorts, skip, count).ToList();
         }
 
         public Task<List<TEntity>> GetAllListAsync(string filter, string sorts, int? skip, int? count)
         {
-            return BuildFinder(filter, sorts, skip, count).ToListAsync();
+            return BuildFinder(filter, null, sorts, skip, count).ToListAsync();
+        }
+
+        public Task<List<TEntity>> GetAllListAsync(string filter, string projection, string sorts, int? skip, int? count)
+        {
+            return BuildFinder(filter, projection, sorts, skip, count).ToListAsync();
         }
 
         public Task<List<TEntity>> GetAllListAsync()

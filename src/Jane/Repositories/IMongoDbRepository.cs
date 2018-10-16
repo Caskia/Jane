@@ -11,9 +11,21 @@ namespace Jane.Repositories
     {
         #region Select/Get/Query
 
+        TEntity FirstOrDefault(TPrimary id, string projection);
+
+        TEntity FirstOrDefault(Expression<Func<TEntity, bool>> predicate, string projection);
+
+        Task<TEntity> FirstOrDefaultAsync(TPrimary id, string projection);
+
+        Task<TEntity> FirstOrDefaultAsync(Expression<Func<TEntity, bool>> predicate, string projection);
+
         List<TEntity> GetAllList(string filter, string sorts, int? skip, int? count);
 
+        List<TEntity> GetAllList(string filter, string projection, string sorts, int? skip, int? count);
+
         Task<List<TEntity>> GetAllListAsync(string filter, string sorts, int? skip, int? count);
+
+        Task<List<TEntity>> GetAllListAsync(string filter, string projection, string sorts, int? skip, int? count);
 
         #endregion Select/Get/Query
 
