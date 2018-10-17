@@ -19,6 +19,13 @@ namespace Jane.MongoDb.Extensions
             return filter.Render(documentSerializer, serializerRegistry).ToString();
         }
 
+        public static string ToBsonDocumentString<T>(this ProjectionDefinition<T> projection)
+        {
+            var serializerRegistry = BsonSerializer.SerializerRegistry;
+            var documentSerializer = serializerRegistry.GetSerializer<T>();
+            return projection.Render(documentSerializer, serializerRegistry).ToString();
+        }
+
         public static string ToBsonDocumentString(this object obj, Type nominalType, IBsonSerializer serializer = null, Action<BsonSerializationContext.Builder> configurator = null, BsonSerializationArgs args = default(BsonSerializationArgs))
         {
             return obj.ToBsonDocument(nominalType, serializer, configurator, args).ToString();
