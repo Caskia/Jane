@@ -112,7 +112,7 @@ namespace Jane.MongoDb.Repositories
             var finder = Collection.Find(predicate, FindOptions);
             if (!projection.IsNullOrEmpty())
             {
-                finder.Project<TEntity>(projection);
+                finder = finder.Project<TEntity>(projection);
             }
             return finder;
         }
