@@ -15,6 +15,9 @@ namespace Jane.ENode.AspNetCore.Mvc.Controllers
     {
         protected readonly ICommandService _commandService;
 
+        protected readonly TimeSpan CommonPollInterval = TimeSpan.FromMilliseconds(750);
+        protected readonly TimeSpan CommonWaitTimeout = TimeSpan.FromSeconds(5);
+
         /// <summary>
         /// Constructor.
         /// </summary>
