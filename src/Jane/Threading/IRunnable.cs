@@ -1,4 +1,7 @@
-﻿namespace Jane.Threading
+﻿using System.Threading;
+using System.Threading.Tasks;
+
+namespace Jane.Threading
 {
     /// <summary>
     /// Interface to start/stop self threaded services.
@@ -8,18 +11,13 @@
         /// <summary>
         /// Starts the service.
         /// </summary>
-        void Start();
+        Task StartAsync(CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
         /// Sends stop command to the service.
         /// Service may return immediately and stop asynchronously.
         /// A client should then call <see cref="WaitToStop"/> method to ensure it's stopped.
         /// </summary>
-        void Stop();
-
-        /// <summary>
-        /// Waits the service to stop.
-        /// </summary>
-        void WaitToStop();
+        Task StopAsync(CancellationToken cancellationToken = default(CancellationToken));
     }
 }

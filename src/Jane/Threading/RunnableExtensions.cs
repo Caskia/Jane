@@ -1,3 +1,5 @@
+using System;
+
 namespace Jane.Threading
 {
     /// <summary>
@@ -5,13 +7,24 @@ namespace Jane.Threading
     /// </summary>
     public static class RunnableExtensions
     {
-        /// <summary>
-        /// Calls <see cref="IRunnable.Stop"/> and then <see cref="IRunnable.WaitToStop"/>.
-        /// </summary>
-        public static void StopAndWaitToStop(this IRunnable runnable)
+        public static void Start(this IRunnable runnable)
         {
-            runnable.Stop();
-            runnable.WaitToStop();
+            if (runnable == null)
+            {
+                throw new ArgumentNullException(nameof(runnable));
+            }
+
+            AsyncHelper.RunSync(() => runnable.StartAsync());
+        }
+
+        public static void Stop(this IRunnable runnable)
+        {
+            if (runnable == null)
+            {
+                throw new ArgumentNullException(nameof(runnable));
+            }
+
+            AsyncHelper.RunSync(() => runnable.StopAsync());
         }
     }
 }

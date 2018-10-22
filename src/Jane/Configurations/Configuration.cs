@@ -1,5 +1,6 @@
 ﻿using Jane.Aspects;
 using Jane.Authorization;
+using Jane.BackgroundJobs;
 using Jane.Dependency;
 using Jane.Events.Bus;
 using Jane.Events.Bus.Factories;
@@ -106,6 +107,11 @@ namespace Jane.Configurations
             SetDefault<IAuthorizationConfiguration, AuthorizationConfiguration>();
             SetDefault<IAuthorizationHelper, AuthorizationHelper>(null, DependencyLifeStyle.Transient);
             SetDefault<IScheduleService, ScheduleService>();
+            SetDefault<IBackgroundJobWorker, BackgroundJobWorker>();
+            SetDefault<IBackgroundJobExecuter, BackgroundJobExecuter>(null, DependencyLifeStyle.Transient);
+            SetDefault<IBackgroundJobSerializer, JsonBackgroundJobSerializer>(null, DependencyLifeStyle.Transient);
+            SetDefault<IBackgroundJobStore, InMemoryBackgroundJobStore>();
+            SetDefault<IBackgroundJobManager, DefaultBackgroundJobManager>();
             return this;
         }
 

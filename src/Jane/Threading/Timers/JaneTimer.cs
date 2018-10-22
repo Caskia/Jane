@@ -1,6 +1,8 @@
-using Jane.Dependency;
+using Jane.Extensions;
+using Jane.Logging;
 using System;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace Jane.Threading.Timers
 {
@@ -8,48 +10,27 @@ namespace Jane.Threading.Timers
     /// A roboust timer implementation that ensures no overlapping occurs. It waits exactly specified <see cref="Period"/> between ticks.
     /// </summary>
     //TODO: Extract interface or make all members virtual to make testing easier.
-    public class JaneTimer : RunnableBase
+    public class JaneTimer : IRunnable
     {
-        /// <summary>
-        /// This timer is used to perfom the task at spesified intervals.
-        /// </summary>
         private readonly Timer _taskTimer;
 
-        /// <summary>
-        /// Indicates that whether performing the task or _taskTimer is in sleep mode.
-        /// This field is used to wait executing tasks when stopping Timer.
-        /// </summary>
+        private volatile bool _isRunning;
+
         private volatile bool _performingTasks;
 
-        /// <summary>
-        /// Indicates that whether timer is running or stopped.
-        /// </summary>
-        private volatile bool _running;
-
-        /// <summary>
-        /// Creates a new Timer.
-        /// </summary>
         public JaneTimer()
         {
-            _taskTimer = new Timer(TimerCallBack, null, Timeout.Infinite, Timeout.Infinite);
-        }
+            Logger = LogHelper.Logger;
 
-        /// <summary>
-        /// Creates a new Timer.
-        /// </summary>
-        /// <param name="period">Task period of timer (as milliseconds)</param>
-        /// <param name="runOnStart">Indicates whether timer raises Elapsed event on Start method of Timer for once</param>
-        public JaneTimer(int period, bool runOnStart = false)
-            : this()
-        {
-            Period = period;
-            RunOnStart = runOnStart;
+            _taskTimer = new Timer(TimerCallBack, null, Timeout.Infinite, Timeout.Infinite);
         }
 
         /// <summary>
         /// This event is raised periodically according to Period of Timer.
         /// </summary>
         public event EventHandler Elapsed;
+
+        public ILogger Logger { get; set; }
 
         /// <summary>
         /// Task period of timer (as milliseconds).
@@ -62,50 +43,36 @@ namespace Jane.Threading.Timers
         /// </summary>
         public bool RunOnStart { get; set; }
 
-        /// <summary>
-        /// Starts the timer.
-        /// </summary>
-        public override void Start()
+        public Task StartAsync(CancellationToken cancellationToken = default(CancellationToken))
         {
             if (Period <= 0)
             {
                 throw new JaneException("Period should be set before starting the timer!");
             }
 
-            base.Start();
-
-            _running = true;
-            _taskTimer.Change(RunOnStart ? 0 : Period, Timeout.Infinite);
-        }
-
-        /// <summary>
-        /// Stops the timer.
-        /// </summary>
-        public override void Stop()
-        {
             lock (_taskTimer)
             {
-                _running = false;
-                _taskTimer.Change(Timeout.Infinite, Timeout.Infinite);
+                _taskTimer.Change(RunOnStart ? 0 : Period, Timeout.Infinite);
+                _isRunning = true;
             }
 
-            base.Stop();
+            return Task.CompletedTask;
         }
 
-        /// <summary>
-        /// Waits the service to stop.
-        /// </summary>
-        public override void WaitToStop()
+        public Task StopAsync(CancellationToken cancellationToken = default(CancellationToken))
         {
             lock (_taskTimer)
             {
+                _taskTimer.Change(Timeout.Infinite, Timeout.Infinite);
                 while (_performingTasks)
                 {
                     Monitor.Wait(_taskTimer);
                 }
+
+                _isRunning = false;
             }
 
-            base.WaitToStop();
+            return Task.CompletedTask;
         }
 
         /// <summary>
@@ -116,7 +83,7 @@ namespace Jane.Threading.Timers
         {
             lock (_taskTimer)
             {
-                if (!_running || _performingTasks)
+                if (!_isRunning || _performingTasks)
                 {
                     return;
                 }
@@ -127,10 +94,7 @@ namespace Jane.Threading.Timers
 
             try
             {
-                if (Elapsed != null)
-                {
-                    Elapsed(this, new EventArgs());
-                }
+                Elapsed.InvokeSafely(this, new EventArgs());
             }
             catch
             {
@@ -140,7 +104,7 @@ namespace Jane.Threading.Timers
                 lock (_taskTimer)
                 {
                     _performingTasks = false;
-                    if (_running)
+                    if (_isRunning)
                     {
                         _taskTimer.Change(Period, Timeout.Infinite);
                     }
