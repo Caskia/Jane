@@ -1,6 +1,5 @@
-﻿using Jane.Logging;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Options;
+﻿using Jane.Dependency;
+using Jane.Logging;
 using System;
 
 namespace Jane.BackgroundJobs
@@ -8,11 +7,9 @@ namespace Jane.BackgroundJobs
     public class BackgroundJobExecuter : IBackgroundJobExecuter
     {
         public BackgroundJobExecuter(
-            IServiceProvider serviceProvider,
-            IOptions<BackgroundJobOptions> options)
+            BackgroundJobOptions options)
         {
-            ServiceProvider = serviceProvider;
-            Options = options.Value;
+            Options = options;
 
             Logger = LogHelper.Logger;
         }
@@ -20,38 +17,34 @@ namespace Jane.BackgroundJobs
         public ILogger Logger { protected get; set; }
 
         protected BackgroundJobOptions Options { get; }
-        protected IServiceProvider ServiceProvider { get; }
 
         public virtual void Execute(JobExecutionContext context)
         {
-            using (var scope = ServiceProvider.CreateScope())
+            var job = ObjectContainer.Current.Resolve(context.JobType);
+            if (job == null)
             {
-                var job = scope.ServiceProvider.GetService(context.JobType);
-                if (job == null)
-                {
-                    throw new JaneException("The job type is not registered to DI: " + context.JobType);
-                }
+                throw new JaneException("The job type is not registered to DI: " + context.JobType);
+            }
 
-                var jobExecuteMethod = context.JobType.GetMethod(nameof(IBackgroundJob<object>.Execute));
-                if (jobExecuteMethod == null)
-                {
-                    throw new JaneException($"Given job type does not implement {typeof(IBackgroundJob<>).Name}. The job type was: " + context.JobType);
-                }
+            var jobExecuteMethod = context.JobType.GetMethod(nameof(IBackgroundJob<object>.Execute));
+            if (jobExecuteMethod == null)
+            {
+                throw new JaneException($"Given job type does not implement {typeof(IBackgroundJob<>).Name}. The job type was: " + context.JobType);
+            }
 
-                try
-                {
-                    jobExecuteMethod.Invoke(job, new[] { context.JobArgs });
-                }
-                catch (Exception ex)
-                {
-                    Logger.Error(ex);
+            try
+            {
+                jobExecuteMethod.Invoke(job, new[] { context.JobArgs });
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
 
-                    throw new BackgroundJobExecutionException("A background job execution is failed. See inner exception for details.", ex)
-                    {
-                        JobType = context.JobType.AssemblyQualifiedName,
-                        JobArgs = context.JobArgs
-                    };
-                }
+                throw new BackgroundJobExecutionException("A background job execution is failed. See inner exception for details.", ex)
+                {
+                    JobType = context.JobType.AssemblyQualifiedName,
+                    JobArgs = context.JobArgs
+                };
             }
         }
     }

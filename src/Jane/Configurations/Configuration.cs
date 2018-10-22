@@ -1,6 +1,7 @@
 ﻿using Jane.Aspects;
 using Jane.Authorization;
 using Jane.BackgroundJobs;
+using Jane.BackgroundWorkers;
 using Jane.Dependency;
 using Jane.Events.Bus;
 using Jane.Events.Bus.Factories;
@@ -9,6 +10,7 @@ using Jane.Extensions;
 using Jane.Logging;
 using Jane.MessageBus;
 using Jane.PushNotifications;
+using Jane.Reflection;
 using Jane.Runtime;
 using Jane.Runtime.Caching;
 using Jane.Runtime.Caching.Configuration;
@@ -84,6 +86,25 @@ namespace Jane.Configurations
             return this;
         }
 
+        public Configuration RegisterBackgroundJob(params Assembly[] assemblies)
+        {
+            var options = ObjectContainer.Resolve<BackgroundJobOptions>();
+            foreach (var assembly in assemblies)
+            {
+                //Register Backgroundjob
+                foreach (var type in assembly.GetTypes().Where(t => ReflectionHelper.IsAssignableToGenericType(t, typeof(IBackgroundJob<>))))
+                {
+                    options.AddJob(type);
+                }
+            }
+
+            var backgroundJobManager = ObjectContainer.Resolve<IBackgroundWorkerManager>();
+            backgroundJobManager.Add(ObjectContainer.Resolve<IBackgroundJobWorker>());
+            backgroundJobManager.Start();
+
+            return this;
+        }
+
         public Configuration RegisterCommonComponents()
         {
             SetDefault<ILoggerFactory, EmptyLoggerFactory>();
@@ -107,6 +128,8 @@ namespace Jane.Configurations
             SetDefault<IAuthorizationConfiguration, AuthorizationConfiguration>();
             SetDefault<IAuthorizationHelper, AuthorizationHelper>(null, DependencyLifeStyle.Transient);
             SetDefault<IScheduleService, ScheduleService>();
+            SetDefault<IBackgroundWorkerManager, BackgroundWorkerManager>();
+            SetDefault<BackgroundJobOptions, BackgroundJobOptions>();
             SetDefault<IBackgroundJobWorker, BackgroundJobWorker>();
             SetDefault<IBackgroundJobExecuter, BackgroundJobExecuter>(null, DependencyLifeStyle.Transient);
             SetDefault<IBackgroundJobSerializer, JsonBackgroundJobSerializer>(null, DependencyLifeStyle.Transient);
