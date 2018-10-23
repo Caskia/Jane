@@ -2,7 +2,6 @@
 using Jane.Threading;
 using Jane.Threading.Timers;
 using Jane.Timing;
-using Microsoft.Extensions.Options;
 using System;
 
 namespace Jane.BackgroundJobs
@@ -17,15 +16,15 @@ namespace Jane.BackgroundJobs
             JaneTimer timer,
             IBackgroundJobExecuter jobExecuter,
             IBackgroundJobSerializer serializer,
-            IOptions<BackgroundJobOptions> jobOptions,
-            IOptions<BackgroundJobWorkerOptions> workerOptions)
+            BackgroundJobOptions jobOptions,
+            BackgroundJobWorkerOptions workerOptions)
             : base(timer)
         {
             JobExecuter = jobExecuter;
             Serializer = serializer;
             Store = store;
-            WorkerOptions = workerOptions.Value;
-            JobOptions = jobOptions.Value;
+            WorkerOptions = workerOptions;
+            JobOptions = jobOptions;
             Timer.Period = WorkerOptions.JobPollPeriod;
         }
 

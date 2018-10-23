@@ -119,7 +119,7 @@ namespace Jane.Configurations
             SetDefaultType(typeof(IAmbientScopeProvider<>), typeof(DataContextAmbientScopeProvider<>), null, DependencyLifeStyle.Transient);
             SetDefault<IPrincipalAccessor, DefaultPrincipalAccessor>();
             SetDefault<IJaneSession, ClaimsJaneSession>();
-            SetDefault<IRunnable, JaneTimer>(null, DependencyLifeStyle.Transient);
+            SetDefault<JaneTimer, JaneTimer>(null, DependencyLifeStyle.Transient);
             SetDefault<ICachingConfiguration, CachingConfiguration>();
             SetDefault<JaneMemoryCache, JaneMemoryCache>(null, DependencyLifeStyle.Transient);
             SetDefault<ICacheManager, JaneMemoryCacheManager>();
@@ -130,6 +130,7 @@ namespace Jane.Configurations
             SetDefault<IScheduleService, ScheduleService>();
             SetDefault<IBackgroundWorkerManager, BackgroundWorkerManager>();
             SetDefault<BackgroundJobOptions, BackgroundJobOptions>();
+            SetDefault<BackgroundJobWorkerOptions, BackgroundJobWorkerOptions>();
             SetDefault<IBackgroundJobWorker, BackgroundJobWorker>();
             SetDefault<IBackgroundJobExecuter, BackgroundJobExecuter>(null, DependencyLifeStyle.Transient);
             SetDefault<IBackgroundJobSerializer, JsonBackgroundJobSerializer>(null, DependencyLifeStyle.Transient);

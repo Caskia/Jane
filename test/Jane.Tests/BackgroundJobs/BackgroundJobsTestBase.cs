@@ -1,20 +1,15 @@
-using Jane.Configurations;
-using Jane.Events.Bus;
+﻿using Jane.Configurations;
 using Jane.Timing;
 using System.Reflection;
 using JaneConfiguration = Jane.Configurations.Configuration;
 
-namespace Jane.Tests.Events.Bus
+namespace Jane.Tests.BackgroundJobs
 {
-    public abstract class EventBusTestBase
+    public abstract class BackgroundJobsTestBase
     {
-        protected IEventBus EventBus;
-
-        protected EventBusTestBase()
+        protected BackgroundJobsTestBase()
         {
             InitializeJane();
-
-            EventBus = new EventBus();
         }
 
         private JaneConfiguration InitializeJane()
@@ -31,7 +26,8 @@ namespace Jane.Tests.Events.Bus
                    .UseLog4Net()
                    .UseClockProvider(ClockProviders.Utc)
                    .RegisterUnhandledExceptionHandler()
-                   .BuildContainer();
+                   .BuildContainer()
+                   .RegisterBackgroundJob(_bussinessAssemblies);
         }
     }
 }
