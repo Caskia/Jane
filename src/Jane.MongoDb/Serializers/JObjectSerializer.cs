@@ -1,4 +1,5 @@
-﻿using MongoDB.Bson.Serialization;
+﻿using MongoDB.Bson;
+using MongoDB.Bson.Serialization;
 using MongoDB.Bson.Serialization.Serializers;
 using Newtonsoft.Json.Linq;
 
@@ -14,7 +15,7 @@ namespace Jane.MongoDb.Serializers
 
         public override void Serialize(BsonSerializationContext context, BsonSerializationArgs args, JObject value)
         {
-            var bsonDocument = MongoDB.Bson.BsonDocument.Parse(value.ToString());
+            var bsonDocument = BsonDocument.Parse(value.ToString());
             BsonDocumentSerializer.Instance.Serialize(context, bsonDocument);
         }
     }
