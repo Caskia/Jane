@@ -81,7 +81,7 @@ namespace Jane.ENode.AspNetCore.Mvc.Controllers
 
         #endregion Authorize Properties
 
-        protected async Task<AsyncTaskResult<CommandResult>> ExecuteCommandAsync(ICommand command, CommandReturnType commandReturnType = CommandReturnType.CommandExecuted, int millisecondsDelay = 5000, bool autoProcessResultException = true)
+        protected async Task<AsyncTaskResult<CommandResult>> ExecuteCommandAsync(ICommand command, CommandReturnType commandReturnType = CommandReturnType.CommandExecuted, int millisecondsDelay = 10000, bool autoProcessResultException = true)
         {
             var result = await _commandService.ExecuteAsync(command, commandReturnType).TimeoutAfter(millisecondsDelay);
             if (autoProcessResultException)
