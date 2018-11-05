@@ -15,6 +15,11 @@ namespace Jane.MongoDb.Serializers
 
         public override void Serialize(BsonSerializationContext context, BsonSerializationArgs args, JObject value)
         {
+            if (value == null)
+            {
+                value = JObject.FromObject(new { });
+            }
+
             var bsonDocument = BsonDocument.Parse(value.ToString());
             BsonDocumentSerializer.Instance.Serialize(context, bsonDocument);
         }
