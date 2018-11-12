@@ -1,11 +1,4 @@
-﻿using Jane.BackgroundJobs;
-using Jane.BackgroundWorkers;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Jane.Hangfire
+﻿namespace Jane.Hangfire
 {
     //public class HangfireBackgroundJobManager : BackgroundWorkerBase, IBackgroundJobManager
     //{
