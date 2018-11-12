@@ -8,7 +8,7 @@ namespace Jane.Configurations
     public static class ConfigurationExtensions
     {
         /// <summary>
-        /// use redis as the cache
+        /// use hangefire as background job service
         /// </summary>
         /// <param name="configuration"></param>
         /// <returns></returns>
