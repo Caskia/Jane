@@ -28,7 +28,7 @@ namespace Jane.AspNetCore.Mvc.Results.Wrapping
                 return new JaneEmptyActionResultWrapper();
             }
 
-            return new NullAbpActionResultWrapper();
+            return new NullJaneActionResultWrapper();
         }
     }
 }

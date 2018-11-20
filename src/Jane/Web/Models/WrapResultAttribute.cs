@@ -3,7 +3,7 @@
 namespace Jane.Web.Models
 {
     /// <summary>
-    /// Used to determine how ABP should wrap response on the web layer.
+    /// Used to determine how jane should wrap response on the web layer.
     /// </summary>
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Interface | AttributeTargets.Method)]
     public class WrapResultAttribute : Attribute
