@@ -1,38 +1,23 @@
-﻿namespace Jane.Hangfire
+﻿using Hangfire;
+using Jane.BackgroundJobs;
+using System;
+using System.Threading.Tasks;
+
+namespace Jane.Hangfire
 {
-    //public class HangfireBackgroundJobManager : BackgroundWorkerBase, IBackgroundJobManager
-    //{
-    //    public Task<bool> DeleteAsync(string jobId)
-    //    {
-    //        if (string.IsNullOrWhiteSpace(jobId))
-    //        {
-    //            throw new ArgumentNullException(nameof(jobId));
-    //        }
-
-    //        bool successfulDeletion = HangfireBackgroundJob.Delete(jobId);
-    //        return Task.FromResult(successfulDeletion);
-    //    }
-
-    //    public Task<string> EnqueueAsync<TJob, TArgs>(TArgs args, BackgroundJobPriority priority = BackgroundJobPriority.Normal,
-    //                TimeSpan? delay = null) where TJob : IBackgroundJob<TArgs>
-    //    {
-    //        string jobUniqueIdentifier = string.Empty;
-
-    //        if (!delay.HasValue)
-    //        {
-    //            jobUniqueIdentifier = HangfireBackgroundJob.Enqueue<TJob>(job => job.Execute(args));
-    //        }
-    //        else
-    //        {
-    //            jobUniqueIdentifier = HangfireBackgroundJob.Schedule<TJob>(job => job.Execute(args), delay.Value);
-    //        }
-
-    //        return Task.FromResult(jobUniqueIdentifier);
-    //    }
-
-    //    public Task<string> EnqueueAsync<TArgs>(TArgs args, BackgroundJobPriority priority = BackgroundJobPriority.Normal, TimeSpan? delay = null)
-    //    {
-    //        throw new NotImplementedException();
-    //    }
-    //}
+    public class HangfireBackgroundJobManager : IBackgroundJobManager
+    {
+        public Task<string> EnqueueAsync<TArgs>(TArgs args, BackgroundJobPriority priority = BackgroundJobPriority.Normal,
+            TimeSpan? delay = null)
+        {
+            if (!delay.HasValue)
+            {
+                return Task.FromResult(BackgroundJob.Enqueue<HangfireJobExecutionAdapter<TArgs>>(adapter => adapter.Execute(args)));
+            }
+            else
+            {
+                return Task.FromResult(BackgroundJob.Schedule<HangfireJobExecutionAdapter<TArgs>>(adapter => adapter.Execute(args), delay.Value));
+            }
+        }
+    }
 }

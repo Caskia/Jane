@@ -1,4 +1,6 @@
-﻿using System.Reflection;
+﻿using Jane.BackgroundJobs;
+using Jane.Hangfire;
+using System.Reflection;
 
 namespace Jane.Configurations
 {
@@ -19,6 +21,8 @@ namespace Jane.Configurations
                 Assembly.GetExecutingAssembly()
             };
             configuration.RegisterAssemblies(assemblies);
+
+            configuration.SetDefault<IBackgroundJobManager, HangfireBackgroundJobManager>();
 
             return configuration;
         }
