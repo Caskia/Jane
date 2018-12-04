@@ -12,6 +12,7 @@ $projects = (
     "Jane.ENode",
     "Jane.ENode.AspNetCore",
     "Jane.FCM",
+    "Jane.Hangfire",
     "Jane.Log4Net",
     "Jane.Masstransit.RabbitMq",
     "Jane.MongoDB",

@@ -14,7 +14,7 @@ namespace Jane.Configurations
         /// </summary>
         /// <param name="configuration"></param>
         /// <returns></returns>
-        public static Configuration UseHangeFire(this Configuration configuration)
+        public static Configuration UseHangFire(this Configuration configuration)
         {
             var assemblies = new[]
             {
