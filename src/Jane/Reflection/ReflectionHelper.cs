@@ -8,7 +8,7 @@ namespace Jane.Reflection
     /// <summary>
     /// Defines helper methods for reflection.
     /// </summary>
-    internal static class ReflectionHelper
+    public static class ReflectionHelper
     {
         /// <summary>
         /// Gets a list of attributes defined for a class member and it's declaring type including inherited attributes.
@@ -90,6 +90,22 @@ namespace Jane.Reflection
             }
 
             return attributeList;
+        }
+
+        /// <summary>
+        /// Get instance field
+        /// </summary>
+        /// <typeparam name="T">type of the target</typeparam>
+        /// <param name="type">object type</param>
+        /// <param name="instance">instance</param>
+        /// <param name="fieldName">instance's field</param>
+        /// <returns></returns>
+        public static T GetInstanceField<T>(Type type, object instance, string fieldName) where T : class
+        {
+            var bindFlags = BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic
+                | BindingFlags.Static;
+            var field = type.GetField(fieldName, bindFlags);
+            return field.GetValue(instance) as T;
         }
 
         /// <summary>
