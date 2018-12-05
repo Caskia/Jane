@@ -46,7 +46,7 @@ namespace Jane.Runtime.Caching.Memory
             {
                 var result = _memoryCache.Get<long>(key);
                 result += value;
-                Set(key, value);
+                Set(key, result);
                 return result;
             }
         }
