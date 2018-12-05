@@ -3,7 +3,7 @@ using MongoDB.Bson;
 
 namespace Jane
 {
-    public class IncrementField : Entity<ObjectId>
+    public class JaneIncrementField : Entity<ObjectId>
     {
         public string Key { get; set; }
 
