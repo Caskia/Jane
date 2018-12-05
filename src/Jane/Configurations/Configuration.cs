@@ -112,6 +112,7 @@ namespace Jane.Configurations
             SetDefault<SequentialGuidGenerator, SequentialGuidGenerator>();
             SetDefault<IIdGenerator, IdGenerator>();
             SetDefault<IDataGenerator, DataGenerator>();
+            SetDefault<IIncrementDataGenerator, CacheIncrementDataGenerator>();
             SetDefault<IMachineManager, MachineManager>();
             SetDefault<IMessageBus, NullMessageBus>();
             SetDefault<IEventBus, EventBus>();
