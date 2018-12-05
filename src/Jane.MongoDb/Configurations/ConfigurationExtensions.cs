@@ -20,6 +20,7 @@ namespace Jane.Configurations
                 Assembly.GetAssembly(typeof(MongoDbConfiguration))
             };
             configuration.RegisterAssemblies(assemblies);
+            configuration.SetDefault<IIncrementDataGenerator, MongoDbIncrementDataGenerator>();
 
             action?.Invoke();
 
