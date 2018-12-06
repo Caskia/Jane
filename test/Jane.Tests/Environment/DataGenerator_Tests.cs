@@ -10,11 +10,13 @@ namespace Jane.Tests.Environment
 {
     public class DataGenerator_Tests : TestBase
     {
+        private readonly IDataGenerator _dataGenerator;
         private readonly IIdGenerator _idGenerator;
         private readonly IIncrementDataGenerator _incrementDataGenerator;
 
         public DataGenerator_Tests()
         {
+            _dataGenerator = ObjectContainer.Resolve<IDataGenerator>();
             _idGenerator = ObjectContainer.Resolve<IIdGenerator>();
             _incrementDataGenerator = ObjectContainer.Resolve<IIncrementDataGenerator>();
         }
@@ -43,6 +45,34 @@ namespace Jane.Tests.Environment
 
             //Assert
             t4.ShouldBe(4);
+        }
+
+        [Fact(DisplayName = "Should_Number_To_S36")]
+        public async Task Should_Number_To_S36()
+        {
+            //Arrange
+            var number = _idGenerator.NextId();
+
+            //Act
+            var s36 = _dataGenerator.NumberToS36(number);
+
+            //Assert
+            var convertedNumber = _dataGenerator.S36ToNumber(s36);
+            number.ShouldBe(convertedNumber);
+        }
+
+        [Fact(DisplayName = "Should_Number_To_S64")]
+        public async Task Should_Number_To_S64()
+        {
+            //Arrange
+            var number = _idGenerator.NextId();
+
+            //Act
+            var s64 = _dataGenerator.NumberToS64(number);
+
+            //Assert
+            var convertedNumber = _dataGenerator.S64ToNumber(s64);
+            number.ShouldBe(convertedNumber);
         }
     }
 }
