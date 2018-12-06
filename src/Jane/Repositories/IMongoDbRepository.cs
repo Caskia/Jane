@@ -29,6 +29,14 @@ namespace Jane.Repositories
 
         #endregion Select/Get/Query
 
+        #region Insert
+
+        void InsertMany(List<TEntity> entities);
+
+        Task InsertManyAsync(List<TEntity> entities);
+
+        #endregion Insert
+
         #region Update
 
         long UpdateMany(string filterDefinition, string updateDefinition);

@@ -319,6 +319,32 @@ namespace Jane.MongoDb.Repositories
             return entity;
         }
 
+        public void InsertMany(List<TEntity> entities)
+        {
+            foreach (var entity in entities)
+            {
+                SetId(entity);
+            }
+
+            Collection.InsertMany(entities, new InsertManyOptions()
+            {
+                IsOrdered = false
+            });
+        }
+
+        public async Task InsertManyAsync(List<TEntity> entities)
+        {
+            foreach (var entity in entities)
+            {
+                SetId(entity);
+            }
+
+            await Collection.InsertManyAsync(entities, new InsertManyOptions()
+            {
+                IsOrdered = false
+            });
+        }
+
         public TEntity InsertOrUpdate(TEntity entity)
         {
             throw new NotImplementedException();
