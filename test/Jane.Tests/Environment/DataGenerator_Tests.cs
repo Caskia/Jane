@@ -1,8 +1,5 @@
 ﻿using Jane.Dependency;
 using Shouldly;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -48,7 +45,7 @@ namespace Jane.Tests.Environment
         }
 
         [Fact(DisplayName = "Should_Number_To_S36")]
-        public async Task Should_Number_To_S36()
+        public void Should_Number_To_S36()
         {
             //Arrange
             var number = _idGenerator.NextId();
@@ -62,7 +59,7 @@ namespace Jane.Tests.Environment
         }
 
         [Fact(DisplayName = "Should_Number_To_S64")]
-        public async Task Should_Number_To_S64()
+        public void Should_Number_To_S64()
         {
             //Arrange
             var number = _idGenerator.NextId();
