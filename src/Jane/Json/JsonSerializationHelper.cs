@@ -1,5 +1,6 @@
-using System;
+using Jane.Json.Formatters;
 using Newtonsoft.Json;
+using System;
 
 namespace Jane.Json
 {
@@ -27,8 +28,10 @@ namespace Jane.Json
             var type = Type.GetType(serializedObj.Substring(0, typeSeperatorIndex));
             var serialized = serializedObj.Substring(typeSeperatorIndex + 1);
 
-            var options = new JsonSerializerSettings();
-            options.Converters.Insert(0, new JaneDateTimeConverter());
+            var options = new JsonSerializerSettings
+            {
+                ContractResolver = new JaneCamelCasePropertyNamesContractResolver()
+            };
 
             return JsonConvert.DeserializeObject(serialized, type, options);
         }
