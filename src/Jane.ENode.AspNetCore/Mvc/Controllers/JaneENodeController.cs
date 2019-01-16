@@ -5,6 +5,7 @@ using ENode.Commanding;
 using Jane.AspNetCore.Mvc.Controllers;
 using System.Threading.Tasks;
 using System;
+using Newtonsoft.Json;
 
 namespace Jane.ENode.AspNetCore.Mvc.Controllers
 {
@@ -109,7 +110,15 @@ namespace Jane.ENode.AspNetCore.Mvc.Controllers
                 case CommandStatus.None:
                 case CommandStatus.Failed:
                 default:
-                    throw new UserFriendlyException(result.Data.Result);
+                    if (result.Data.ResultType == typeof(JaneSerializableException).Name)
+                    {
+                        var exceptionWrapper = SerializableExceptionWrapper.Deserialize(result.Data.Result);
+                        throw new UserFriendlyException(exceptionWrapper.Code, exceptionWrapper.Message);
+                    }
+                    else
+                    {
+                        throw new UserFriendlyException(result.Data.Result);
+                    }
             }
         }
 
