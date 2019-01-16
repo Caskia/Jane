@@ -1,5 +1,4 @@
 ﻿using Jane.Logging;
-using Newtonsoft.Json;
 using System;
 
 namespace Jane
