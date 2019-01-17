@@ -14,7 +14,7 @@ namespace Jane.Reflection
 
         public static IEnumerable<PropertyInfo> Properties { get; }
 
-        public void ValidateProperties(IList<string> properties)
+        public static void ValidateProperties(IList<string> properties)
         {
             foreach (var @property in properties)
             {
