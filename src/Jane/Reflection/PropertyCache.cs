@@ -25,5 +25,22 @@ namespace Jane.Reflection
                 }
             }
         }
+
+        public IDictionary<string, object> ToDictionary(IList<string> properties)
+        {
+            var dictionary = new Dictionary<string, object>();
+
+            foreach (var @property in properties)
+            {
+                var prop = Properties.FirstOrDefault(item => item.Name == @property);
+                if (prop == null)
+                {
+                    throw new ArgumentException($"{nameof(@property)} is not a recognizable property.");
+                }
+                dictionary.Add(@property, prop.GetValue(this));
+            }
+
+            return dictionary;
+        }
     }
 }
