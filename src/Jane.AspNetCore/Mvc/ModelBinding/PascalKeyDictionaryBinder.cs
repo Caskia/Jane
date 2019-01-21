@@ -25,7 +25,7 @@ namespace Jane.AspNetCore.Mvc.ModelBinding
                 var keyStrs = keyValuePair.Key.Split('_').Select(s => char.ToUpper(s[0]) + s.Substring(1)).ToArray();
                 var key = string.Join("", keyStrs);
                 return new KeyValuePair<string, TValue>(key, keyValuePair.Value);
-            });
+            }).ToDictionary(k => k.Key, v => v.Value);
 
             bindingContext.Result = ModelBindingResult.Success(model);
         }
