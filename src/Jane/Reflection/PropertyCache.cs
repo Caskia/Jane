@@ -21,7 +21,7 @@ namespace Jane.Reflection
                 var prop = Properties.FirstOrDefault(item => item.Name == @property);
                 if (prop == null)
                 {
-                    throw new ArgumentException($"{nameof(@property)} is not a recognizable property.");
+                    throw new ArgumentException($"{@property} is not a recognizable property.");
                 }
             }
         }
@@ -35,7 +35,7 @@ namespace Jane.Reflection
                 var prop = Properties.FirstOrDefault(item => item.Name == @property);
                 if (prop == null)
                 {
-                    throw new ArgumentException($"{nameof(@property)} is not a recognizable property.");
+                    throw new ArgumentException($"{@property} is not a recognizable property.");
                 }
                 dictionary.Add(@property, prop.GetValue(this));
             }
