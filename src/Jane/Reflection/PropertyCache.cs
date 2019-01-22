@@ -26,7 +26,7 @@ namespace Jane.Reflection
             }
         }
 
-        public IDictionary<string, object> ToDictionary(IList<string> properties)
+        public virtual IDictionary<string, object> ToDictionary(IList<string> properties)
         {
             var dictionary = new Dictionary<string, object>();
 
