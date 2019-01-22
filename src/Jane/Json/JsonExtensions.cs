@@ -1,6 +1,6 @@
 ﻿using Jane.Json.Formatters;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
+using Newtonsoft.Json.Converters;
 using System;
 
 namespace Jane.Json
@@ -55,7 +55,7 @@ namespace Jane.Json
         /// Converts given object to JSON string.
         /// </summary>
         /// <returns></returns>
-        public static string ToJsonString(this object obj, bool camelCase = false, bool indented = false, bool referenceLoopIgnore = false, bool retainProperties = false, bool ignoreProperties = false, string[] properties = null)
+        public static string ToJsonString(this object obj, bool camelCase = false, bool indented = false, bool referenceLoopIgnore = false, bool retainProperties = false, bool ignoreProperties = false, bool stringEnum = false, string[] properties = null)
         {
             var settings = new JsonSerializerSettings();
 
@@ -86,6 +86,11 @@ namespace Jane.Json
             if (retainProperties)
             {
                 settings.ContractResolver = new LimitPropertyContractResolver(properties, true);
+            }
+
+            if (stringEnum)
+            {
+                settings.Converters.Add(new StringEnumConverter());
             }
 
             return ToJsonString(obj, settings);
