@@ -413,27 +413,47 @@ namespace Jane.MongoDb.Repositories
             return entity;
         }
 
-        public long UpdateMany(string filterDefinition, string updateDefinition)
+        public long UpdateMany(string filterDefinition, string updateDefinition, object options = null)
         {
-            var result = Collection.UpdateMany(filterDefinition, updateDefinition);
+            var updateOptions = default(UpdateOptions);
+            if (options is UpdateOptions)
+            {
+                updateOptions = options as UpdateOptions;
+            }
+            var result = Collection.UpdateMany(filterDefinition, updateDefinition, updateOptions);
             return result.ModifiedCount;
         }
 
-        public async Task<long> UpdateManyAsync(string filterDefinition, string updateDefinition)
+        public async Task<long> UpdateManyAsync(string filterDefinition, string updateDefinition, object options = null)
         {
-            var result = await Collection.UpdateManyAsync(filterDefinition, updateDefinition);
+            var updateOptions = default(UpdateOptions);
+            if (options is UpdateOptions)
+            {
+                updateOptions = options as UpdateOptions;
+            }
+            var result = await Collection.UpdateManyAsync(filterDefinition, updateDefinition, updateOptions);
             return result.ModifiedCount;
         }
 
-        public long UpdateOne(string filterDefinition, string updateDefinition)
+        public long UpdateOne(string filterDefinition, string updateDefinition, object options = null)
         {
-            var result = Collection.UpdateOne(filterDefinition, updateDefinition);
+            var updateOptions = default(UpdateOptions);
+            if (options is UpdateOptions)
+            {
+                updateOptions = options as UpdateOptions;
+            }
+            var result = Collection.UpdateOne(filterDefinition, updateDefinition, updateOptions);
             return result.ModifiedCount;
         }
 
-        public async Task<long> UpdateOneAsync(string filterDefinition, string updateDefinition)
+        public async Task<long> UpdateOneAsync(string filterDefinition, string updateDefinition, object options = null)
         {
-            var result = await Collection.UpdateOneAsync(filterDefinition, updateDefinition);
+            var updateOptions = default(UpdateOptions);
+            if (options is UpdateOptions)
+            {
+                updateOptions = options as UpdateOptions;
+            }
+            var result = await Collection.UpdateOneAsync(filterDefinition, updateDefinition, updateOptions);
             return result.ModifiedCount;
         }
 

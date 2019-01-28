@@ -39,13 +39,13 @@ namespace Jane.Repositories
 
         #region Update
 
-        long UpdateMany(string filterDefinition, string updateDefinition);
+        long UpdateMany(string filterDefinition, string updateDefinition, object options = null);
 
-        Task<long> UpdateManyAsync(string filterDefinition, string updateDefinition);
+        Task<long> UpdateManyAsync(string filterDefinition, string updateDefinition, object options = null);
 
-        long UpdateOne(string filterDefinition, string updateDefinition);
+        long UpdateOne(string filterDefinition, string updateDefinition, object options = null);
 
-        Task<long> UpdateOneAsync(string filterDefinition, string updateDefinition);
+        Task<long> UpdateOneAsync(string filterDefinition, string updateDefinition, object options = null);
 
         #endregion Update
 
