@@ -51,16 +51,6 @@ namespace Jane.Configurations
         public static Configuration LoadENodeConfiguration(this Configuration configuration)
         {
             var enodeConfiguration = new ENodeConfiguration();
-            if (!configuration.Root["ENode:EventStoreConnectionString"].IsNullOrEmpty())
-            {
-                enodeConfiguration.EventStoreConnectionString = configuration.Root["ENode:EventStoreConnectionString"];
-            }
-
-            if (!configuration.Root["ENode:EventStoreDatabaseName"].IsNullOrEmpty())
-            {
-                enodeConfiguration.EventStoreDatabaseName = configuration.Root["ENode:EventStoreDatabaseName"];
-            }
-
             if (!configuration.Root["ENode:AggregateSnapshotConnectionString"].IsNullOrEmpty())
             {
                 enodeConfiguration.AggregateSnapshotConnectionString = configuration.Root["ENode:AggregateSnapshotConnectionString"];
@@ -69,6 +59,16 @@ namespace Jane.Configurations
             if (!configuration.Root["ENode:AggregateSnapshotDatabaseName"].IsNullOrEmpty())
             {
                 enodeConfiguration.AggregateSnapshotDatabaseName = configuration.Root["ENode:AggregateSnapshotDatabaseName"];
+            }
+
+            if (!configuration.Root["ENode:EventStoreConnectionString"].IsNullOrEmpty())
+            {
+                enodeConfiguration.EventStoreConnectionString = configuration.Root["ENode:EventStoreConnectionString"];
+            }
+
+            if (!configuration.Root["ENode:EventStoreDatabaseName"].IsNullOrEmpty())
+            {
+                enodeConfiguration.EventStoreDatabaseName = configuration.Root["ENode:EventStoreDatabaseName"];
             }
 
             if (!configuration.Root["ENode:LockServiceConnectionString"].IsNullOrEmpty())
