@@ -61,6 +61,16 @@ namespace Jane.Configurations
                 enodeConfiguration.EventStoreDatabaseName = configuration.Root["ENode:EventStoreDatabaseName"];
             }
 
+            if (!configuration.Root["ENode:AggregateSnapshotConnectionString"].IsNullOrEmpty())
+            {
+                enodeConfiguration.AggregateSnapshotConnectionString = configuration.Root["ENode:AggregateSnapshotConnectionString"];
+            }
+
+            if (!configuration.Root["ENode:AggregateSnapshotDatabaseName"].IsNullOrEmpty())
+            {
+                enodeConfiguration.AggregateSnapshotDatabaseName = configuration.Root["ENode:AggregateSnapshotDatabaseName"];
+            }
+
             if (!configuration.Root["ENode:LockServiceConnectionString"].IsNullOrEmpty())
             {
                 enodeConfiguration.LockServiceConnectionString = configuration.Root["ENode:LockServiceConnectionString"];
