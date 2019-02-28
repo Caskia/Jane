@@ -9,6 +9,12 @@ namespace Jane.Repositories
     public interface IMongoDbRepository<TEntity, TPrimary> : IRepository<TEntity, TPrimary>
        where TEntity : class, IEntity<TPrimary>
     {
+        #region Properties
+
+        string CollectionName { get; }
+
+        #endregion Properties
+
         #region Select/Get/Query
 
         TEntity FirstOrDefault(TPrimary id, string projection);
