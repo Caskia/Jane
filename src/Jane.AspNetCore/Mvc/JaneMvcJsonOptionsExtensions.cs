@@ -1,9 +1,9 @@
 ﻿using Jane.Json;
 using Jane.Json.Converters;
-using Jane.Json.Formatters;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json.Converters;
+using Newtonsoft.Json.Serialization;
 
 namespace Jane.AspNetCore.Mvc
 {
@@ -14,7 +14,11 @@ namespace Jane.AspNetCore.Mvc
             services.Configure<MvcJsonOptions>(options =>
             {
                 options.SerializerSettings.Converters.Insert(0, new JaneDateTimeConverter());
-                options.SerializerSettings.ContractResolver = new CustomPropertyNamesContractResolver();
+                var contractResolver = new DefaultContractResolver()
+                {
+                    NamingStrategy = new SnakeCaseNamingStrategy()
+                };
+                options.SerializerSettings.ContractResolver = contractResolver;
                 options.SerializerSettings.Converters.Add(new LongConverter());
                 options.SerializerSettings.Converters.Add(new StringEnumConverter());
             });

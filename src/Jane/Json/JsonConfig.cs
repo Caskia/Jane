@@ -2,6 +2,7 @@
 using Jane.Json.Formatters;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
+using Newtonsoft.Json.Serialization;
 
 namespace Jane.Json
 {
@@ -18,7 +19,11 @@ namespace Jane.Json
                 if (_serializer == null)
                 {
                     _serializer = new JsonSerializer();
-                    _serializer.ContractResolver = new CustomPropertyNamesContractResolver();
+                    var contractResolver = new DefaultContractResolver()
+                    {
+                        NamingStrategy = new SnakeCaseNamingStrategy()
+                    };
+                    _serializer.ContractResolver = contractResolver;
                     _serializer.Converters.Add(new JaneDateTimeConverter());
                     _serializer.Converters.Add(new LongConverter());
                     _serializer.Converters.Add(new StringEnumConverter());
@@ -35,7 +40,11 @@ namespace Jane.Json
                 if (_serializerSettings == null)
                 {
                     _serializerSettings = new JsonSerializerSettings();
-                    _serializerSettings.ContractResolver = new CustomPropertyNamesContractResolver();
+                    var contractResolver = new DefaultContractResolver()
+                    {
+                        NamingStrategy = new SnakeCaseNamingStrategy()
+                    };
+                    _serializerSettings.ContractResolver = contractResolver;
                     _serializerSettings.Converters.Add(new JaneDateTimeConverter());
                     _serializerSettings.Converters.Add(new LongConverter());
                     _serializerSettings.Converters.Add(new StringEnumConverter());
