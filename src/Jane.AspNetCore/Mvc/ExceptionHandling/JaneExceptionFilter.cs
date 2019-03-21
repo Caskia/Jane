@@ -1,14 +1,13 @@
-﻿using Jane.AspNetCore.Mvc.Extensions;
+﻿using Jane.AspNetCore.ExceptionHandling;
+using Jane.AspNetCore.Mvc.Extensions;
 using Jane.AspNetCore.Mvc.Results;
 using Jane.Configurations;
 using Jane.Dependency;
-using Jane.Domain.Entities;
 using Jane.Logging;
 using Jane.Reflection;
 using Jane.Web.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
-using System.Net;
 
 namespace Jane.AspNetCore.Mvc.ExceptionHandling
 {
@@ -16,11 +15,17 @@ namespace Jane.AspNetCore.Mvc.ExceptionHandling
     {
         private readonly IAspNetCoreConfiguration _configuration;
         private readonly IErrorInfoBuilder _errorInfoBuilder;
+        private readonly IHttpExceptionStatusCodeFinder _statusCodeFinder;
 
-        public JaneExceptionFilter(IErrorInfoBuilder errorInfoBuilder, IAspNetCoreConfiguration configuration)
+        public JaneExceptionFilter(
+            IAspNetCoreConfiguration configuration,
+            IErrorInfoBuilder errorInfoBuilder,
+            IHttpExceptionStatusCodeFinder statusCodeFinder
+            )
         {
             _errorInfoBuilder = errorInfoBuilder;
             _configuration = configuration;
+            _statusCodeFinder = statusCodeFinder;
         }
 
         public void OnException(ExceptionContext context)
@@ -47,28 +52,6 @@ namespace Jane.AspNetCore.Mvc.ExceptionHandling
             }
         }
 
-        private int GetStatusCode(ExceptionContext context)
-        {
-            if (context.Exception is JaneAuthorizationException)
-            {
-                return context.HttpContext.User.Identity.IsAuthenticated
-                    ? (int)HttpStatusCode.Forbidden
-                    : (int)HttpStatusCode.Unauthorized;
-            }
-
-            if (context.Exception is JaneValidationException)
-            {
-                return (int)HttpStatusCode.BadRequest;
-            }
-
-            if (context.Exception is EntityNotFoundException)
-            {
-                return (int)HttpStatusCode.NotFound;
-            }
-
-            return (int)HttpStatusCode.InternalServerError;
-        }
-
         private void HandleAndWrapException(ExceptionContext context)
         {
             if (!ActionResultHelper.IsObjectResult(context.ActionDescriptor.GetMethodInfo().ReturnType))
@@ -76,7 +59,7 @@ namespace Jane.AspNetCore.Mvc.ExceptionHandling
                 return;
             }
 
-            context.HttpContext.Response.StatusCode = GetStatusCode(context);
+            context.HttpContext.Response.StatusCode = (int)_statusCodeFinder.GetStatusCode(context.HttpContext, context.Exception);
 
             context.Result = new ObjectResult(
                 new AjaxResponse(

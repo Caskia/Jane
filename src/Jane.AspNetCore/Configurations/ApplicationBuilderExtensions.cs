@@ -1,4 +1,5 @@
-﻿using Jane.AspNetCore.Logging;
+﻿using Jane.AspNetCore.ExceptionHandling;
+using Jane.AspNetCore.Logging;
 using Jane.AspNetCore.Middlewares;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
@@ -16,6 +17,11 @@ namespace Jane.Configurations
         public static void UseJane(this IApplicationBuilder app)
         {
             app.UseJaneLoggerFactory();
+        }
+
+        public static void UseJaneExceptionHandling(this IApplicationBuilder app)
+        {
+            app.UseMiddleware<JaneExceptionHandlingMiddleware>();
         }
 
         public static void UseJaneLoggerFactory(this IApplicationBuilder app)

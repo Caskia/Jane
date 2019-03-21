@@ -1,28 +1,30 @@
 ﻿using Jane.Json;
-using Newtonsoft.Json;
 using System;
 
 namespace Jane.BackgroundJobs
 {
     public class JsonBackgroundJobSerializer : IBackgroundJobSerializer
     {
-        public JsonBackgroundJobSerializer()
+        private readonly IJsonSerializer _jsonSerializer;
+
+        public JsonBackgroundJobSerializer(IJsonSerializer jsonSerializer)
         {
+            _jsonSerializer = jsonSerializer;
         }
 
         public object Deserialize(string value, Type type)
         {
-            return JsonConvert.DeserializeObject(value, type, JsonConfig.DefaultJsonSerializerSettings);
+            return _jsonSerializer.Deserialize(type, value);
         }
 
         public T Deserialize<T>(string value)
         {
-            return JsonConvert.DeserializeObject<T>(value, JsonConfig.DefaultJsonSerializerSettings);
+            return _jsonSerializer.Deserialize<T>(value);
         }
 
         public string Serialize(object obj)
         {
-            return JsonConvert.SerializeObject(obj, JsonConfig.DefaultJsonSerializerSettings);
+            return _jsonSerializer.Serialize(obj);
         }
     }
 }

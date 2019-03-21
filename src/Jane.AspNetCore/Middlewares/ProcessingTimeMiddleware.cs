@@ -22,7 +22,7 @@ namespace Jane.AspNetCore.Middlewares
             {
                 var httpContext = (HttpContext)state;
                 httpContext.Response.Headers.Add("X-Response-Time-Milliseconds", new[] { watch.ElapsedMilliseconds.ToString() });
-                return Task.FromResult(0);
+                return Task.CompletedTask;
             }, context);
 
             await _next(context);

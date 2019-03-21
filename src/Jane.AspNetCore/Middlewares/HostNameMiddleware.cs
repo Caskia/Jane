@@ -19,7 +19,7 @@ namespace Jane.AspNetCore.Middlewares
             {
                 var httpContext = (HttpContext)state;
                 httpContext.Response.Headers.Add("X-Server", new[] { Environment.MachineName });
-                return Task.FromResult(0);
+                return Task.CompletedTask;
             }, context);
 
             await _next(context);
