@@ -399,7 +399,7 @@ namespace Jane.MongoDb.Repositories
 
         public async Task<TEntity> UpdateAsync(TPrimaryKey id, Func<TEntity, Task> updateAction)
         {
-            var entity = Get(id);
+            var entity = await GetAsync(id);
             await updateAction(entity);
             await Collection.ReplaceOneAsync(CreateEqualityExpressionForId(id), entity);
             return entity;
