@@ -97,11 +97,16 @@ namespace Jane.MongoDb.Repositories
 
             if (skip.HasValue)
             {
-                finder = finder.Skip(skip);
+                finder = finder.Skip(skip.Value);
             }
             if (count.HasValue)
             {
-                finder = finder.Limit(count);
+                if (count.Value == 0)
+                {
+                    throw new ArgumentException($"{nameof(count)} can not be zero");
+                }
+
+                finder = finder.Limit(count.Value);
             }
 
             return finder;
