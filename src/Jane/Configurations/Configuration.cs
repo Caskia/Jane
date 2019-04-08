@@ -128,6 +128,7 @@ namespace Jane.Configurations
             SetDefault<ICachingConfiguration, CachingConfiguration>();
             SetDefault<JaneMemoryCache, JaneMemoryCache>(null, DependencyLifeStyle.Transient);
             SetDefault<ICacheManager, JaneMemoryCacheManager>();
+            SetDefault<JaneMemoryCacheManager, JaneMemoryCacheManager>();
             SetDefault<IValidationConfiguration, ValidationConfiguration>();
             SetDefault<MethodInvocationValidator, MethodInvocationValidator>(null, DependencyLifeStyle.Transient);
             SetDefault<IAuthorizationConfiguration, AuthorizationConfiguration>();
