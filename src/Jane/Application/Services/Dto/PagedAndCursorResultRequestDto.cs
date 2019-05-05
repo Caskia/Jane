@@ -12,7 +12,7 @@ namespace Jane.Application.Services.Dto
     {
         private TPrimaryKey? _maxId;
         private TPrimaryKey? _sinceId;
-        private string _sorting;
+        private string _sorting = $"{nameof(IEntity.Id)} desc";
 
         public virtual TPrimaryKey? MaxId
         {
