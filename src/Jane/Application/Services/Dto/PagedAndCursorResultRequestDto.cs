@@ -1,3 +1,4 @@
+using Jane.Entities;
 using System;
 
 namespace Jane.Application.Services.Dto
@@ -9,8 +10,46 @@ namespace Jane.Application.Services.Dto
     public class PagedAndCursorResultRequestDto<TPrimaryKey> : PagedResultRequestDto, IPagedAndCursorResultRequest<TPrimaryKey>
         where TPrimaryKey : struct
     {
-        public virtual TPrimaryKey? MaxId { get; set; }
+        private TPrimaryKey? _maxId;
+        private TPrimaryKey? _sinceId;
+        private string _sorting;
 
-        public virtual TPrimaryKey? SinceId { get; set; }
+        public virtual TPrimaryKey? MaxId
+        {
+            get
+            {
+                return _maxId;
+            }
+            set
+            {
+                _maxId = value;
+                _sorting = $"{nameof(IEntity.Id)} asc";
+            }
+        }
+
+        public virtual TPrimaryKey? SinceId
+        {
+            get
+            {
+                return _sinceId;
+            }
+            set
+            {
+                _sinceId = value;
+                _sorting = $"{nameof(IEntity.Id)} desc";
+            }
+        }
+
+        public virtual string Sorting
+        {
+            get
+            {
+                return _sorting;
+            }
+            set
+            {
+                _sorting = value;
+            }
+        }
     }
 }
