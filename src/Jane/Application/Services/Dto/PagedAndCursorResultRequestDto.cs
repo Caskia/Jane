@@ -23,7 +23,7 @@ namespace Jane.Application.Services.Dto
             set
             {
                 _maxId = value;
-                _sorting = $"{nameof(IEntity.Id)} asc";
+                _sorting = $"{nameof(IEntity.Id)} desc";
             }
         }
 
@@ -36,7 +36,7 @@ namespace Jane.Application.Services.Dto
             set
             {
                 _sinceId = value;
-                _sorting = $"{nameof(IEntity.Id)} desc";
+                _sorting = $"{nameof(IEntity.Id)} asc";
             }
         }
 
