@@ -1,5 +1,4 @@
 using System;
-using System.ComponentModel.DataAnnotations;
 
 namespace Jane.Application.Services.Dto
 {
@@ -7,12 +6,11 @@ namespace Jane.Application.Services.Dto
     /// Simply implements <see cref="IPagedAndCursorResultRequest"/>.
     /// </summary>
     [Serializable]
-    public class PagedAndCursorResultRequestDto : PagedResultRequestDto, IPagedAndCursorResultRequest
+    public class PagedAndCursorResultRequestDto<TPrimaryKey> : PagedResultRequestDto, IPagedAndCursorResultRequest<TPrimaryKey>
+        where TPrimaryKey : struct
     {
-        [Range(1, int.MaxValue)]
-        public virtual int? MaxId { get; set; }
+        public virtual TPrimaryKey? MaxId { get; set; }
 
-        [Range(1, int.MaxValue)]
-        public virtual int? SinceId { get; set; }
+        public virtual TPrimaryKey? SinceId { get; set; }
     }
 }
