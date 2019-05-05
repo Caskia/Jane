@@ -7,7 +7,7 @@ namespace Jane.Application.Services.Dto
     /// Simply implements <see cref="IPagedAndCursorResultRequest"/>.
     /// </summary>
     [Serializable]
-    public class PagedAndCursorResultRequestDto<TPrimaryKey> : PagedResultRequestDto, IPagedAndCursorResultRequest<TPrimaryKey>
+    public class PagedAndCursorSortedResultRequestDto<TPrimaryKey> : PagedResultRequestDto, IPagedAndCursorSortedResultRequest<TPrimaryKey>
         where TPrimaryKey : struct
     {
         private TPrimaryKey? _maxId;

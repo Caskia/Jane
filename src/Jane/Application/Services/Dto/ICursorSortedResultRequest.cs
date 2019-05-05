@@ -3,7 +3,7 @@ namespace Jane.Application.Services.Dto
     /// <summary>
     /// This interface is defined to standardize to request a limited result.
     /// </summary>
-    public interface ICursorResultRequest<TPrimaryKey>
+    public interface ICursorSortedResultRequest<TPrimaryKey> : ISortedResultRequest
         where TPrimaryKey : struct
     {
         /// <summary>
