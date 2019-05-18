@@ -50,19 +50,11 @@ namespace Jane.AspNetCore.Authentication
                      options.Events = new JwtBearerEvents
                      {
                          OnMessageReceived = QueryStringTokenResolver,
-                         OnAuthenticationFailed = context =>
-                         {
-                             LogHelper.Logger.Warn($"OnAuthenticationFailed, context: {context.Exception.ToString()}");
-                             return Task.CompletedTask;
-                         },
-                         OnTokenValidated = context =>
-                         {
-                             LogHelper.Logger.Warn($"OnTokenValidated, result: {JsonConvert.SerializeObject(context.Result)}");
-
-                             LogHelper.Logger.Warn($"claims count {context.HttpContext.User.Claims.Count()}");
-
-                             return Task.CompletedTask;
-                         }
+                         //OnAuthenticationFailed = context =>
+                         //{
+                         //    LogHelper.Logger.Error($"OnAuthenticationFailed, context: {context.Exception.ToString()}");
+                         //    return Task.CompletedTask;
+                         //}
                      };
                  });
         }
