@@ -1,10 +1,12 @@
 ﻿using Jane.AspNetCore.Authentication.JwtBearer;
 using Jane.Extensions;
+using Jane.Logging;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
+using Newtonsoft.Json;
 using System;
 using System.IO;
 using System.Linq;
@@ -47,7 +49,20 @@ namespace Jane.AspNetCore.Authentication
 
                      options.Events = new JwtBearerEvents
                      {
-                         OnMessageReceived = QueryStringTokenResolver
+                         OnMessageReceived = QueryStringTokenResolver,
+                         OnAuthenticationFailed = context =>
+                         {
+                             LogHelper.Logger.Warn($"OnAuthenticationFailed, result: {JsonConvert.SerializeObject(context.Result)}");
+                             return Task.CompletedTask;
+                         },
+                         OnTokenValidated = context =>
+                         {
+                             LogHelper.Logger.Warn($"OnTokenValidated, result: {JsonConvert.SerializeObject(context.Result)}");
+
+                             LogHelper.Logger.Warn($"claims count {context.HttpContext.User.Claims.Count()}");
+
+                             return Task.CompletedTask;
+                         }
                      };
                  });
         }
