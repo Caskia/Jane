@@ -1,12 +1,10 @@
 ﻿using Jane.AspNetCore.Authentication.JwtBearer;
 using Jane.Extensions;
-using Jane.Logging;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
-using Newtonsoft.Json;
 using System;
 using System.IO;
 using System.Linq;
