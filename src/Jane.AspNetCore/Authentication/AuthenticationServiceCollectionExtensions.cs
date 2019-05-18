@@ -52,7 +52,7 @@ namespace Jane.AspNetCore.Authentication
                          OnMessageReceived = QueryStringTokenResolver,
                          OnAuthenticationFailed = context =>
                          {
-                             LogHelper.Logger.Warn($"OnAuthenticationFailed, result: {JsonConvert.SerializeObject(context.Result)}");
+                             LogHelper.Logger.Warn($"OnAuthenticationFailed, context: {JsonConvert.SerializeObject(context)}");
                              return Task.CompletedTask;
                          },
                          OnTokenValidated = context =>
