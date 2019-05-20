@@ -17,30 +17,41 @@ namespace Jane.Limits
 
         public Task PerDayLimitAsync(string key, int limit)
         {
-            key += ":Day";
+            key += $":Day:{Clock.Now.Date}";
 
-            return TimeBasedLimitAsync(key, limit, new TimeSpan(24, 0, 0));
+            return CountBasedLimitAsync(key, limit, new TimeSpan(24, 0, 0));
         }
 
         public Task PerHourLimitAsync(string key, int limit)
         {
-            key += ":Hour";
+            key += $":Hour:{Clock.Now.Hour}";
 
-            return TimeBasedLimitAsync(key, limit, new TimeSpan(1, 0, 0));
+            return CountBasedLimitAsync(key, limit, new TimeSpan(1, 0, 0));
         }
 
         public Task PerMinuteLimitAsync(string key, int limit)
         {
-            key += ":Minute";
+            key += $":Minute:{Clock.Now.Minute}";
 
-            return TimeBasedLimitAsync(key, limit, new TimeSpan(0, 1, 0));
+            return CountBasedLimitAsync(key, limit, new TimeSpan(0, 1, 0));
         }
 
         public Task PerSecondLimitAsync(string key, int limit)
         {
-            key += ":Second";
+            key += $":Second:{Clock.Now.Second}";
 
-            return TimeBasedLimitAsync(key, limit, new TimeSpan(0, 0, 1));
+            return CountBasedLimitAsync(key, limit, new TimeSpan(0, 0, 1));
+        }
+
+        private async Task CountBasedLimitAsync(string key, int limit, TimeSpan timeSpan)
+        {
+            var rqs = await _database.StringIncrementAsync(key, 1);
+            if (rqs > limit)
+            {
+                throw new RedisLimitException("Rate limit exceeded.");
+            }
+
+            await _database.KeyExpireAsync(key, timeSpan);
         }
 
         private async Task TimeBasedLimitAsync(string key, int limit, TimeSpan timeSpan)
