@@ -169,6 +169,11 @@ namespace Jane.Web.Models
                 return new ErrorInfo(authorizationException.Message);
             }
 
+            if (exception is JaneRateLimitException)
+            {
+                return new ErrorInfo(exception.Message);
+            }
+
             return new ErrorInfo("An internal error occurred during your request!");
         }
 

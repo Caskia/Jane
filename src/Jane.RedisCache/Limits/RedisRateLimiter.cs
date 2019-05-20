@@ -29,6 +29,27 @@ namespace Jane.Limits
             return CountBasedLimitAsync(key, limit, new TimeSpan(1, 0, 0));
         }
 
+        public Task PeriodLimitAsync(LimitPeriod period, string key, int limit)
+        {
+            switch (period)
+            {
+                case LimitPeriod.Second:
+                    return PerSecondLimitAsync(key, limit);
+
+                case LimitPeriod.Minute:
+                    return PerMinuteLimitAsync(key, limit);
+
+                case LimitPeriod.Hour:
+                    return PerHourLimitAsync(key, limit);
+
+                case LimitPeriod.Day:
+                    return PerDayLimitAsync(key, limit);
+
+                default:
+                    throw new NotSupportedException($"{period} not support.");
+            }
+        }
+
         public Task PerMinuteLimitAsync(string key, int limit)
         {
             key += $":Minute:{Clock.Now.Minute}";
@@ -53,7 +74,7 @@ namespace Jane.Limits
             var rqs = await _database.StringIncrementAsync(key, 1);
             if (rqs > limit)
             {
-                throw new RedisLimitException("Rate limit exceeded.");
+                throw new JaneRateLimitException("Rate limit exceeded.");
             }
 
             await _database.KeyExpireAsync(key, timeSpan);

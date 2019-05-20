@@ -8,6 +8,8 @@ namespace Jane.Limits
 
         Task PerHourLimitAsync(string key, int limit);
 
+        Task PeriodLimitAsync(LimitPeriod period, string key, int limit);
+
         Task PerMinuteLimitAsync(string key, int limit);
 
         Task PerSecondLimitAsync(string key, int limit);

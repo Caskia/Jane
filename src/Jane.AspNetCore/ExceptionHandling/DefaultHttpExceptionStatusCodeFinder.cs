@@ -26,6 +26,11 @@ namespace Jane.AspNetCore.ExceptionHandling
                 return HttpStatusCode.NotFound;
             }
 
+            if (exception is JaneRateLimitException)
+            {
+                return HttpStatusCode.TooManyRequests;
+            }
+
             return HttpStatusCode.InternalServerError;
         }
     }
