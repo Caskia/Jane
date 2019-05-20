@@ -48,7 +48,7 @@ namespace Jane.Limits
             var rqs = await _database.ListLengthAsync(key);
             if (rqs <= limit)
             {
-                await _database.ListRightPushAsync(key, BitConverter.GetBytes(Clock.Now.Ticks));
+                await _database.ListLeftPushAsync(key, BitConverter.GetBytes(Clock.Now.Ticks));
             }
             else
             {
@@ -59,7 +59,7 @@ namespace Jane.Limits
                 }
                 else
                 {
-                    await _database.ListRightPushAsync(key, BitConverter.GetBytes(Clock.Now.Ticks));
+                    await _database.ListLeftPushAsync(key, BitConverter.GetBytes(Clock.Now.Ticks));
                 }
             }
 
