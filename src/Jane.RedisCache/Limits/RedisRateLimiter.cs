@@ -46,7 +46,7 @@ namespace Jane.Limits
         private async Task TimeBasedLimitAsync(string key, int limit, TimeSpan timeSpan)
         {
             var rqs = await _database.ListLengthAsync(key);
-            if (rqs <= limit)
+            if (rqs < limit)
             {
                 await _database.ListLeftPushAsync(key, BitConverter.GetBytes(Clock.Now.Ticks));
             }
