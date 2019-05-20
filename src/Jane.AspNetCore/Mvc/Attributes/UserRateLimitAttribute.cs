@@ -21,12 +21,12 @@ namespace Jane.AspNetCore.Mvc.Attributes
             _alias = alias;
         }
 
-        public override Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
+        public override async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
         {
             var rateLimiter = context.HttpContext.RequestServices.GetService(typeof(IRateLimiter)) as IRateLimiter;
-            rateLimiter.PeriodLimitAsync(_period, $"{_alias}:{ObjectContainer.Resolve<IJaneSession>().UserId}", _limit);
+            await rateLimiter.PeriodLimitAsync(_period, $"{_alias}:{ObjectContainer.Resolve<IJaneSession>().UserId}", _limit);
 
-            return base.OnActionExecutionAsync(context, next);
+            await next();
         }
     }
 }
