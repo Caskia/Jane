@@ -45,6 +45,11 @@ namespace Jane.Limits
 
         private async Task TimeBasedLimitAsync(string key, int limit, TimeSpan timeSpan)
         {
+            if (limit < 1)
+            {
+                throw new ArgumentException("limit need greater or equal than 1.", nameof(limit));
+            }
+
             var rqs = await _database.ListLengthAsync(key);
             if (rqs < limit)
             {
@@ -63,7 +68,7 @@ namespace Jane.Limits
                 }
             }
 
-            await _database.ListTrimAsync(key, 0, limit);
+            await _database.ListTrimAsync(key, 0, limit - 1);
         }
     }
 }
