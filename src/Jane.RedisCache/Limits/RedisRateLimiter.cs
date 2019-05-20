@@ -45,6 +45,11 @@ namespace Jane.Limits
 
         private async Task CountBasedLimitAsync(string key, int limit, TimeSpan timeSpan)
         {
+            if (limit < 1)
+            {
+                throw new ArgumentException("limit need greater or equal than 1.", nameof(limit));
+            }
+
             var rqs = await _database.StringIncrementAsync(key, 1);
             if (rqs > limit)
             {
@@ -52,34 +57,6 @@ namespace Jane.Limits
             }
 
             await _database.KeyExpireAsync(key, timeSpan);
-        }
-
-        private async Task TimeBasedLimitAsync(string key, int limit, TimeSpan timeSpan)
-        {
-            if (limit < 1)
-            {
-                throw new ArgumentException("limit need greater or equal than 1.", nameof(limit));
-            }
-
-            var rqs = await _database.ListLengthAsync(key);
-            if (rqs < limit)
-            {
-                await _database.ListLeftPushAsync(key, BitConverter.GetBytes(Clock.Now.Ticks));
-            }
-            else
-            {
-                var time = new DateTime(BitConverter.ToInt64(await _database.ListGetByIndexAsync(key, -1), 0), DateTimeKind.Utc);
-                if (Clock.Now - time < timeSpan)
-                {
-                    throw new RedisLimitException("Rate limit exceeded.");
-                }
-                else
-                {
-                    await _database.ListLeftPushAsync(key, BitConverter.GetBytes(Clock.Now.Ticks));
-                }
-            }
-
-            await _database.ListTrimAsync(key, 0, limit - 1);
         }
     }
 }
