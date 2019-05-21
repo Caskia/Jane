@@ -119,7 +119,7 @@ namespace Jane.ENode.AspNetCore.Mvc.Controllers
                     }
                     else if (result.Data.ResultType == typeof(string).FullName && result.Data.Result.StartsWith(aggregateExceptionPrefix) && result.Data.Result.EndsWith(aggregateExceptionSuffix))
                     {
-                        var exceptionResult = result.Data.Result.Substring(aggregateExceptionPrefix.Length - 1, result.Data.Result.Length - aggregateExceptionPrefix.Length - aggregateExceptionSuffix.Length);
+                        var exceptionResult = result.Data.Result.Substring(aggregateExceptionPrefix.Length, result.Data.Result.Length - aggregateExceptionPrefix.Length - aggregateExceptionSuffix.Length);
                         var exceptionWrapper = SerializableExceptionWrapper.Deserialize(exceptionResult);
                         throw new UserFriendlyException(exceptionWrapper.Code, exceptionWrapper.Message);
                     }
