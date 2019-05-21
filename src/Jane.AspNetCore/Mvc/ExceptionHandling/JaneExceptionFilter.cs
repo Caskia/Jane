@@ -60,6 +60,10 @@ namespace Jane.AspNetCore.Mvc.ExceptionHandling
             }
 
             context.HttpContext.Response.StatusCode = (int)_statusCodeFinder.GetStatusCode(context.HttpContext, context.Exception);
+            foreach (var header in _errorInfoBuilder.BuildHeaders(context.Exception))
+            {
+                context.HttpContext.Response.Headers.Add(header.Key, header.Value);
+            }
 
             context.Result = new ObjectResult(
                 new AjaxResponse(
