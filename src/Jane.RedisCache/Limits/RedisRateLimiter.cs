@@ -17,7 +17,7 @@ namespace Jane.Limits
 
         public Task PerDayLimitAsync(string key, int limit)
         {
-            key += $":Day:{Clock.Now.Date}";
+            key += $":Day:{Clock.Now.Day}";
 
             return CountBasedLimitAsync(key, limit, new TimeSpan(24, 0, 0));
         }
