@@ -98,13 +98,30 @@ namespace Jane.Limits
 
         private DateTime GetChinaLocalTime()
         {
-            var nowUtc = Clock.Now;
-            return TimeZoneInfo.ConvertTimeBySystemTimeZoneId(nowUtc, "China Standard Time");
+            return Clock.Now.AddHours(8);
         }
 
         private TimeSpan GetChinaOffset()
         {
-            return TimeZoneInfo.FindSystemTimeZoneById("China Standard Time").BaseUtcOffset;
+            return new TimeSpan(0, 8, 0);
         }
+
+        //private DateTime GetChinaLocalTime()
+        //{
+        //    var nowUtc = Clock.Now;
+        //    try
+        //    {
+        //        return TimeZoneInfo.ConvertTimeBySystemTimeZoneId(nowUtc, "Asia/Shanghai");
+        //    }
+        //    catch (TimeZoneNotFoundException)
+        //    {
+        //        return TimeZoneInfo.ConvertTimeBySystemTimeZoneId(nowUtc, "China Standard Time");
+        //    }
+        //}
+
+        //private TimeSpan GetChinaOffset()
+        //{
+        //    return TimeZoneInfo.FindSystemTimeZoneById("China Standard Time").BaseUtcOffset;
+        //}
     }
 }
