@@ -46,6 +46,10 @@ namespace Jane.AspNetCore.ExceptionHandling
 
             httpContext.Response.Clear();
             httpContext.Response.StatusCode = (int)statusCodeFinder.GetStatusCode(httpContext, exception);
+            foreach (var header in errorInfoBuilder.BuildHeaders(exception))
+            {
+                httpContext.Response.Headers.Add(header.Key, header.Value);
+            }
 
             await httpContext.Response.WriteAsync(
                 jsonSerializer.Serialize(

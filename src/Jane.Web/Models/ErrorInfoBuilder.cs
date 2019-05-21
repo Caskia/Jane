@@ -1,5 +1,7 @@
 ﻿using Jane.Configurations;
+using Microsoft.Extensions.Primitives;
 using System;
+using System.Collections.Generic;
 
 namespace Jane.Web.Models
 {
@@ -28,6 +30,11 @@ namespace Jane.Web.Models
         public ErrorInfo BuildForException(Exception exception)
         {
             return Converter.Convert(exception);
+        }
+
+        public Dictionary<string, StringValues> BuildHeaders(Exception exception)
+        {
+            return Converter.ConvertToHeaders(exception);
         }
     }
 }

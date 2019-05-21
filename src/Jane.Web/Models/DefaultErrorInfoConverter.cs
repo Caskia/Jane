@@ -1,6 +1,7 @@
 ﻿using Jane.Configurations;
 using Jane.Domain.Entities;
 using Jane.Extensions;
+using Microsoft.Extensions.Primitives;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -40,6 +41,21 @@ namespace Jane.Web.Models
             }
 
             return errorInfo;
+        }
+
+        public Dictionary<string, StringValues> ConvertToHeaders(Exception exception)
+        {
+            var headers = new Dictionary<string, StringValues>();
+
+            if (exception is JaneRateLimitException)
+            {
+                var rateLimitException = exception as JaneRateLimitException;
+
+                headers.Add("X-RateLimit-Limit", rateLimitException.Limit.ToString());
+                headers.Add("X-RateLimit-Reset", rateLimitException.Reset.ToString());
+            }
+
+            return headers;
         }
 
         private void AddExceptionToDetails(Exception exception, StringBuilder detailBuilder)

@@ -17,16 +17,24 @@ namespace Jane.Limits
 
         public Task PerDayLimitAsync(string key, int limit)
         {
-            key += $":Day:{Clock.Now.Day}";
+            var now = GetChinaLocalTime();
+            var temp = now.AddDays(1);
+            var resetTime = new DateTime(temp.Year, temp.Month, temp.Day);
 
-            return CountBasedLimitAsync(key, limit, new TimeSpan(24, 0, 0));
+            key += $":Day:{now.Day}";
+
+            return CountBasedLimitAsync(key, limit, new TimeSpan(24, 0, 0), resetTime);
         }
 
         public Task PerHourLimitAsync(string key, int limit)
         {
+            var now = GetChinaLocalTime();
+            var temp = now.AddHours(1);
+            var resetTime = new DateTime(temp.Year, temp.Month, temp.Day, temp.Hour, 0, 0);
+
             key += $":Hour:{Clock.Now.Hour}";
 
-            return CountBasedLimitAsync(key, limit, new TimeSpan(1, 0, 0));
+            return CountBasedLimitAsync(key, limit, new TimeSpan(1, 0, 0), resetTime);
         }
 
         public Task PeriodLimitAsync(LimitPeriod period, string key, int limit)
@@ -52,19 +60,27 @@ namespace Jane.Limits
 
         public Task PerMinuteLimitAsync(string key, int limit)
         {
+            var now = GetChinaLocalTime();
+            var temp = now.AddMinutes(1);
+            var resetTime = new DateTime(temp.Year, temp.Month, temp.Day, temp.Hour, temp.Minute, 0);
+
             key += $":Minute:{Clock.Now.Minute}";
 
-            return CountBasedLimitAsync(key, limit, new TimeSpan(0, 1, 0));
+            return CountBasedLimitAsync(key, limit, new TimeSpan(0, 1, 0), resetTime);
         }
 
         public Task PerSecondLimitAsync(string key, int limit)
         {
+            var now = GetChinaLocalTime();
+            var temp = now.AddSeconds(1);
+            var resetTime = new DateTime(temp.Year, temp.Month, temp.Day, temp.Hour, temp.Minute, temp.Second);
+
             key += $":Second:{Clock.Now.Second}";
 
-            return CountBasedLimitAsync(key, limit, new TimeSpan(0, 0, 1));
+            return CountBasedLimitAsync(key, limit, new TimeSpan(0, 0, 1), resetTime);
         }
 
-        private async Task CountBasedLimitAsync(string key, int limit, TimeSpan timeSpan)
+        private async Task CountBasedLimitAsync(string key, int limit, TimeSpan timeSpan, DateTime resetTime)
         {
             if (limit < 1)
             {
@@ -74,10 +90,16 @@ namespace Jane.Limits
             var rqs = await _database.StringIncrementAsync(key, 1);
             if (rqs > limit)
             {
-                throw new JaneRateLimitException("Rate limit exceeded.");
+                throw new JaneRateLimitException(limit, resetTime, "Rate limit exceeded.");
             }
 
             await _database.KeyExpireAsync(key, timeSpan);
+        }
+
+        private DateTime GetChinaLocalTime()
+        {
+            var nowUtc = Clock.Now;
+            return TimeZoneInfo.ConvertTimeBySystemTimeZoneId(nowUtc, "China Standard Time");
         }
     }
 }

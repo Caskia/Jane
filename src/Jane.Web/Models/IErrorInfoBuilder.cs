@@ -1,5 +1,7 @@
 ﻿using Jane.Dependency;
+using Microsoft.Extensions.Primitives;
 using System;
+using System.Collections.Generic;
 
 namespace Jane.Web.Models
 {
@@ -20,5 +22,12 @@ namespace Jane.Web.Models
         /// <param name="exception">The exception object</param>
         /// <returns>Created <see cref="ErrorInfo"/> object</returns>
         ErrorInfo BuildForException(Exception exception);
+
+        /// <summary>
+        /// create exception headers
+        /// </summary>
+        /// <param name="exception">The exception object</param>
+        /// <returns>Created headers</returns>
+        Dictionary<string, StringValues> BuildHeaders(Exception exception);
     }
 }

@@ -1,9 +1,11 @@
-﻿using System;
+﻿using Microsoft.Extensions.Primitives;
+using System;
+using System.Collections.Generic;
 
 namespace Jane.Web.Models
 {
     /// <summary>
-    /// This interface can be implemented to convert an <see cref="Exception"/> object to an <see cref="ErrorInfo"/> object. 
+    /// This interface can be implemented to convert an <see cref="Exception"/> object to an <see cref="ErrorInfo"/> object.
     /// Implements Chain Of Responsibility pattern.
     /// </summary>
     public interface IExceptionToErrorInfoConverter
@@ -19,5 +21,12 @@ namespace Jane.Web.Models
         /// <param name="exception">The exception</param>
         /// <returns>Error info or null</returns>
         ErrorInfo Convert(Exception exception);
+
+        /// <summary>
+        /// Convert to headers
+        /// </summary>
+        /// <param name="exception">The exception</param>
+        /// <returns>error headers</returns>
+        Dictionary<string, StringValues> ConvertToHeaders(Exception exception);
     }
 }
