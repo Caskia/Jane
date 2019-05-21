@@ -110,9 +110,17 @@ namespace Jane.ENode.AspNetCore.Mvc.Controllers
                 case CommandStatus.None:
                 case CommandStatus.Failed:
                 default:
+                    var aggregateExceptionPrefix = "One or more errors occurred. (";
+                    var aggregateExceptionSuffix = ")";
                     if (result.Data.ResultType == typeof(JaneSerializableException).Name)
                     {
                         var exceptionWrapper = SerializableExceptionWrapper.Deserialize(result.Data.Result);
+                        throw new UserFriendlyException(exceptionWrapper.Code, exceptionWrapper.Message);
+                    }
+                    else if (result.Data.ResultType == typeof(string).Name && result.Data.Result.StartsWith(aggregateExceptionPrefix) && result.Data.Result.EndsWith(aggregateExceptionSuffix))
+                    {
+                        var exceptionResult = result.Data.Result.Substring(aggregateExceptionPrefix.Length - 1, result.Data.Result.Length - aggregateExceptionPrefix.Length - 1);
+                        var exceptionWrapper = SerializableExceptionWrapper.Deserialize(exceptionResult);
                         throw new UserFriendlyException(exceptionWrapper.Code, exceptionWrapper.Message);
                     }
                     else
