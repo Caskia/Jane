@@ -2,6 +2,7 @@
 using Jane.Domain.Entities;
 using Jane.Extensions;
 using Microsoft.Extensions.Primitives;
+using Microsoft.Net.Http.Headers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -51,8 +52,8 @@ namespace Jane.Web.Models
             {
                 var rateLimitException = exception as JaneRateLimitException;
 
-                headers.Add("X-RateLimit-Limit", rateLimitException.Limit.ToString());
-                headers.Add("X-RateLimit-Reset", rateLimitException.Reset.ToString());
+                headers.Add("X-Rate-Limit-Limit", rateLimitException.Limit.ToString());
+                headers.Add("X-Rate-Limit-Reset", HeaderUtilities.FormatDate(rateLimitException.Reset));
             }
 
             return headers;

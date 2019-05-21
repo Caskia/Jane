@@ -9,20 +9,20 @@ namespace Jane
         {
         }
 
-        public JaneRateLimitException(int limit, DateTime reset)
+        public JaneRateLimitException(int limit, DateTimeOffset reset)
         {
             Limit = limit;
             Reset = reset;
         }
 
-        public JaneRateLimitException(int limit, DateTime reset, string message)
+        public JaneRateLimitException(int limit, DateTimeOffset reset, string message)
             : base(message)
         {
             Limit = limit;
             Reset = reset;
         }
 
-        public JaneRateLimitException(int limit, DateTime reset, string message, Exception innerException)
+        public JaneRateLimitException(int limit, DateTimeOffset reset, string message, Exception innerException)
             : base(message, innerException)
         {
             Limit = limit;
@@ -31,6 +31,6 @@ namespace Jane
 
         public int Limit { get; set; }
 
-        public DateTime Reset { get; set; }
+        public DateTimeOffset Reset { get; set; }
     }
 }

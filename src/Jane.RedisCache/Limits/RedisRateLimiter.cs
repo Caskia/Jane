@@ -19,7 +19,7 @@ namespace Jane.Limits
         {
             var now = GetChinaLocalTime();
             var temp = now.AddDays(1);
-            var resetTime = new DateTime(temp.Year, temp.Month, temp.Day);
+            var resetTime = new DateTimeOffset(temp.Year, temp.Month, temp.Day, 0, 0, 0, GetChinaOffset());
 
             key += $":Day:{now.Day}";
 
@@ -30,7 +30,7 @@ namespace Jane.Limits
         {
             var now = GetChinaLocalTime();
             var temp = now.AddHours(1);
-            var resetTime = new DateTime(temp.Year, temp.Month, temp.Day, temp.Hour, 0, 0);
+            var resetTime = new DateTimeOffset(temp.Year, temp.Month, temp.Day, temp.Hour, 0, 0, GetChinaOffset());
 
             key += $":Hour:{Clock.Now.Hour}";
 
@@ -62,7 +62,7 @@ namespace Jane.Limits
         {
             var now = GetChinaLocalTime();
             var temp = now.AddMinutes(1);
-            var resetTime = new DateTime(temp.Year, temp.Month, temp.Day, temp.Hour, temp.Minute, 0);
+            var resetTime = new DateTimeOffset(temp.Year, temp.Month, temp.Day, temp.Hour, temp.Minute, 0, GetChinaOffset());
 
             key += $":Minute:{Clock.Now.Minute}";
 
@@ -73,14 +73,14 @@ namespace Jane.Limits
         {
             var now = GetChinaLocalTime();
             var temp = now.AddSeconds(1);
-            var resetTime = new DateTime(temp.Year, temp.Month, temp.Day, temp.Hour, temp.Minute, temp.Second);
+            var resetTime = new DateTimeOffset(temp.Year, temp.Month, temp.Day, temp.Hour, temp.Minute, temp.Second, GetChinaOffset());
 
             key += $":Second:{Clock.Now.Second}";
 
             return CountBasedLimitAsync(key, limit, new TimeSpan(0, 0, 1), resetTime);
         }
 
-        private async Task CountBasedLimitAsync(string key, int limit, TimeSpan timeSpan, DateTime resetTime)
+        private async Task CountBasedLimitAsync(string key, int limit, TimeSpan timeSpan, DateTimeOffset resetTime)
         {
             if (limit < 1)
             {
@@ -100,6 +100,11 @@ namespace Jane.Limits
         {
             var nowUtc = Clock.Now;
             return TimeZoneInfo.ConvertTimeBySystemTimeZoneId(nowUtc, "China Standard Time");
+        }
+
+        private TimeSpan GetChinaOffset()
+        {
+            return TimeZoneInfo.FindSystemTimeZoneById("China Standard Time").BaseUtcOffset;
         }
     }
 }
