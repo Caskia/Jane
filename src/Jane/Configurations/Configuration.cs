@@ -9,6 +9,7 @@ using Jane.Events.Bus.Handlers;
 using Jane.Extensions;
 using Jane.Json;
 using Jane.Json.Newtonsoft;
+using Jane.Limits;
 using Jane.Logging;
 using Jane.MessageBus;
 using Jane.PushNotifications;
@@ -129,6 +130,7 @@ namespace Jane.Configurations
             SetDefault<JaneMemoryCache, JaneMemoryCache>(null, DependencyLifeStyle.Transient);
             SetDefault<ICacheManager, JaneMemoryCacheManager>();
             SetDefault<JaneMemoryCacheManager, JaneMemoryCacheManager>();
+            SetDefault<IRateLimiter, MemoryRateLimiter>();
             SetDefault<IValidationConfiguration, ValidationConfiguration>();
             SetDefault<MethodInvocationValidator, MethodInvocationValidator>(null, DependencyLifeStyle.Transient);
             SetDefault<IAuthorizationConfiguration, AuthorizationConfiguration>();
