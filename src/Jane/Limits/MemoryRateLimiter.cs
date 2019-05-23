@@ -108,7 +108,7 @@ namespace Jane.Limits
 
         private TimeSpan GetChinaOffset()
         {
-            return new TimeSpan(0, 8, 0);
+            return new TimeSpan(8, 0, 0);
         }
     }
 }
