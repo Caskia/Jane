@@ -43,10 +43,8 @@ namespace Jane.HealthChecks
                     // Or to a replica set
                     return client.Cluster.Description.State ==
                            ClusterState.Connected
-                        ? HealthCheckResult.Healthy(
-                            $"{context.Registration.Name}: ClusterState.Connected")
-                        : HealthCheckResult.Unhealthy(
-                            $"{context.Registration.Name}: ClusterState.Disconnected");
+                        ? HealthCheckResult.Healthy($"{context.Registration.Name}: MongoDb.Connected")
+                        : HealthCheckResult.Unhealthy($"{context.Registration.Name}: MongoDb.Disconnected");
                 }
 
                 // Ping came back bad/not ok so return them in a failed check
