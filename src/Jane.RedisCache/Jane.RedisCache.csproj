@@ -12,6 +12,7 @@
     <PackageTags>aspnetcore;framework;dotnet;c-sharp;util;ioc;logger</PackageTags>
     <Authors>Caskia</Authors>
     <Company>Caskia</Company>
+    <LangVersion>latest</LangVersion>
   </PropertyGroup>
 
   <ItemGroup>
