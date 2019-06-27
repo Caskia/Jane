@@ -295,6 +295,11 @@ namespace Jane.Extensions
             return str.Split(Environment.NewLine, options);
         }
 
+        public static string ToBeNormalized(this string str)
+        {
+            return str.ToUpperInvariant();
+        }
+
         /// <summary>
         /// Converts PascalCase string to camelCase string.
         /// </summary>
