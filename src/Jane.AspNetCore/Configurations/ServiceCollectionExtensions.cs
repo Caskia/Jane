@@ -10,12 +10,11 @@ namespace Jane.Configurations
     {
         public static IServiceProvider AddJane(this IServiceCollection services)
         {
+            ObjectContainer.Build(services);
+
             if (ObjectContainer.Current is AutofacObjectContainer)
             {
                 var objectContainer = ObjectContainer.Current as AutofacObjectContainer;
-
-                objectContainer.ContainerBuilder.Populate(services);
-                objectContainer.Build();
 
                 return new AutofacServiceProvider(objectContainer.Container);
             }

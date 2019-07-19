@@ -1,8 +1,9 @@
-﻿using System;
-using Autofac;
-using Autofac.Builder;
+﻿using Autofac;
 using Autofac.Extras.DynamicProxy;
+using Autofac.Extensions.DependencyInjection;
 using Jane.Dependency;
+using Microsoft.Extensions.DependencyInjection;
+using System;
 
 namespace Jane.Autofac
 {
@@ -48,8 +49,13 @@ namespace Jane.Autofac
 
         /// <summary>Build the container.
         /// </summary>
-        public void Build()
+        public void Build(IServiceCollection services = null)
         {
+            //Integrate with microsoft di.
+            if (services != null)
+            {
+                _containerBuilder.Populate(services);
+            }
             _container = _containerBuilder.Build();
         }
 

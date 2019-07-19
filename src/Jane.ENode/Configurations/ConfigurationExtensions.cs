@@ -7,6 +7,8 @@ using Jane.Dependency;
 using Jane.ENode;
 using Jane.Extensions;
 using Jane.Json.Converters;
+using Microsoft.Extensions.DependencyInjection;
+using Autofac.Extensions.DependencyInjection;
 using Newtonsoft.Json.Converters;
 using System;
 using ECommonConfiguration = ECommon.Configurations.Configuration;
@@ -16,26 +18,34 @@ namespace Jane.Configurations
 {
     public static class ConfigurationExtensions
     {
-        public static ECommonConfiguration BuildECommonContainer(this ECommonConfiguration configuration)
+        public static ECommonConfiguration BuildECommonContainer(this ECommonConfiguration configuration, IServiceCollection services = null)
         {
-            ECommon.Components.ObjectContainer.Build();
-
             if (ObjectContainer.Current is AutofacObjectContainer && ECommon.Components.ObjectContainer.Current is ECommon.Autofac.AutofacObjectContainer)
             {
                 var ecommonObjectContainer = ECommon.Components.ObjectContainer.Current as ECommon.Autofac.AutofacObjectContainer;
-                ObjectContainer.SetContainer(new AutofacObjectContainer(ecommonObjectContainer.ContainerBuilder));
+                //integrate with microsoft di.
+                if (services != null)
+                {
+                    ecommonObjectContainer.ContainerBuilder.Populate(services);
+                }
+                ecommonObjectContainer.Build();
 
+                ObjectContainer.SetContainer(new AutofacObjectContainer(ecommonObjectContainer.ContainerBuilder));
                 var objectContainer = ObjectContainer.Current as AutofacObjectContainer;
                 objectContainer.SetContainer(ecommonObjectContainer.Container);
+            }
+            else
+            {
+                throw new JaneException("Current container not support!");
             }
 
             return configuration;
         }
 
-        public static EENode.Configurations.ENodeConfiguration BuildENodeContainer(this EENode.Configurations.ENodeConfiguration configuration)
+        public static EENode.Configurations.ENodeConfiguration BuildENodeContainer(this EENode.Configurations.ENodeConfiguration configuration, IServiceCollection services = null)
         {
             configuration.GetCommonConfiguration()
-                .BuildECommonContainer();
+                .BuildECommonContainer(services);
             return configuration;
         }
 

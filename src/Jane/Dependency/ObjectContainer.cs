@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Extensions.DependencyInjection;
+using System;
 
 namespace Jane.Dependency
 {
@@ -10,9 +11,9 @@ namespace Jane.Dependency
 
         /// <summary>Build the container.
         /// </summary>
-        public static void Build()
+        public static void Build(IServiceCollection services = null)
         {
-            Current.Build();
+            Current.Build(services);
         }
 
         /// <summary>Register a implementer type as a service implementation.

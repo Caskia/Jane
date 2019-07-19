@@ -27,6 +27,7 @@ using Jane.Threading;
 using Jane.Threading.Timers;
 using Jane.Utils;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -57,9 +58,9 @@ namespace Jane.Configurations
             return Instance;
         }
 
-        public Configuration BuildContainer()
+        public Configuration BuildContainer(IServiceCollection services = null)
         {
-            ObjectContainer.Build();
+            ObjectContainer.Build(services);
             return this;
         }
 

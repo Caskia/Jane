@@ -11,13 +11,11 @@ namespace Jane.Configurations
     {
         public static IServiceProvider AddECommon(this IServiceCollection services, ECommonConfiguration configuration)
         {
+            configuration.BuildECommonContainer(services);
+
             if (ObjectContainer.Current is AutofacObjectContainer)
             {
                 var ecommonObjectContainer = ObjectContainer.Current as AutofacObjectContainer;
-
-                ecommonObjectContainer.ContainerBuilder.Populate(services);
-
-                configuration.BuildECommonContainer();
 
                 return new AutofacServiceProvider(ecommonObjectContainer.Container);
             }
