@@ -1,4 +1,4 @@
-﻿using Autofac;
+﻿using Autofac.Extensions.DependencyInjection;
 using ECommon.Configurations;
 using ECommon.JsonNet;
 using ECommon.Serializing;
@@ -8,7 +8,6 @@ using Jane.ENode;
 using Jane.Extensions;
 using Jane.Json.Converters;
 using Microsoft.Extensions.DependencyInjection;
-using Autofac.Extensions.DependencyInjection;
 using Newtonsoft.Json.Converters;
 using System;
 using ECommonConfiguration = ECommon.Configurations.Configuration;

@@ -2,8 +2,8 @@
 using ECommon.Autofac;
 using ECommon.Components;
 using Microsoft.Extensions.DependencyInjection;
-using ECommonConfiguration = ECommon.Configurations.Configuration;
 using System;
+using ECommonConfiguration = ECommon.Configurations.Configuration;
 
 namespace Jane.Configurations
 {
