@@ -49,14 +49,21 @@ namespace Jane.Autofac
 
         /// <summary>Build the container.
         /// </summary>
-        public void Build(IServiceCollection services = null)
+        public void Build()
+        {
+            _container = _containerBuilder.Build();
+        }
+
+        /// <summary>
+        /// Populate the container
+        /// </summary>
+        public void Populate(IServiceCollection services)
         {
             //Integrate with microsoft di.
             if (services != null)
             {
                 _containerBuilder.Populate(services);
             }
-            _container = _containerBuilder.Build();
         }
 
         /// <summary>Register a implementer type as a service implementation.

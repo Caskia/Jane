@@ -11,9 +11,17 @@ namespace Jane.Dependency
 
         /// <summary>Build the container.
         /// </summary>
-        public static void Build(IServiceCollection services = null)
+        public static void Build()
         {
-            Current.Build(services);
+            Current.Build();
+        }
+
+        /// <summary>
+        /// Populate the container
+        /// </summary>
+        public static void Populate(IServiceCollection services = null)
+        {
+            Current.Populate(services);
         }
 
         /// <summary>Register a implementer type as a service implementation.

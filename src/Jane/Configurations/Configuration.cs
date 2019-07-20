@@ -60,7 +60,8 @@ namespace Jane.Configurations
 
         public Configuration BuildContainer(IServiceCollection services = null)
         {
-            ObjectContainer.Build(services);
+            ObjectContainer.Populate(services);
+            ObjectContainer.Build();
             return this;
         }
 

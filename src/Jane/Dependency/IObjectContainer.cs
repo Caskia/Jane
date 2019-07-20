@@ -9,7 +9,12 @@ namespace Jane.Dependency
     {
         /// <summary>Build the container.
         /// </summary>
-        void Build(IServiceCollection services = null);
+        void Build();
+
+        /// <summary>
+        /// Populate the container
+        /// </summary>
+        void Populate(IServiceCollection services);
 
         /// <summary>Register a implementer type as a service implementation.
         /// </summary>
