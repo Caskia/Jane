@@ -30,9 +30,9 @@ namespace Jane.Configurations
                 }
                 ecommonObjectContainer.Build();
 
-                ObjectContainer.SetContainer(new AutofacObjectContainer(ecommonObjectContainer.ContainerBuilder));
-                var objectContainer = ObjectContainer.Current as AutofacObjectContainer;
+                var objectContainer = new AutofacObjectContainer(ecommonObjectContainer.ContainerBuilder);
                 objectContainer.SetContainer(ecommonObjectContainer.Container);
+                ObjectContainer.SetContainer(objectContainer);
             }
             else
             {
@@ -163,12 +163,10 @@ namespace Jane.Configurations
 
         private static ECommonConfiguration UseECommonAutofac(this ECommonConfiguration configuration)
         {
-            ContainerBuilder containerBuilder;
             if (ObjectContainer.Current is AutofacObjectContainer)
             {
                 var objectContainer = ObjectContainer.Current as AutofacObjectContainer;
-                containerBuilder = objectContainer.ContainerBuilder;
-                configuration.UseAutofac(containerBuilder);
+                configuration.UseAutofac(objectContainer.ContainerBuilder);
             }
             else
             {
