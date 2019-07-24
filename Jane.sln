@@ -37,9 +37,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Jane.Hangfire", "src\Jane.H
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "example", "example", "{77F57A30-06EA-428B-AB09-DDA0810CAC22}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JaneGenericHostBuilderExample", "example\JaneGenericHostBuilderExample\JaneGenericHostBuilderExample.csproj", "{253A677E-428D-4475-9EFF-5ED08494C209}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JaneGenericHostBuilderExample", "example\JaneGenericHostBuilderExample\JaneGenericHostBuilderExample.csproj", "{253A677E-428D-4475-9EFF-5ED08494C209}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JaneENodeGenericHostBuilderExample", "example\JaneENodeGenericHostBuilderExample\JaneENodeGenericHostBuilderExample.csproj", "{B8C08F96-246F-4349-955E-7D02DADDE67F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JaneENodeGenericHostBuilderExample", "example\JaneENodeGenericHostBuilderExample\JaneENodeGenericHostBuilderExample.csproj", "{B8C08F96-246F-4349-955E-7D02DADDE67F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
