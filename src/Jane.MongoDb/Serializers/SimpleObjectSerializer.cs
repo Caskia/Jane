@@ -108,16 +108,17 @@ namespace Jane.MongoDb.Serializers
         private void SerializeDiscriminatedValue(BsonSerializationContext context, BsonSerializationArgs args, object value, Type actualType)
         {
             var serializer = BsonSerializer.LookupSerializer(actualType);
+            serializer.Serialize(context, value);
 
-            var polymorphicSerializer = serializer as IBsonPolymorphicSerializer;
-            if (polymorphicSerializer != null && polymorphicSerializer.IsDiscriminatorCompatibleWithObjectSerializer)
-            {
-                serializer.Serialize(context, args, value);
-            }
-            else
-            {
-                serializer.Serialize(context, value);
-            }
+            //var polymorphicSerializer = serializer as IBsonPolymorphicSerializer;
+            //if (polymorphicSerializer != null && polymorphicSerializer.IsDiscriminatorCompatibleWithObjectSerializer)
+            //{
+            //    serializer.Serialize(context, args, value);
+            //}
+            //else
+            //{
+            //    serializer.Serialize(context, value);
+            //}
         }
     }
 }
