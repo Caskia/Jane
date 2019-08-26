@@ -11,7 +11,7 @@ namespace Jane.AspNetCore.Mvc
     {
         public static void ConfigureJaneMvcJsonOptions(this IServiceCollection services)
         {
-            services.Configure<MvcJsonOptions>(options =>
+            services.Configure<MvcNewtonsoftJsonOptions>(options =>
             {
                 options.SerializerSettings.Converters.Insert(0, new JaneDateTimeConverter());
                 var contractResolver = new DefaultContractResolver()

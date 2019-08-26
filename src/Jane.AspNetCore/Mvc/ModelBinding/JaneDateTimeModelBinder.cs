@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Binders;
 using System;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
 
 namespace Jane.AspNetCore.Mvc.ModelBinding
 {
@@ -11,10 +12,10 @@ namespace Jane.AspNetCore.Mvc.ModelBinding
         private readonly SimpleTypeModelBinder _simpleTypeModelBinder;
         private readonly Type _type;
 
-        public JaneDateTimeModelBinder(Type type)
+        public JaneDateTimeModelBinder(Type type, ILoggerFactory loggerFactory)
         {
             _type = type;
-            _simpleTypeModelBinder = new SimpleTypeModelBinder(type);
+            _simpleTypeModelBinder = new SimpleTypeModelBinder(type, loggerFactory);
         }
 
         public async Task BindModelAsync(ModelBindingContext bindingContext)

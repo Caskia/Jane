@@ -30,12 +30,14 @@ namespace Jane.AspNetCore.Mvc.Results.Wrapping
             if (!(objectResult.Value is AjaxResponseBase))
             {
                 objectResult.Value = new AjaxResponse(objectResult.Value);
-                if (!objectResult.Formatters.Any(f => f is JsonOutputFormatter))
+                //objectResult.DeclaredType = typeof(AjaxResponse);
+                if (!objectResult.Formatters.Any(f => f is NewtonsoftJsonOutputFormatter))
                 {
                     objectResult.Formatters.Add(
-                        new JsonOutputFormatter(
-                            _serviceProvider.GetRequiredService<IOptions<MvcJsonOptions>>().Value.SerializerSettings,
-                            _serviceProvider.GetRequiredService<ArrayPool<char>>()
+                        new NewtonsoftJsonOutputFormatter(
+                            _serviceProvider.GetRequiredService<IOptions<MvcNewtonsoftJsonOptions>>().Value.SerializerSettings,
+                            _serviceProvider.GetRequiredService<ArrayPool<char>>(),
+                            _serviceProvider.GetRequiredService<IOptions<MvcOptions>>().Value
                         )
                     );
                 }

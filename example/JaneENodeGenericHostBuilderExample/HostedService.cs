@@ -8,13 +8,13 @@ namespace JaneENodeGenericHostBuilderExample
 {
     internal class HostedService : IHostedService
     {
-        private readonly IApplicationLifetime _appLifetime;
+        private readonly IHostApplicationLifetime _appLifetime;
         private readonly IHttpClientFactory _httpClientFactory;
         private readonly ILogger _logger;
 
         // ReSharper disable once UnusedMember.Global
         public HostedService(
-            IApplicationLifetime appLifetime,
+            IHostApplicationLifetime appLifetime,
             IHttpClientFactory httpClientFactory,
             ILoggerFactory loggerFactory
             )
