@@ -8,7 +8,9 @@ namespace JaneWebHostExample.Services
     {
         private readonly IWebHostEnvironment _hostEnvironment;
 
-        public TestService(IWebHostEnvironment hostEnvironment)
+        public TestService(
+            IWebHostEnvironment hostEnvironment,
+            )
         {
             _hostEnvironment = hostEnvironment;
         }

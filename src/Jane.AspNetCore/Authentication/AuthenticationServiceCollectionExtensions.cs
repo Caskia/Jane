@@ -18,6 +18,8 @@ namespace Jane.AspNetCore.Authentication
         public static AuthenticationBuilder ConfigureJwtBearer(this AuthenticationBuilder builder, IConfiguration configuration, Action<TokenAuthConfiguration> setupAction = null)
         {
             var tokenAuthConfig = ConfigJwtTokenAuth(configuration, setupAction);
+            builder.Services.AddSingleton(tokenAuthConfig);
+
             return builder.AddJwtBearer(options =>
                  {
                      options.Audience = tokenAuthConfig.Audience;

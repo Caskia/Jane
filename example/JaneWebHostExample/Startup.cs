@@ -22,7 +22,6 @@ namespace JaneWebHostExample
     public class Startup
     {
         private Assembly[] _bussinessAssemblies;
-        private TokenAuthConfiguration _tokenAuthConfiguration = new TokenAuthConfiguration();
 
         public Startup(IConfiguration configuration)
         {
@@ -96,10 +95,7 @@ namespace JaneWebHostExample
             //Configure Auth
             services
                 .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-                .ConfigureJwtBearer(JaneConfiguration.Instance.Root, options =>
-                {
-                    _tokenAuthConfiguration = options;
-                });
+                .ConfigureJwtBearer(JaneConfiguration.Instance.Root);
         }
 
         private JaneConfiguration InitializeJane(ContainerBuilder containerBuilder)
@@ -118,7 +114,7 @@ namespace JaneWebHostExample
                  .UseAutofac(containerBuilder)
                  .RegisterCommonComponents()
                  .RegisterAssemblies(_bussinessAssemblies)
-                 .UseAspNetCore(_tokenAuthConfiguration)
+                 .UseAspNetCore()
                  .UseLog4Net()
                  .UseClockProvider(ClockProviders.Utc)
                  .UseAutoMapper(autoMapperConfigurationAssemblies)
