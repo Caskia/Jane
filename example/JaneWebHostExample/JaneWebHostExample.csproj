@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Jane.AspNetCore\Jane.AspNetCore.csproj" />
+    <ProjectReference Include="..\..\src\Jane.AutoMapper\Jane.AutoMapper.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -41,6 +41,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JaneGenericHostBuilderExamp
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JaneENodeGenericHostBuilderExample", "example\JaneENodeGenericHostBuilderExample\JaneENodeGenericHostBuilderExample.csproj", "{B8C08F96-246F-4349-955E-7D02DADDE67F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JaneWebHostExample", "example\JaneWebHostExample\JaneWebHostExample.csproj", "{E0D2EC0B-B48D-4AE4-9BEC-74FE43A458AD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -111,6 +113,10 @@ Global
 		{B8C08F96-246F-4349-955E-7D02DADDE67F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B8C08F96-246F-4349-955E-7D02DADDE67F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B8C08F96-246F-4349-955E-7D02DADDE67F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E0D2EC0B-B48D-4AE4-9BEC-74FE43A458AD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E0D2EC0B-B48D-4AE4-9BEC-74FE43A458AD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E0D2EC0B-B48D-4AE4-9BEC-74FE43A458AD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E0D2EC0B-B48D-4AE4-9BEC-74FE43A458AD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -132,6 +138,7 @@ Global
 		{03E925A5-089F-4A51-8BA4-099715EC5754} = {9BCD8851-0A36-48CD-BFF0-72690C335B28}
 		{253A677E-428D-4475-9EFF-5ED08494C209} = {77F57A30-06EA-428B-AB09-DDA0810CAC22}
 		{B8C08F96-246F-4349-955E-7D02DADDE67F} = {77F57A30-06EA-428B-AB09-DDA0810CAC22}
+		{E0D2EC0B-B48D-4AE4-9BEC-74FE43A458AD} = {77F57A30-06EA-428B-AB09-DDA0810CAC22}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C66FDB77-BACB-48CB-926A-07FE48FBFB18}

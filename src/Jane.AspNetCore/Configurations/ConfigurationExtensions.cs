@@ -1,4 +1,5 @@
-﻿using Jane.AspNetCore.Logging;
+﻿using Jane.AspNetCore.Authentication.JwtBearer;
+using Jane.AspNetCore.Logging;
 using Jane.AspNetCore.Mvc;
 using Jane.AspNetCore.Mvc.Validation;
 using Jane.AspNetCore.Runtime.Session;
@@ -49,7 +50,7 @@ namespace Jane.Configurations
             return configuration;
         }
 
-        public static Configuration UseAspNetCore(this Configuration configuration)
+        public static Configuration UseAspNetCore(this Configuration configuration, TokenAuthConfiguration tokenAuthConfiguration = null)
         {
             configuration.UseWeb();
 
@@ -63,6 +64,12 @@ namespace Jane.Configurations
             configuration.SetDefault<IPrincipalAccessor, AspNetCorePrincipalAccessor>();
 
             configuration.SetDefault<MvcActionInvocationValidator, MvcActionInvocationValidator>(null, DependencyLifeStyle.Transient);
+
+            if (tokenAuthConfiguration == null)
+            {
+                tokenAuthConfiguration = new TokenAuthConfiguration();
+            }
+            configuration.SetDefault<TokenAuthConfiguration, TokenAuthConfiguration>(tokenAuthConfiguration);
 
             return configuration;
         }

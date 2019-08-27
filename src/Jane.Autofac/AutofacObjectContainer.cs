@@ -12,7 +12,7 @@ namespace Jane.Autofac
     public class AutofacObjectContainer : IObjectContainer
     {
         private readonly ContainerBuilder _containerBuilder;
-        private IContainer _container;
+        private ILifetimeScope _container;
 
         /// <summary>Default constructor.
         /// </summary>
@@ -29,7 +29,7 @@ namespace Jane.Autofac
 
         /// <summary>Represents the inner autofac container.
         /// </summary>
-        public IContainer Container
+        public ILifetimeScope Container
         {
             get
             {
@@ -313,7 +313,7 @@ namespace Jane.Autofac
         /// Set container
         /// </summary>
         /// <param name="container">container</param>
-        public void SetContainer(IContainer container)
+        public void SetContainer(ILifetimeScope container)
         {
             _container = container;
         }

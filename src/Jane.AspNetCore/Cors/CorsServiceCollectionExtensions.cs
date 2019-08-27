@@ -24,13 +24,13 @@ namespace Jane.AspNetCore.Cors
                         .AllowAnyMethod()
                         .AllowCredentials();
                 });
-                options.AddPolicy(CorsPolicyNames.CorsAllPolicyName, builder =>
-                {
-                    builder.AllowAnyOrigin()
-                           .AllowAnyHeader()
-                           .AllowAnyMethod()
-                           .AllowCredentials();
-                });
+                //options.AddPolicy(CorsPolicyNames.CorsAllPolicyName, builder =>
+                //{
+                //    builder.AllowAnyOrigin()
+                //           .AllowAnyHeader()
+                //           .AllowAnyMethod()
+                //           .AllowCredentials();
+                //});
             });
         }
     }

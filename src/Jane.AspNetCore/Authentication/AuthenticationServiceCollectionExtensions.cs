@@ -6,12 +6,10 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using System;
-using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
-using JaneConfiguration = Jane.Configurations.Configuration;
 
 namespace Jane.AspNetCore.Authentication
 {
@@ -80,7 +78,6 @@ namespace Jane.AspNetCore.Authentication
 
             setupAction?.Invoke(tokenAuthConfig);
 
-            JaneConfiguration.Instance.SetDefault<TokenAuthConfiguration, TokenAuthConfiguration>(tokenAuthConfig);
             return tokenAuthConfig;
         }
 
@@ -104,20 +101,6 @@ namespace Jane.AspNetCore.Authentication
             //Set auth token from querystring
             context.Token = qsAuthToken;
             return Task.CompletedTask;
-        }
-
-        private static byte[] ReadStream(Stream input)
-        {
-            byte[] buffer = new byte[16 * 1024];
-            using (MemoryStream ms = new MemoryStream())
-            {
-                int read;
-                while ((read = input.Read(buffer, 0, buffer.Length)) > 0)
-                {
-                    ms.Write(buffer, 0, read);
-                }
-                return ms.ToArray();
-            }
         }
     }
 }
