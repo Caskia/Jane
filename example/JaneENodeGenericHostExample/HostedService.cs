@@ -4,7 +4,7 @@ using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace JaneGenericHostBuilderExample
+namespace JaneENodeGenericHostExample
 {
     internal class HostedService : IHostedService
     {
@@ -38,6 +38,10 @@ namespace JaneGenericHostBuilderExample
         {
             _logger.Info("Stopping hosted service");
             return Task.CompletedTask;
+        }
+
+        private void InitENode()
+        {
         }
 
         private void OnStarted()

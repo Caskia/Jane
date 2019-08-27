@@ -7,7 +7,7 @@ using Microsoft.Extensions.Hosting;
 using System.Threading.Tasks;
 using JaneConfiguration = Jane.Configurations.Configuration;
 
-namespace JaneGenericHostBuilderExample
+namespace JaneGenericHostExample
 {
     internal class Program
     {

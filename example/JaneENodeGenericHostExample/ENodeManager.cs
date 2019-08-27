@@ -1,7 +1,7 @@
 ﻿using Autofac;
 using ENode.Configurations;
 
-namespace JaneENodeGenericHostBuilderExample
+namespace JaneENodeGenericHostExample
 {
     public class ENodeManager
     {

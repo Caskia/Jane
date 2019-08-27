@@ -9,7 +9,7 @@ using Microsoft.Extensions.Hosting;
 using System.Threading.Tasks;
 using JaneConfiguration = Jane.Configurations.Configuration;
 
-namespace JaneENodeGenericHostBuilderExample
+namespace JaneENodeGenericHostExample
 {
     internal class Program
     {
