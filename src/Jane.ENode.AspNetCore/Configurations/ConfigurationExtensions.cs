@@ -21,6 +21,18 @@ namespace Jane.Configurations
             out IServiceProvider serviceProvider
             )
         {
+            UseECommonAspNetCore(configuration, services);
+
+            serviceProvider = services.AddECommon(configuration);
+
+            return configuration;
+        }
+
+        public static ECommonConfiguration UseECommonAspNetCore(
+            this ECommonConfiguration configuration,
+            IServiceCollection services
+            )
+        {
             //See https://github.com/aspnet/Mvc/issues/3936 to know why we added these services.
             services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.TryAddSingleton<IActionContextAccessor, ActionContextAccessor>();
@@ -34,8 +46,16 @@ namespace Jane.Configurations
             //Configure Mvc Json
             services.ConfigureJaneMvcJsonOptions();
 
-            serviceProvider = services.AddECommon(configuration);
+            return configuration;
+        }
 
+        public static EENode.Configurations.ENodeConfiguration UseENodeAspNetCore(
+            this EENode.Configurations.ENodeConfiguration configuration,
+            IServiceCollection services
+            )
+        {
+            configuration.GetCommonConfiguration()
+                  .UseECommonAspNetCore(services);
             return configuration;
         }
 
