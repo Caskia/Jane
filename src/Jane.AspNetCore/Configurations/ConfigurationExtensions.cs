@@ -22,6 +22,15 @@ namespace Jane.Configurations
     {
         public static Configuration UseAspNetCore(this Configuration configuration, IServiceCollection services, out IServiceProvider serviceProvider)
         {
+            configuration.UseAspNetCore(services);
+
+            serviceProvider = services.AddJane();
+
+            return configuration;
+        }
+
+        public static Configuration UseAspNetCore(this Configuration configuration, IServiceCollection services)
+        {
             configuration.UseAspNetCore();
 
             //See https://github.com/aspnet/Mvc/issues/3936 to know why we added these services.
@@ -36,8 +45,6 @@ namespace Jane.Configurations
 
             //Configure Mvc Json
             services.ConfigureJaneMvcJsonOptions();
-
-            serviceProvider = services.AddJane();
 
             return configuration;
         }
