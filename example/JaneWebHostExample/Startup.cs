@@ -1,4 +1,5 @@
 using Autofac;
+using Autofac.Extensions.DependencyInjection;
 using Jane.AspNetCore.Authentication;
 using Jane.AspNetCore.Authentication.JwtBearer;
 using Jane.AspNetCore.Cors;
@@ -12,10 +13,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System.Reflection;
 using JaneConfiguration = Jane.Configurations.Configuration;
-using Autofac.Extensions.DependencyInjection;
-using Jane.Dependency;
-using Jane.Autofac;
-using System;
 
 namespace JaneWebHostExample
 {
@@ -62,11 +59,6 @@ namespace JaneWebHostExample
             {
                 endpoints.MapDefaultControllerRoute();
             });
-
-            var container = app.ApplicationServices.GetAutofacRoot();
-            if (!(ObjectContainer.Current is AutofacObjectContainer autofacObjectContainer))
-                throw new InvalidOperationException($"Instance of {nameof(ObjectContainer)} is not of type {nameof(AutofacObjectContainer)}");
-            autofacObjectContainer.SetContainer(container);
 
             JaneConfiguration.Instance.CreateAutoMapperMappings();
         }
