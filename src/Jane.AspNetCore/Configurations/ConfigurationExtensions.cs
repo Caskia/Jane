@@ -1,17 +1,9 @@
-﻿using Jane.AspNetCore.Authentication.JwtBearer;
-using Jane.AspNetCore.Logging;
-using Jane.AspNetCore.Mvc;
+﻿using Jane.AspNetCore.Logging;
 using Jane.AspNetCore.Mvc.Validation;
 using Jane.AspNetCore.Runtime.Session;
 using Jane.Dependency;
 using Jane.Runtime.Session;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Infrastructure;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Logging;
-using System;
 using System.Reflection;
 
 namespace Jane.Configurations
@@ -21,35 +13,6 @@ namespace Jane.Configurations
     /// </summary>
     public static class ConfigurationExtensions
     {
-        public static Configuration UseAspNetCore(this Configuration configuration, IServiceCollection services, out IServiceProvider serviceProvider)
-        {
-            configuration.UseAspNetCore(services);
-
-            serviceProvider = services.AddJane();
-
-            return configuration;
-        }
-
-        public static Configuration UseAspNetCore(this Configuration configuration, IServiceCollection services)
-        {
-            configuration.UseAspNetCore();
-
-            //See https://github.com/aspnet/Mvc/issues/3936 to know why we added these services.
-            services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-            services.TryAddSingleton<IActionContextAccessor, ActionContextAccessor>();
-
-            //Configure MVC
-            services.Configure<MvcOptions>(options =>
-            {
-                options.ConfigureJaneMvcOptions(services);
-            });
-
-            //Configure Mvc Json
-            services.ConfigureJaneMvcJsonOptions();
-
-            return configuration;
-        }
-
         public static Configuration UseAspNetCore(this Configuration configuration)
         {
             configuration.UseWeb();
