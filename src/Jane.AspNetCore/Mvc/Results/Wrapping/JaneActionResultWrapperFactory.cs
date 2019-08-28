@@ -15,7 +15,7 @@ namespace Jane.AspNetCore.Mvc.Results.Wrapping
 
             if (actionResult.Result is ObjectResult)
             {
-                return new JaneObjectActionResultWrapper(actionResult.HttpContext.RequestServices);
+                return new JaneObjectActionResultWrapper();
             }
 
             if (actionResult.Result is JsonResult)
