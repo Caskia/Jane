@@ -5,7 +5,9 @@ using Jane.Timing;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System.Threading.Tasks;
+using Jane.Autofac;
 using JaneConfiguration = Jane.Configurations.Configuration;
+using System.Reflection;
 
 namespace JaneGenericHostExample
 {
@@ -14,23 +16,31 @@ namespace JaneGenericHostExample
         public static async Task Main(string[] args)
         {
             var host = new HostBuilder()
+                .UseAutofac()
                 .ConfigureServices(services =>
                 {
                     services.AddHttpClient();
+
+                    services.AddSingleton<IHostedService, HostedService>();
                 })
-                .UseServiceProviderFactory(new AutofacServiceProviderFactory())
                 .ConfigureContainer<ContainerBuilder>((context, builder) =>
                 {
-                    JaneConfiguration.Create()
-                    .UseAutofac(builder)
-                    .RegisterCommonComponents()
-                    .UseLog4Net()
-                    .UseClockProvider(ClockProviders.Utc)
-                    .RegisterUnhandledExceptionHandler();
+                    var _bussinessAssemblies = new[]
+                    {
+                        Assembly.GetExecutingAssembly()
+                    };
 
-                    builder.RegisterType<HostedService>().As<IHostedService>();
+                    JaneConfiguration.Create()
+                        .UseAutofac(builder)
+                        .RegisterCommonComponents()
+                        .RegisterAssemblies(_bussinessAssemblies)
+                        .UseLog4Net()
+                        .UseClockProvider(ClockProviders.Utc)
+                        .RegisterUnhandledExceptionHandler();
                 })
                 .Build();
+
+            host.Services.PopulateJaneDIContainer();
 
             await host.StartAsync();
         }

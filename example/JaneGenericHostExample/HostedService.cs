@@ -1,4 +1,5 @@
 ﻿using Jane.Logging;
+using JaneGenericHostExample.Services;
 using Microsoft.Extensions.Hosting;
 using System.Net.Http;
 using System.Threading;
@@ -11,17 +12,20 @@ namespace JaneGenericHostExample
         private readonly IHostApplicationLifetime _appLifetime;
         private readonly IHttpClientFactory _httpClientFactory;
         private readonly ILogger _logger;
+        private readonly ITestService _testService;
 
         // ReSharper disable once UnusedMember.Global
         public HostedService(
             IHostApplicationLifetime appLifetime,
             IHttpClientFactory httpClientFactory,
-            ILoggerFactory loggerFactory
+            ILoggerFactory loggerFactory,
+            ITestService testService
             )
         {
             _appLifetime = appLifetime;
             _httpClientFactory = httpClientFactory;
             _logger = loggerFactory.Create(typeof(HostedService).Name);
+            _testService = testService;
         }
 
         public Task StartAsync(CancellationToken cancellationToken)
@@ -30,7 +34,7 @@ namespace JaneGenericHostExample
             _appLifetime.ApplicationStopping.Register(OnStopping);
             _appLifetime.ApplicationStopped.Register(OnStopped);
 
-            _logger.Info("Starting hosted service");
+            _logger.Info($"Starting hosted service, random[{_testService.GetRandomString()}]");
             return Task.CompletedTask;
         }
 
