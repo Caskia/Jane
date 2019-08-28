@@ -1,6 +1,6 @@
 ﻿using Jane.Dependency;
 
-namespace JaneWebHostExample.Services
+namespace JaneENodeWebHostExample.Services
 {
     public interface ITestService : ITransientDependency
     {

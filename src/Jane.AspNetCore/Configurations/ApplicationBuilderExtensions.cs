@@ -1,9 +1,7 @@
-﻿using Autofac.Extensions.DependencyInjection;
-using Jane.AspNetCore.ExceptionHandling;
+﻿using Jane.AspNetCore.ExceptionHandling;
 using Jane.AspNetCore.Logging;
 using Jane.AspNetCore.Middlewares;
 using Jane.Autofac;
-using Jane.Dependency;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -19,8 +17,7 @@ namespace Jane.Configurations
 
         public static void UseJane(this IApplicationBuilder app)
         {
-            var container = app.ApplicationServices.GetAutofacRoot();
-            ObjectContainer.Current.SetContainer(container);
+            app.ApplicationServices.PopulateJaneDIContainer();
 
             app.UseJaneLoggerFactory();
         }

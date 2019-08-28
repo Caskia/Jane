@@ -1,4 +1,5 @@
-﻿using Autofac.Extensions.DependencyInjection;
+﻿using Autofac;
+using Autofac.Extensions.DependencyInjection;
 using ECommon.Configurations;
 using ECommon.JsonNet;
 using ECommon.Serializing;
@@ -50,8 +51,13 @@ namespace Jane.Configurations
 
         public static ECommonConfiguration CreateECommon(this Configuration configuration)
         {
+            return configuration.CreateECommon(new ContainerBuilder());
+        }
+
+        public static ECommonConfiguration CreateECommon(this Configuration configuration, ContainerBuilder containerBuilder)
+        {
             return ECommonConfiguration.Create()
-              .UseECommonAutofac()
+              .UseAutofac(containerBuilder)
               .RegisterCommonComponents()
               .UseLog4Net()
               .UseECommonJsonNet();
@@ -158,21 +164,6 @@ namespace Jane.Configurations
             }
 
             return configuration.SetDefault<IKafkaConfiguration, KafkaConfiguration>(kafkaConfiguration);
-        }
-
-        private static ECommonConfiguration UseECommonAutofac(this ECommonConfiguration configuration)
-        {
-            if (ObjectContainer.Current is AutofacObjectContainer)
-            {
-                var objectContainer = ObjectContainer.Current as AutofacObjectContainer;
-                configuration.UseAutofac(objectContainer.ContainerBuilder);
-            }
-            else
-            {
-                throw new JaneException("Current container not support!");
-            }
-
-            return configuration;
         }
 
         private static ECommonConfiguration UseECommonJsonNet(this ECommonConfiguration configuration)

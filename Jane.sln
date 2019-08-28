@@ -37,11 +37,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Jane.Hangfire", "src\Jane.H
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "example", "example", "{77F57A30-06EA-428B-AB09-DDA0810CAC22}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JaneWebHostExample", "example\JaneWebHostExample\JaneWebHostExample.csproj", "{E0D2EC0B-B48D-4AE4-9BEC-74FE43A458AD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JaneWebHostExample", "example\JaneWebHostExample\JaneWebHostExample.csproj", "{E0D2EC0B-B48D-4AE4-9BEC-74FE43A458AD}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JaneENodeGenericHostExample", "example\JaneENodeGenericHostExample\JaneENodeGenericHostExample.csproj", "{0C9C32DB-D938-4D72-BDBF-2CBE255A8DD1}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JaneGenericHostExample", "example\JaneGenericHostExample\JaneGenericHostExample.csproj", "{F51142FB-227D-470F-9E3D-15BDAF9F8AAF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JaneENodeWebHostExample", "example\JaneENodeWebHostExample\JaneENodeWebHostExample.csproj", "{9BD24CEE-B1BE-4F98-AF93-439C7055C74C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -117,6 +119,10 @@ Global
 		{F51142FB-227D-470F-9E3D-15BDAF9F8AAF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F51142FB-227D-470F-9E3D-15BDAF9F8AAF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F51142FB-227D-470F-9E3D-15BDAF9F8AAF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9BD24CEE-B1BE-4F98-AF93-439C7055C74C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9BD24CEE-B1BE-4F98-AF93-439C7055C74C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9BD24CEE-B1BE-4F98-AF93-439C7055C74C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9BD24CEE-B1BE-4F98-AF93-439C7055C74C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -139,6 +145,7 @@ Global
 		{E0D2EC0B-B48D-4AE4-9BEC-74FE43A458AD} = {77F57A30-06EA-428B-AB09-DDA0810CAC22}
 		{0C9C32DB-D938-4D72-BDBF-2CBE255A8DD1} = {77F57A30-06EA-428B-AB09-DDA0810CAC22}
 		{F51142FB-227D-470F-9E3D-15BDAF9F8AAF} = {77F57A30-06EA-428B-AB09-DDA0810CAC22}
+		{9BD24CEE-B1BE-4F98-AF93-439C7055C74C} = {77F57A30-06EA-428B-AB09-DDA0810CAC22}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C66FDB77-BACB-48CB-926A-07FE48FBFB18}

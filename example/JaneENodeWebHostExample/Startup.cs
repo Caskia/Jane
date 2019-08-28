@@ -1,5 +1,6 @@
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
+using ENode.Configurations;
 using Jane.AspNetCore.Authentication;
 using Jane.AspNetCore.Authentication.JwtBearer;
 using Jane.AspNetCore.Cors;
@@ -14,10 +15,13 @@ using Microsoft.Extensions.Hosting;
 using System.Reflection;
 using JaneConfiguration = Jane.Configurations.Configuration;
 
-namespace JaneWebHostExample
+namespace JaneENodeWebHostExample
 {
     public class Startup
     {
+        private Assembly[] _bussinessAssemblies;
+        private ENodeConfiguration _eNodeConfiguration;
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -37,7 +41,7 @@ namespace JaneWebHostExample
 
             app.UseHostNameHeader();
 
-            app.UseJane();
+            app.UseJaneENode();
 
             app.UseDefaultFiles();
 
@@ -59,11 +63,14 @@ namespace JaneWebHostExample
             });
 
             JaneConfiguration.Instance.CreateAutoMapperMappings();
+
+            _eNodeConfiguration
+                .InitializeBusinessAssemblies(_bussinessAssemblies);
         }
 
         public void ConfigureContainer(ContainerBuilder builder)
         {
-            var _bussinessAssemblies = new[]
+            _bussinessAssemblies = new[]
             {
                 Assembly.GetExecutingAssembly()
             };
@@ -73,15 +80,21 @@ namespace JaneWebHostExample
                 Assembly.GetExecutingAssembly()
             };
 
-            JaneConfiguration.Instance
-                .UseAutofac(builder)
-                .RegisterCommonComponents()
-                .RegisterAssemblies(_bussinessAssemblies)
-                .UseAspNetCore()
-                .UseLog4Net()
-                .UseClockProvider(ClockProviders.Utc)
-                .UseAutoMapper(autoMapperConfigurationAssemblies)
-                .RegisterUnhandledExceptionHandler();
+            var janeConfiguration = JaneConfiguration.Instance
+                 .UseAutofac(builder)
+                 .RegisterCommonComponents()
+                 .RegisterAssemblies(_bussinessAssemblies)
+                 .UseAspNetCore()
+                 .UseLog4Net()
+                 .UseClockProvider(ClockProviders.Utc)
+                 .UseAutoMapper(autoMapperConfigurationAssemblies)
+                 .RegisterUnhandledExceptionHandler();
+
+            _eNodeConfiguration = janeConfiguration
+                .CreateECommon(builder)
+                .CreateENode(new ConfigurationSetting())
+                .RegisterENodeComponents()
+                .RegisterBusinessComponents();
         }
 
         // This method gets called by the runtime. Use this method to add services to the container.

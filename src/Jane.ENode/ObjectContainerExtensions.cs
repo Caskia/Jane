@@ -1,8 +1,9 @@
 ﻿using Autofac;
-using Jane.Dependency;
+using ECommon.Autofac;
+using ECommon.Components;
 using System;
 
-namespace Jane.Autofac
+namespace Jane.ENode
 {
     public static class ObjectContainerExtensions
     {
