@@ -51,8 +51,7 @@ namespace JaneENodeGenericHostExample
                 })
                 .Build();
 
-            host.Services.PopulateJaneDIContainer();
-            host.Services.PopulateENodeDIContainer();
+            host.Services.PopulateJaneENodeDIContainer();
 
             eNodeConfiguration
                 .InitializeBusinessAssemblies(bussinessAssemblies);
