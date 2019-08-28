@@ -1,5 +1,6 @@
 ﻿using Autofac.Extensions.DependencyInjection;
 using ECommon.Components;
+using ECommon.Configurations;
 using System;
 
 namespace Jane.ENode

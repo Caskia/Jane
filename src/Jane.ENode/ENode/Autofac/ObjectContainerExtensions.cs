@@ -3,7 +3,7 @@ using ECommon.Autofac;
 using ECommon.Components;
 using System;
 
-namespace Jane.ENode
+namespace ECommon.Configurations
 {
     public static class ObjectContainerExtensions
     {
