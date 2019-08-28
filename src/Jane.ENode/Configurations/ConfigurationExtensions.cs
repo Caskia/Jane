@@ -3,52 +3,17 @@ using Autofac.Extensions.DependencyInjection;
 using ECommon.Configurations;
 using ECommon.JsonNet;
 using ECommon.Serializing;
-using Jane.Autofac;
-using Jane.Dependency;
 using Jane.ENode;
 using Jane.Extensions;
 using Jane.Json.Converters;
-using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json.Converters;
 using System;
 using ECommonConfiguration = ECommon.Configurations.Configuration;
-using EENode = ENode;
 
 namespace Jane.Configurations
 {
     public static class ConfigurationExtensions
     {
-        public static ECommonConfiguration BuildECommonContainer(this ECommonConfiguration configuration, IServiceCollection services = null)
-        {
-            if (ObjectContainer.Current is AutofacObjectContainer && ECommon.Components.ObjectContainer.Current is ECommon.Autofac.AutofacObjectContainer)
-            {
-                var ecommonObjectContainer = ECommon.Components.ObjectContainer.Current as ECommon.Autofac.AutofacObjectContainer;
-                //integrate with microsoft di.
-                if (services != null)
-                {
-                    ecommonObjectContainer.ContainerBuilder.Populate(services);
-                }
-                ecommonObjectContainer.Build();
-
-                var objectContainer = new AutofacObjectContainer(ecommonObjectContainer.ContainerBuilder);
-                objectContainer.SetContainer(ecommonObjectContainer.Container);
-                ObjectContainer.SetContainer(objectContainer);
-            }
-            else
-            {
-                throw new JaneException("Current container not support!");
-            }
-
-            return configuration;
-        }
-
-        public static EENode.Configurations.ENodeConfiguration BuildENodeContainer(this EENode.Configurations.ENodeConfiguration configuration, IServiceCollection services = null)
-        {
-            configuration.GetCommonConfiguration()
-                .BuildECommonContainer(services);
-            return configuration;
-        }
-
         public static ECommonConfiguration CreateECommon(this Configuration configuration)
         {
             return configuration.CreateECommon(new ContainerBuilder());
