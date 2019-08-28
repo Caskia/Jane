@@ -21,7 +21,7 @@ namespace JaneGenericHostExample
                 {
                     services.AddHttpClient();
 
-                    services.AddSingleton<IHostedService, HostedService>();
+                    services.AddHostedService<HostedService>();
                 })
                 .ConfigureContainer<ContainerBuilder>((context, builder) =>
                 {
@@ -42,7 +42,12 @@ namespace JaneGenericHostExample
 
             host.Services.PopulateJaneDIContainer();
 
-            await host.StartAsync();
+            using (host)
+            {
+                await host.StartAsync();
+
+                await host.WaitForShutdownAsync();
+            }
         }
     }
 }
