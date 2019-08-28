@@ -2,12 +2,15 @@
 using Autofac.Extensions.DependencyInjection;
 using ENode.Configurations;
 using Jane.Configurations;
-using Jane.Extensions;
+using Jane.Autofac;
+using Jane.ENode;
 using Jane.Timing;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System.Reflection;
 using System.Threading.Tasks;
 using JaneConfiguration = Jane.Configurations.Configuration;
+using ENodeConfiguration = ENode.Configurations.ENodeConfiguration;
 
 namespace JaneENodeGenericHostExample
 {
@@ -15,44 +18,51 @@ namespace JaneENodeGenericHostExample
     {
         public static async Task Main(string[] args)
         {
+            var bussinessAssemblies = new[]
+                    {
+                        Assembly.GetExecutingAssembly()
+                    };
+
+            var eNodeConfiguration = default(ENodeConfiguration);
+
             var host = new HostBuilder()
+                .UseAutofac()
                 .ConfigureServices(services =>
                 {
                     services.AddHttpClient();
+
+                    services.AddHostedService<HostedService>();
                 })
-                .UseServiceProviderFactory(new AutofacServiceProviderFactory())
                 .ConfigureContainer<ContainerBuilder>((context, builder) =>
                 {
-                    ENodeManager.Configuration = JaneConfiguration.Create()
-                                                        .UseAutofac(builder)
-                                                        .RegisterCommonComponents()
-                                                        .UseLog4Net()
-                                                        .UseClockProvider(ClockProviders.Utc)
-                                                        .RegisterUnhandledExceptionHandler()
-                                                        .CreateECommon()
-                                                        .CreateENode(new ConfigurationSetting())
-                                                        .RegisterENodeComponents()
-                                                        .RegisterBusinessComponents();
+                    var janeConfiguration = JaneConfiguration.Create()
+                        .UseAutofac(builder)
+                        .RegisterCommonComponents()
+                        .RegisterAssemblies(bussinessAssemblies)
+                        .UseLog4Net()
+                        .UseClockProvider(ClockProviders.Utc)
+                        .RegisterUnhandledExceptionHandler();
 
-                    builder.RegisterType<HostedService>().As<IHostedService>();
-
-                    ENodeManager.ContainerBuilder = builder;
+                    eNodeConfiguration = janeConfiguration
+                         .CreateECommon(builder)
+                         .CreateENode(new ConfigurationSetting())
+                         .RegisterENodeComponents()
+                         .RegisterBusinessComponents();
                 })
                 .Build();
 
-            var servicesProvider = host.Services as AutofacServiceProvider;
-            var container = servicesProvider.GetFieldValue<ILifetimeScope>("_lifetimeScope");
+            host.Services.PopulateJaneDIContainer();
+            host.Services.PopulateENodeDIContainer();
 
-            //var ecommonAutofacContainer = new ECommon.Autofac.AutofacObjectContainer(ENodeManager.ContainerBuilder);
-            //var propertyInfo = ecommonAutofacContainer.GetType().GetProperty("_container");
-            //propertyInfo.SetValue(ecommonAutofacContainer, container);
-            //ECommon.Components.ObjectContainer.SetContainer(ecommonAutofacContainer);
+            eNodeConfiguration
+                .InitializeBusinessAssemblies(bussinessAssemblies);
 
-            //var janeAutofacContainer = new Jane.Autofac.AutofacObjectContainer(ENodeManager.ContainerBuilder);
-            //janeAutofacContainer.SetContainer(container);
-            //Jane.Dependency.ObjectContainer.SetContainer(janeAutofacContainer);
+            using (host)
+            {
+                await host.StartAsync();
 
-            await host.StartAsync();
+                await host.WaitForShutdownAsync();
+            }
         }
     }
 }

@@ -15,6 +15,11 @@ namespace JaneGenericHostExample
     {
         public static async Task Main(string[] args)
         {
+            var _bussinessAssemblies = new[]
+                    {
+                        Assembly.GetExecutingAssembly()
+                    };
+
             var host = new HostBuilder()
                 .UseAutofac()
                 .ConfigureServices(services =>
@@ -25,11 +30,6 @@ namespace JaneGenericHostExample
                 })
                 .ConfigureContainer<ContainerBuilder>((context, builder) =>
                 {
-                    var _bussinessAssemblies = new[]
-                    {
-                        Assembly.GetExecutingAssembly()
-                    };
-
                     JaneConfiguration.Create()
                         .UseAutofac(builder)
                         .RegisterCommonComponents()
