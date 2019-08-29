@@ -20,7 +20,6 @@ namespace JaneENodeWebHostExample
     public class Startup
     {
         private Assembly[] _bussinessAssemblies;
-        private ENodeConfiguration _eNodeConfiguration;
 
         public Startup(IConfiguration configuration)
         {
@@ -64,7 +63,7 @@ namespace JaneENodeWebHostExample
 
             JaneConfiguration.Instance.CreateAutoMapperMappings();
 
-            _eNodeConfiguration
+            ENodeConfiguration.Instance
                 .InitializeBusinessAssemblies(_bussinessAssemblies);
         }
 
@@ -80,17 +79,15 @@ namespace JaneENodeWebHostExample
                 Assembly.GetExecutingAssembly()
             };
 
-            var janeConfiguration = JaneConfiguration.Instance
-                 .UseAutofac(builder)
-                 .RegisterCommonComponents()
-                 .RegisterAssemblies(_bussinessAssemblies)
-                 .UseAspNetCore()
-                 .UseLog4Net()
-                 .UseClockProvider(ClockProviders.Utc)
-                 .UseAutoMapper(autoMapperConfigurationAssemblies)
-                 .RegisterUnhandledExceptionHandler();
-
-            _eNodeConfiguration = janeConfiguration
+            JaneConfiguration.Instance
+                .UseAutofac(builder)
+                .RegisterCommonComponents()
+                .RegisterAssemblies(_bussinessAssemblies)
+                .UseAspNetCore()
+                .UseLog4Net()
+                .UseClockProvider(ClockProviders.Utc)
+                .UseAutoMapper(autoMapperConfigurationAssemblies)
+                .RegisterUnhandledExceptionHandler()
                 .CreateECommon(builder)
                 .CreateENode(new ConfigurationSetting())
                 .RegisterENodeComponents()

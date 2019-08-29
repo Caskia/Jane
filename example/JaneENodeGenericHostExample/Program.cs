@@ -2,15 +2,14 @@
 using Autofac.Extensions.DependencyInjection;
 using ENode.Configurations;
 using Jane.Configurations;
-using Jane.Autofac;
 using Jane.ENode;
 using Jane.Timing;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System.Reflection;
 using System.Threading.Tasks;
-using JaneConfiguration = Jane.Configurations.Configuration;
 using ENodeConfiguration = ENode.Configurations.ENodeConfiguration;
+using JaneConfiguration = Jane.Configurations.Configuration;
 
 namespace JaneENodeGenericHostExample
 {
@@ -37,25 +36,23 @@ namespace JaneENodeGenericHostExample
                 })
                 .ConfigureContainer<ContainerBuilder>((context, builder) =>
                 {
-                    var janeConfiguration = JaneConfiguration.Instance
+                    JaneConfiguration.Instance
                         .UseAutofac(builder)
                         .RegisterCommonComponents()
                         .RegisterAssemblies(bussinessAssemblies)
                         .UseLog4Net()
                         .UseClockProvider(ClockProviders.Utc)
-                        .RegisterUnhandledExceptionHandler();
-
-                    eNodeConfiguration = janeConfiguration
-                         .CreateECommon(builder)
-                         .CreateENode(new ConfigurationSetting())
-                         .RegisterENodeComponents()
-                         .RegisterBusinessComponents();
+                        .RegisterUnhandledExceptionHandler()
+                        .CreateECommon(builder)
+                        .CreateENode(new ConfigurationSetting())
+                        .RegisterENodeComponents()
+                        .RegisterBusinessComponents();
                 })
                 .Build();
 
             host.Services.PopulateJaneENodeDIContainer();
 
-            eNodeConfiguration
+            ENodeConfiguration.Instance
                 .InitializeBusinessAssemblies(bussinessAssemblies);
 
             using (host)
