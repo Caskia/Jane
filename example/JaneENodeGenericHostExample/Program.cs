@@ -29,13 +29,15 @@ namespace JaneENodeGenericHostExample
                 .UseAutofac()
                 .ConfigureServices(services =>
                 {
+                    JaneConfiguration.Create();
+
                     services.AddHttpClient();
 
                     services.AddHostedService<HostedService>();
                 })
                 .ConfigureContainer<ContainerBuilder>((context, builder) =>
                 {
-                    var janeConfiguration = JaneConfiguration.Create()
+                    var janeConfiguration = JaneConfiguration.Instance
                         .UseAutofac(builder)
                         .RegisterCommonComponents()
                         .RegisterAssemblies(bussinessAssemblies)
