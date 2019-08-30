@@ -21,7 +21,7 @@ namespace JaneGenericHostExample
                     };
 
             var host = new HostBuilder()
-                .UseAutofac()
+                .UseServiceProviderFactory(new AutofacServiceProviderFactory())
                 .ConfigureServices(services =>
                 {
                     JaneConfiguration.Create();
