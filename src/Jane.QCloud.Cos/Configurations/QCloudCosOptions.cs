@@ -1,4 +1,4 @@
-﻿namespace Jane.QCloud.Cos.Configurations
+﻿namespace Jane.Configurations
 {
     public class QCloudCosOptions
     {

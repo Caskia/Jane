@@ -1,4 +1,4 @@
-﻿namespace Jane.Mob.Push.Configurations
+﻿namespace Jane.Configurations
 {
     public class MobPushOptions
     {

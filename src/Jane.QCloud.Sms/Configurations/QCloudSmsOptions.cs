@@ -1,4 +1,4 @@
-﻿namespace Jane.QCloud.Sms.Configurations
+﻿namespace Jane.Configurations
 {
     public class QCloudSmsOptions
     {

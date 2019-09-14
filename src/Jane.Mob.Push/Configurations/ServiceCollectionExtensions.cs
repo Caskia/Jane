@@ -1,10 +1,11 @@
-﻿using Jane.Push;
+﻿using Jane.Mob.Push;
+using Jane.Push;
 using Microsoft.Extensions.DependencyInjection;
 using Refit;
 using System;
 using JaneConfiguration = Jane.Configurations.Configuration;
 
-namespace Jane.Mob.Push.Configurations
+namespace Jane.Configurations
 {
     public static class ServiceCollectionExtensions
     {

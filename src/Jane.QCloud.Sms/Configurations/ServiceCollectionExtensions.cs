@@ -1,11 +1,12 @@
-﻿using Jane.Sms;
+﻿using Jane.QCloud.Sms;
+using Jane.Sms;
 using Microsoft.Extensions.DependencyInjection;
 using Refit;
 using System;
 using System.Collections.Generic;
 using JaneConfiguration = Jane.Configurations.Configuration;
 
-namespace Jane.QCloud.Sms.Configurations
+namespace Jane.Configurations
 {
     public static class ServiceCollectionExtensions
     {

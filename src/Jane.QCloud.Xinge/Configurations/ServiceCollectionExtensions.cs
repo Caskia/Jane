@@ -1,4 +1,5 @@
 ﻿using Jane.Push;
+using Jane.QCloud.Xinge;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
@@ -6,7 +7,7 @@ using Refit;
 using System;
 using JaneConfiguration = Jane.Configurations.Configuration;
 
-namespace Jane.QCloud.Xinge.Configurations
+namespace Jane.Configurations
 {
     public static class ServiceCollectionExtensions
     {

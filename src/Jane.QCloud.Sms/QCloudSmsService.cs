@@ -1,9 +1,8 @@
-﻿using Jane.Sms;
-using Jane;
+﻿using Jane.Configurations;
 using Jane.Extensions;
+using Jane.Sms;
 using Jane.Timing;
 using Microsoft.Extensions.Options;
-using Jane.QCloud.Sms.Configurations;
 using System;
 using System.Collections.Generic;
 using System.Linq;

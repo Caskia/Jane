@@ -1,4 +1,4 @@
-﻿namespace Jane.QCloud.CKafka.Configurations
+﻿namespace Jane.Configurations
 {
     public class QCloudCKafkaOptions
     {

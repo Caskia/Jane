@@ -1,8 +1,9 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Jane.QCloud.CKafka;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using JaneConfiguration = Jane.Configurations.Configuration;
 
-namespace Jane.QCloud.CKafka.Configurations
+namespace Jane.Configurations
 {
     public static class ServiceCollectionExtensions
     {

@@ -1,8 +1,7 @@
-﻿using Jane.Push;
-using Jane;
+﻿using Jane.Configurations;
 using Jane.Extensions;
+using Jane.Push;
 using Microsoft.Extensions.Options;
-using Jane.QCloud.Xinge.Configurations;
 using Refit;
 using System;
 using System.Collections.Generic;

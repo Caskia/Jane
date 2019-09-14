@@ -1,4 +1,4 @@
-﻿namespace Jane.UMeng.Push.Configurations
+﻿namespace Jane.Configurations
 {
     public class UMengKey
     {

@@ -1,6 +1,6 @@
-﻿using Jane.Push;
-using Jane;
+﻿using Jane.Configurations;
 using Jane.Extensions;
+using Jane.Push;
 using Jane.Timing;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
@@ -9,7 +9,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Jane.UMeng.Push.Configurations;
 
 namespace Jane.UMeng.Push
 {

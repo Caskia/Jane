@@ -1,6 +1,6 @@
-﻿using Jane.Extensions;
+﻿using Jane.Configurations;
+using Jane.Extensions;
 using Jane.Sms;
-using Jane.Twilio.Sms.Configurations;
 using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;

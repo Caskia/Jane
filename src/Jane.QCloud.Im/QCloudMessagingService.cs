@@ -1,4 +1,4 @@
-﻿using Jane.QCloud.Im.Configurations;
+﻿using Jane.Configurations;
 using Jane.Runtime.Caching;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;

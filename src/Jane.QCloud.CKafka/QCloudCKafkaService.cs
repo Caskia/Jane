@@ -1,6 +1,6 @@
-﻿using Microsoft.Extensions.Options;
-using Jane.QCloud.CKafka.Configurations;
+﻿using Jane.Configurations;
 using Jane.QCloud.CKafka.Models;
+using Microsoft.Extensions.Options;
 using System.Threading.Tasks;
 using TencentCloud.Common;
 using TencentCloud.Common.Profile;

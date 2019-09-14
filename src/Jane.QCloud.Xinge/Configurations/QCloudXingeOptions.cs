@@ -1,4 +1,4 @@
-﻿namespace Jane.QCloud.Xinge.Configurations
+﻿namespace Jane.Configurations
 {
     public class QCloudXingeOptions
     {

@@ -1,10 +1,11 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Jane.QCloud.Im;
+using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using Refit;
 using System;
 using JaneConfiguration = Jane.Configurations.Configuration;
 
-namespace Jane.QCloud.Im.Configurations
+namespace Jane.Configurations
 {
     public static class ServiceCollectionExtensions
     {

@@ -1,9 +1,8 @@
-﻿using Jane.Push;
-using Jane;
+﻿using Jane.Configurations;
 using Jane.Extensions;
 using Jane.Logging;
+using Jane.Push;
 using Microsoft.Extensions.Options;
-using Jane.Mob.Push.Configurations;
 using Newtonsoft.Json;
 using Refit;
 using System;

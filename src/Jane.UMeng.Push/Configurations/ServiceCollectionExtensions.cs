@@ -1,10 +1,11 @@
 ﻿using Jane.Push;
+using Jane.UMeng.Push;
 using Microsoft.Extensions.DependencyInjection;
 using Refit;
 using System;
 using JaneConfiguration = Jane.Configurations.Configuration;
 
-namespace Jane.UMeng.Push.Configurations
+namespace Jane.Configurations
 {
     public static class ServiceCollectionExtensions
     {

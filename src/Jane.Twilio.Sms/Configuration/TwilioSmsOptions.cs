@@ -1,4 +1,4 @@
-﻿namespace Jane.Twilio.Sms.Configurations
+﻿namespace Jane.Configurations
 {
     public class TwilioSmsOptions
     {

@@ -1,6 +1,6 @@
-﻿using Jane.Extensions;
+﻿using Jane.Configurations;
+using Jane.Extensions;
 using Microsoft.Extensions.Options;
-using Jane.QCloud.Cos.Configurations;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
