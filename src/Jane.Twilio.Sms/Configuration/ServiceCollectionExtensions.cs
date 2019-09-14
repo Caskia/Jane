@@ -1,0 +1,23 @@
+﻿using Jane.Sms;
+using Microsoft.Extensions.DependencyInjection;
+using System;
+using JaneConfiguration = Jane.Configurations.Configuration;
+
+namespace Jane.Twilio.Sms.Configurations
+{
+    public static class ConfigurationExtensions
+    {
+        public static IServiceCollection AddTwilioSms(this IServiceCollection services, Action<TwilioSmsOptions> action = null)
+        {
+            services.Configure<TwilioSmsOptions>(JaneConfiguration.Instance.Root.GetSection("Twilio:Sms"));
+            if (action != null)
+            {
+                services.Configure(action);
+            }
+
+            services.AddSingleton<ISmsService, TwilioSmsService>();
+
+            return services;
+        }
+    }
+}

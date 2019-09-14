@@ -15,8 +15,16 @@ $projects = (
     "Jane.Hangfire",
     "Jane.Log4Net",
     "Jane.Masstransit.RabbitMq",
+    "Jane.Mob.Push",
     "Jane.MongoDB",
+    "Jane.QCloud.CKafka",
+    "Jane.QCloud.Cos",
+    "Jane.QCloud.Im",
+    "Jane.QCloud.Sms",
+    "Jane.QCloud.Xinge",
     "Jane.RedisCache",
+    "Jane.Twilio.Sms",
+    "Jane.UMeng.Push",
     "Jane.Web"
 )
 
