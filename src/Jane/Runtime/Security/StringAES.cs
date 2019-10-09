@@ -23,21 +23,18 @@ namespace Jane.Runtime.Security
                 throw new ArgumentNullException(nameof(iv));
             }
 
-            using (var rijndaelCipher = new RijndaelManaged())
-            {
-                rijndaelCipher.Mode = CipherMode.CBC;
-                rijndaelCipher.Padding = PaddingMode.PKCS7;
-                rijndaelCipher.KeySize = 128;
-                rijndaelCipher.BlockSize = 128;
+            var keyArray = Convert.FromBase64String(key);
+            var toEncryptArray = Convert.FromBase64String(cipherText);
 
-                rijndaelCipher.Key = GetFixedKey(key);
-                rijndaelCipher.IV = GetFixedKey(iv);
+            var des = Aes.Create();
+            des.Key = keyArray;
+            des.Padding = PaddingMode.PKCS7;
+            des.IV = Convert.FromBase64String(iv);
 
-                var transform = rijndaelCipher.CreateDecryptor();
-                var textByte = Convert.FromBase64String(cipherText);
-                var plainText = transform.TransformFinalBlock(textByte, 0, textByte.Length);
-                return Encoding.UTF8.GetString(plainText);
-            }
+            var cTransform = des.CreateDecryptor();
+            var resultArray = cTransform.TransformFinalBlock(toEncryptArray, 0, toEncryptArray.Length);
+
+            return Encoding.UTF8.GetString(resultArray);
         }
 
         public static string EncryptToBase64String(string plainText, string key, string iv)
@@ -57,32 +54,17 @@ namespace Jane.Runtime.Security
                 throw new ArgumentNullException(nameof(iv));
             }
 
-            using (var rijndaelCipher = new RijndaelManaged())
-            {
-                rijndaelCipher.Mode = CipherMode.CBC;
-                rijndaelCipher.Padding = PaddingMode.PKCS7;
-                rijndaelCipher.KeySize = 128;
-                rijndaelCipher.BlockSize = 128;
+            var keyArray = Convert.FromBase64String(key);
+            var toEncryptArray = Encoding.UTF8.GetBytes(plainText);
 
-                rijndaelCipher.Key = GetFixedKey(key);
-                rijndaelCipher.IV = GetFixedKey(iv);
+            var des = Aes.Create();
+            des.Key = keyArray;
+            des.Padding = PaddingMode.PKCS7;
+            des.IV = Convert.FromBase64String(iv);
 
-                var transform = rijndaelCipher.CreateEncryptor();
-                var textByte = Encoding.UTF8.GetBytes(plainText);
-                var cipherBytes = transform.TransformFinalBlock(textByte, 0, textByte.Length);
-
-                return Convert.ToBase64String(cipherBytes);
-            }
-        }
-
-        private static byte[] GetFixedKey(string key, int length = 16)
-        {
-            byte[] keyBytes = Encoding.UTF8.GetBytes(key);
-            byte[] bytes = new byte[length];
-            int pwdlength = keyBytes.Length;
-            if (pwdlength > bytes.Length) pwdlength = bytes.Length;
-            Array.Copy(keyBytes, bytes, pwdlength);
-            return bytes;
+            var cTransform = des.CreateEncryptor();
+            var resultArray = cTransform.TransformFinalBlock(toEncryptArray, 0, toEncryptArray.Length);
+            return Convert.ToBase64String(resultArray);
         }
     }
 }
