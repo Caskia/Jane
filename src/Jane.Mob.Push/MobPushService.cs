@@ -99,6 +99,7 @@ namespace Jane.Mob.Push
                     };
 
                 case 5803:
+                case 5408:
                     _logger.Error($"Mob push message error[{result.Status}][{result.Error}]");
                     return null;
 
