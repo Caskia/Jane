@@ -90,11 +90,6 @@ namespace Jane.MongoDb.Repositories
                 finder = finder.Sort(sortDefinition);
             }
 
-            if (!projection.IsNullOrEmpty())
-            {
-                finder = finder.Project<TEntity>(projection);
-            }
-
             if (skip.HasValue)
             {
                 finder = finder.Skip(skip.Value);
@@ -107,6 +102,11 @@ namespace Jane.MongoDb.Repositories
                 }
 
                 finder = finder.Limit(count.Value);
+            }
+
+            if (!projection.IsNullOrEmpty())
+            {
+                finder = finder.Project<TEntity>(projection);
             }
 
             return finder;
