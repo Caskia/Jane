@@ -78,7 +78,7 @@ namespace Jane.QCloud.Soe
 
             var clientProfile = new ClientProfile()
             {
-                SignMethod = ClientProfile.SIGN_SHA1,
+                SignMethod = ClientProfile.SIGN_TC3SHA256,
                 HttpProfile = httpProfile
             };
 
