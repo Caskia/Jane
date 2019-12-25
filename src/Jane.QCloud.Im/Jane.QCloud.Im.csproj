@@ -14,8 +14,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="QCloud.Tls.Sig" Version="0.1.2" />
     <PackageReference Include="Refit.HttpClientFactory" Version="4.7.51" />
+    <PackageReference Include="tls-sig-api-v2" Version="1.0.1" />
   </ItemGroup>
 
   <ItemGroup>

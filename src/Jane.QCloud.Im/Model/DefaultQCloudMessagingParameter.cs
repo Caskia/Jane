@@ -6,7 +6,7 @@ namespace Jane.QCloud.Im
     public class DefaultQCloudMessagingParameter
     {
         [AliasAs("sdkappid")]
-        public string AppId { get; set; }
+        public int AppId { get; set; }
 
         [AliasAs("contenttype")]
         public string ContentType

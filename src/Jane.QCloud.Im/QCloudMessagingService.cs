@@ -1,11 +1,12 @@
 ﻿using Jane.Configurations;
 using Jane.Runtime.Caching;
+using Jane.Runtime.Caching.Memory;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
-using QCloud.Tls.Sig;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using tencentyun;
 
 namespace Jane.QCloud.Im
 {
@@ -15,11 +16,10 @@ namespace Jane.QCloud.Im
         private readonly int _groupMembersSubmitLimit = 400;
         private readonly IQCloudMessagingApi _messagingApi;
         private readonly QCloudMessagingOptions _options;
-
-        private TlsSigner _tlsSigner;
+        private readonly TLSSigAPIv2 _tlsSigner;
 
         public QCloudMessagingService(
-            ICacheManager cacheManager,
+            JaneMemoryCacheManager cacheManager,
             IQCloudMessagingApi qCloudMessagingApi,
             IOptions<QCloudMessagingOptions> optionsAccessor
             )
@@ -27,7 +27,7 @@ namespace Jane.QCloud.Im
             _cacheManager = cacheManager;
             _messagingApi = qCloudMessagingApi;
             _options = optionsAccessor.Value;
-            _tlsSigner = new TlsSigner(_options.AppId, _options.PrivateKeyPath, _options.PublicKeyPath);
+            _tlsSigner = new TLSSigAPIv2(_options.AppId, _options.AppSecret);
         }
 
         public async Task<AccountGetPartialProfileOutput> AccountGetPartialProfileAsync(List<string> input)
@@ -125,7 +125,7 @@ namespace Jane.QCloud.Im
         {
             return await _cacheManager
                   .GetCache<string, string>("QCloudImSignature")
-                  .GetAsync(identifier, () => Task.FromResult(_tlsSigner.Sign(identifier)));
+                  .GetAsync(identifier, () => Task.FromResult(_tlsSigner.GenSig(identifier)));
         }
 
         public async Task<GroupAddMemberOutput> GroupAddMemberAsync(GroupAddMemberInput input)
