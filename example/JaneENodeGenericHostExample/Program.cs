@@ -22,8 +22,6 @@ namespace JaneENodeGenericHostExample
                         Assembly.GetExecutingAssembly()
                     };
 
-            var eNodeConfiguration = default(ENodeConfiguration);
-
             var host = new HostBuilder()
                 .UseServiceProviderFactory(new AutofacServiceProviderFactory())
                 .ConfigureServices(services =>
