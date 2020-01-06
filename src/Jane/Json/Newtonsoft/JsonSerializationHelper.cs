@@ -1,8 +1,7 @@
-using Jane.Json.Formatters;
 using Newtonsoft.Json;
 using System;
 
-namespace Jane.Json
+namespace Jane.Json.Newtonsoft
 {
     /// <summary>
     /// Defines helper methods to work with JSON.

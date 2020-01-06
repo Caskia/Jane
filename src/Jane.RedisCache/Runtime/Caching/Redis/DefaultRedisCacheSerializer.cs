@@ -1,4 +1,4 @@
-﻿using Jane.Json;
+﻿using Jane.Json.Newtonsoft;
 using Newtonsoft.Json;
 using StackExchange.Redis;
 using System;

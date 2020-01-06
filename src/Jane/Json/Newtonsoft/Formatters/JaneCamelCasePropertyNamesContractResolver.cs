@@ -5,7 +5,7 @@ using Newtonsoft.Json.Serialization;
 using System;
 using System.Reflection;
 
-namespace Jane.Json.Formatters
+namespace Jane.Json.Newtonsoft
 {
     public class JaneCamelCasePropertyNamesContractResolver : CamelCasePropertyNamesContractResolver
     {

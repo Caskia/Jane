@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using System.Reflection;
 
-namespace Jane.Json.Formatters
+namespace Jane.Json.Newtonsoft
 {
     public class CustomPropertyNamesContractResolver : DefaultContractResolver
     {

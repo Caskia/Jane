@@ -1,5 +1,4 @@
-﻿using Jane.Json;
-using Jane.Json.Converters;
+﻿using Jane.Json.Newtonsoft;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json.Converters;

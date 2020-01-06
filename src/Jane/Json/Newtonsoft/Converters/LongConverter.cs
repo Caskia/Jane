@@ -2,7 +2,7 @@
 using Newtonsoft.Json.Linq;
 using System;
 
-namespace Jane.Json.Converters
+namespace Jane.Json.Newtonsoft
 {
     /// <summary>
     /// Converts string to and from long value

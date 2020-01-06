@@ -1,4 +1,4 @@
-﻿using Jane.Json;
+﻿using Jane.Json.Newtonsoft;
 using System;
 using System.Collections.Generic;
 using System.Linq;

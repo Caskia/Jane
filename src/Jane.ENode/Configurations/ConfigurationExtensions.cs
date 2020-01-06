@@ -1,11 +1,9 @@
 ﻿using Autofac;
-using Autofac.Extensions.DependencyInjection;
 using ECommon.Configurations;
 using ECommon.JsonNet;
 using ECommon.Serializing;
 using Jane.ENode;
 using Jane.Extensions;
-using Jane.Json.Converters;
 using Newtonsoft.Json.Converters;
 using System;
 using ECommonConfiguration = ECommon.Configurations.Configuration;
@@ -134,7 +132,7 @@ namespace Jane.Configurations
         private static ECommonConfiguration UseECommonJsonNet(this ECommonConfiguration configuration)
         {
             var serializer = new NewtonsoftJsonSerializer();
-            serializer.Settings.Converters.Add(new LongConverter());
+            serializer.Settings.Converters.Add(new Json.Newtonsoft.LongConverter());
             serializer.Settings.Converters.Add(new StringEnumConverter());
             configuration.SetDefault<IJsonSerializer, NewtonsoftJsonSerializer>(serializer);
             return configuration;

@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using System;
 
-namespace Jane.Json
+namespace Jane.Json.Newtonsoft
 {
     public class JaneDateTimeConverter : IsoDateTimeConverter
     {

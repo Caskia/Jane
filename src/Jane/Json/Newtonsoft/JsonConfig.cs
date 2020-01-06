@@ -1,9 +1,8 @@
-﻿using Jane.Json.Converters;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
 
-namespace Jane.Json
+namespace Jane.Json.Newtonsoft
 {
     public static class JsonConfig
     {

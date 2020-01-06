@@ -1,9 +1,8 @@
-﻿using Jane.Json.Formatters;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using System;
 
-namespace Jane.Json
+namespace Jane.Json.Newtonsoft
 {
     public static class JsonExtensions
     {
