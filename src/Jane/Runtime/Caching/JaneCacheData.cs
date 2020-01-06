@@ -24,6 +24,10 @@ namespace Jane.Runtime.Caching
             Payload = payload;
         }
 
+        protected JaneCacheData()
+        {
+        }
+
         public static JsonSerializerOptions JsonSerializerOptions
         {
             get
