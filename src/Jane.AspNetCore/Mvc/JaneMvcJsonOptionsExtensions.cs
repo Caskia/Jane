@@ -10,7 +10,7 @@ namespace Jane.AspNetCore.Mvc
 {
     public static class JaneMvcJsonOptionsExtensions
     {
-        public static void AddJaneJsonOptions(this IMvcBuilder builder, Action<JsonOptions> action = null)
+        public static IMvcBuilder AddJaneJsonOptions(this IMvcBuilder builder, Action<JsonOptions> action = null)
         {
             if (action == null)
             {
@@ -28,6 +28,8 @@ namespace Jane.AspNetCore.Mvc
             }
 
             builder.AddJsonOptions(action);
+
+            return builder;
         }
     }
 }
