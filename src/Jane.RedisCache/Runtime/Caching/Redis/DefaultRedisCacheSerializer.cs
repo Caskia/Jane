@@ -1,7 +1,6 @@
-﻿using Jane.Json.Newtonsoft;
-using Newtonsoft.Json;
-using StackExchange.Redis;
+﻿using StackExchange.Redis;
 using System;
+using System.Text.Json;
 
 namespace Jane.Runtime.Caching.Redis
 {
@@ -18,14 +17,9 @@ namespace Jane.Runtime.Caching.Redis
         /// <seealso cref="IRedisCacheSerializer.Serialize" />
         public virtual object Deserialize(RedisValue objbyte)
         {
-            var serializerSettings = new JsonSerializerSettings();
-            serializerSettings.Converters.Insert(0, new JaneDateTimeConverter());
-
             var cacheData = JaneCacheData.Deserialize(objbyte);
 
-            return cacheData.Payload.FromJsonString(
-                Type.GetType(cacheData.Type, true, true),
-                serializerSettings);
+            return JsonSerializer.Deserialize(cacheData.Payload, Type.GetType(cacheData.Type, true, true), JaneCacheData.JsonSerializerOptions);
         }
 
         /// <summary>
@@ -37,7 +31,7 @@ namespace Jane.Runtime.Caching.Redis
         /// <seealso cref="IRedisCacheSerializer.Deserialize" />
         public virtual string Serialize(object value, Type type)
         {
-            return JsonConvert.SerializeObject(JaneCacheData.Serialize(value));
+            return JsonSerializer.Serialize(JaneCacheData.Serialize(value), JaneCacheData.JsonSerializerOptions);
         }
     }
 }

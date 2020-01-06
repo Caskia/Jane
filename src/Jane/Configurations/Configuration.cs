@@ -8,7 +8,7 @@ using Jane.Events.Bus.Factories;
 using Jane.Events.Bus.Handlers;
 using Jane.Extensions;
 using Jane.Json;
-using Jane.Json.Newtonsoft;
+using Jane.Json.Microsoft;
 using Jane.Limits;
 using Jane.Logging;
 using Jane.MessageBus;
@@ -113,7 +113,7 @@ namespace Jane.Configurations
         public Configuration RegisterCommonComponents()
         {
             SetDefault<ILoggerFactory, EmptyLoggerFactory>();
-            SetDefault<IJsonSerializer, NewtonsoftJsonSerializer>();
+            SetDefault<IJsonSerializer, MicrosoftJsonSerializer>();
             SetDefault<SequentialGuidGeneratorOptions, SequentialGuidGeneratorOptions>();
             SetDefault<SequentialGuidGenerator, SequentialGuidGenerator>();
             SetDefault<IIdGenerator, IdGenerator>();

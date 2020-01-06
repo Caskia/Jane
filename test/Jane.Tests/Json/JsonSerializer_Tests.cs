@@ -19,7 +19,7 @@ namespace Jane.Tests.Json
         {
             var serializer = new MicrosoftJsonSerializer();
 
-            var person = new Person { Name = "Caskia", Age = 23, Birthday = DateTime.Now.AddYears(-30), TotalAmount = 12213312213L, Gender = Gender.Male, IP = "192.168.31.14", MyCIA = "我的CIA" };
+            var person = new Person { Name = "Caskia", Age = 23, Birthday = DateTime.Now.AddYears(-30), TotalAmount = 12213312213L, Gender = Gender.Male, IP = "192.168.31.14", MyCIA = "我的CIA", NameObj = "Caskia" };
             var json = serializer.Serialize(person);
             var obj = serializer.Deserialize<Person>(json);
 
@@ -31,7 +31,7 @@ namespace Jane.Tests.Json
         {
             var serializer = new NewtonsoftJsonSerializer();
 
-            var person = new Person { Name = "Caskia", Age = 23, Birthday = DateTime.Now.AddYears(-30), TotalAmount = 12213312213L, Gender = Gender.Male, IP = "192.168.31.14", MyCIA = "我的CIA" };
+            var person = new Person { Name = "Caskia", Age = 23, Birthday = DateTime.Now.AddYears(-30), TotalAmount = 12213312213L, Gender = Gender.Male, IP = "192.168.31.14", MyCIA = "我的CIA", NameObj = "Caskia" };
             var json = serializer.Serialize(person);
             var obj = serializer.Deserialize<Person>(json);
 
@@ -51,6 +51,8 @@ namespace Jane.Tests.Json
             public string MyCIA { get; set; }
 
             public string Name { get; set; }
+
+            public object NameObj { get; set; }
 
             public long? TotalAmount { get; set; }
         }

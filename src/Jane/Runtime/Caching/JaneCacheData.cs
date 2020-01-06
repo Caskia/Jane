@@ -1,9 +1,12 @@
-﻿using Jane.Json.Newtonsoft;
+﻿using Jane.Json.Microsoft;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using System.Text.Encodings.Web;
+using System.Text.Json;
+using System.Text.Unicode;
 
 namespace Jane.Runtime.Caching
 {
@@ -21,17 +24,35 @@ namespace Jane.Runtime.Caching
             Payload = payload;
         }
 
+        public static JsonSerializerOptions JsonSerializerOptions
+        {
+            get
+            {
+                var encoderSettings = new TextEncoderSettings();
+                encoderSettings.AllowRanges(UnicodeRanges.All);
+
+                var options = new JsonSerializerOptions()
+                {
+                    Encoder = JavaScriptEncoder.Create(encoderSettings)
+                };
+
+                options.Converters.Add(new JaneDateTimeConverter());
+
+                return options;
+            }
+        }
+
         public string Payload { get; set; }
 
         public string Type { get; set; }
 
-        public static JaneCacheData Deserialize(string serializedCacheData) => serializedCacheData.FromJsonString<JaneCacheData>();
+        public static JaneCacheData Deserialize(string serializedCacheData) => JsonSerializer.Deserialize<JaneCacheData>(serializedCacheData, JsonSerializerOptions);
 
         public static JaneCacheData Serialize(object obj)
         {
             return new JaneCacheData(
                 SerializeType(obj.GetType()).ToString(),
-                obj.ToJsonString());
+                JsonSerializer.Serialize(obj, JsonSerializerOptions));
         }
 
         private static StringBuilder SerializeType(Type type, bool withAssemblyName = true, StringBuilder typeNameBuilder = null)

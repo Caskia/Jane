@@ -1,8 +1,8 @@
 using Autofac;
-using Autofac.Extensions.DependencyInjection;
 using Jane.AspNetCore.Authentication;
 using Jane.AspNetCore.Authentication.JwtBearer;
 using Jane.AspNetCore.Cors;
+using Jane.AspNetCore.Mvc;
 using Jane.Configurations;
 using Jane.Timing;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -98,7 +98,7 @@ namespace JaneWebHostExample
             services.AddCorsPolicy(JaneConfiguration.Instance.Root);
 
             services.AddControllers()
-                .AddNewtonsoftJson();
+                .AddJaneJsonOptions();
 
             //Configure Auth
             services

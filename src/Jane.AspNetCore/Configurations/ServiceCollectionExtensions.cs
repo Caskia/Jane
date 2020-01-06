@@ -20,9 +20,6 @@ namespace Jane.Configurations
             {
                 options.ConfigureJaneMvcOptions(services);
             });
-
-            //Configure Mvc Json
-            services.ConfigureJaneMvcJsonOptions();
         }
     }
 }

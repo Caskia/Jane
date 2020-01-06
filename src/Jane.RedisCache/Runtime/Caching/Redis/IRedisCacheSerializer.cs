@@ -1,6 +1,6 @@
-﻿using System;
-using Jane.Dependency;
+﻿using Jane.Dependency;
 using StackExchange.Redis;
+using System;
 
 namespace Jane.Runtime.Caching.Redis
 {
@@ -8,7 +8,7 @@ namespace Jane.Runtime.Caching.Redis
     ///     Interface to be implemented by all custom (de)serialization methods used when persisting and retrieving
     ///     objects from the Redis cache.
     /// </summary>
-    public interface IRedisCacheSerializer : ITransientDependency
+    public interface IRedisCacheSerializer : ISingletonDependency
     {
         /// <summary>
         ///     Creates an instance of the object from its serialized string representation.

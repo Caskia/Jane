@@ -1,26 +1,33 @@
-﻿using Jane.Json.Newtonsoft;
+﻿using Jane.Json.Microsoft;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
-using Newtonsoft.Json.Converters;
-using Newtonsoft.Json.Serialization;
+using System;
+using System.Text.Encodings.Web;
+using System.Text.Json.Serialization;
+using System.Text.Unicode;
 
 namespace Jane.AspNetCore.Mvc
 {
     public static class JaneMvcJsonOptionsExtensions
     {
-        public static void ConfigureJaneMvcJsonOptions(this IServiceCollection services)
+        public static void AddJaneJsonOptions(this IMvcBuilder builder, Action<JsonOptions> action = null)
         {
-            services.Configure<MvcNewtonsoftJsonOptions>(options =>
+            if (action == null)
             {
-                options.SerializerSettings.Converters.Insert(0, new JaneDateTimeConverter());
-                var contractResolver = new DefaultContractResolver()
+                action = options =>
                 {
-                    NamingStrategy = new SnakeCaseNamingStrategy()
+                    var encoderSettings = new TextEncoderSettings();
+                    encoderSettings.AllowRanges(UnicodeRanges.All);
+
+                    options.JsonSerializerOptions.Encoder = JavaScriptEncoder.Create(encoderSettings);
+                    options.JsonSerializerOptions.PropertyNamingPolicy = new JsonSnakeCaseNamingPolicy();
+                    options.JsonSerializerOptions.Converters.Insert(0, new JaneDateTimeConverter());
+                    options.JsonSerializerOptions.Converters.Add(new StringLongConverter());
+                    options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
                 };
-                options.SerializerSettings.ContractResolver = contractResolver;
-                options.SerializerSettings.Converters.Add(new StringLongConverter());
-                options.SerializerSettings.Converters.Add(new StringEnumConverter());
-            });
+            }
+
+            builder.AddJsonOptions(action);
         }
     }
 }
