@@ -32,12 +32,9 @@ namespace Jane.Runtime.Caching
         {
             get
             {
-                var encoderSettings = new TextEncoderSettings();
-                encoderSettings.AllowRanges(UnicodeRanges.All);
-
                 var options = new JsonSerializerOptions()
                 {
-                    Encoder = JavaScriptEncoder.Create(encoderSettings)
+                    Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping
                 };
 
                 options.Converters.Add(new JaneDateTimeConverter());
