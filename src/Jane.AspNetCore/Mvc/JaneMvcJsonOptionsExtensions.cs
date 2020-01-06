@@ -18,7 +18,7 @@ namespace Jane.AspNetCore.Mvc
                     NamingStrategy = new SnakeCaseNamingStrategy()
                 };
                 options.SerializerSettings.ContractResolver = contractResolver;
-                options.SerializerSettings.Converters.Add(new LongConverter());
+                options.SerializerSettings.Converters.Add(new StringLongConverter());
                 options.SerializerSettings.Converters.Add(new StringEnumConverter());
             });
         }

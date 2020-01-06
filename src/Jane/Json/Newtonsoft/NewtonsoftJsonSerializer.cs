@@ -44,7 +44,7 @@ namespace Jane.Json.Newtonsoft
 
             settings.ContractResolver = contractResolver;
             settings.Converters.Add(new JaneDateTimeConverter());
-            settings.Converters.Add(new LongConverter());
+            settings.Converters.Add(new StringLongConverter());
             settings.Converters.Add(new StringEnumConverter());
 
             if (indented)

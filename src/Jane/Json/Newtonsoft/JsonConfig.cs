@@ -23,7 +23,7 @@ namespace Jane.Json.Newtonsoft
                     };
                     _serializer.ContractResolver = contractResolver;
                     _serializer.Converters.Add(new JaneDateTimeConverter());
-                    _serializer.Converters.Add(new LongConverter());
+                    _serializer.Converters.Add(new StringLongConverter());
                     _serializer.Converters.Add(new StringEnumConverter());
                 }
 
@@ -44,7 +44,7 @@ namespace Jane.Json.Newtonsoft
                     };
                     _serializerSettings.ContractResolver = contractResolver;
                     _serializerSettings.Converters.Add(new JaneDateTimeConverter());
-                    _serializerSettings.Converters.Add(new LongConverter());
+                    _serializerSettings.Converters.Add(new StringLongConverter());
                     _serializerSettings.Converters.Add(new StringEnumConverter());
                 }
 

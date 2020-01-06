@@ -132,7 +132,7 @@ namespace Jane.Configurations
         private static ECommonConfiguration UseECommonJsonNet(this ECommonConfiguration configuration)
         {
             var serializer = new NewtonsoftJsonSerializer();
-            serializer.Settings.Converters.Add(new Json.Newtonsoft.LongConverter());
+            serializer.Settings.Converters.Add(new Json.Newtonsoft.StringLongConverter());
             serializer.Settings.Converters.Add(new StringEnumConverter());
             configuration.SetDefault<IJsonSerializer, NewtonsoftJsonSerializer>(serializer);
             return configuration;

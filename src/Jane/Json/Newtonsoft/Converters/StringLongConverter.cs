@@ -7,7 +7,7 @@ namespace Jane.Json.Newtonsoft
     /// <summary>
     /// Converts string to and from long value
     /// </summary>
-    public class LongConverter : JsonConverter
+    public class StringLongConverter : JsonConverter
     {
         public override bool CanConvert(Type objectType)
         {
