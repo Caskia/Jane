@@ -130,6 +130,30 @@ namespace Jane.QCloud.Im
 
         public async Task<GroupAddMemberOutput> GroupAddMemberAsync(GroupAddMemberInput input)
         {
+            var groups = await GroupGetDetailAsync(new GroupGetDetailInput()
+            {
+                GroupIds = new List<string>() { input.GroupId }
+            });
+
+            if (groups.GroupInfo == null || groups.GroupInfo.Count == 0)
+            {
+                return new GroupAddMemberOutput()
+                {
+                    Success = false,
+                    FailedMembers = input.MemberList.Select(m => m.Member).ToList()
+                };
+            }
+
+            var currentGroup = groups.GroupInfo.FirstOrDefault();
+            //AVChatRoom not need import members
+            if (currentGroup.Type == "AVChatRoom")
+            {
+                return new GroupAddMemberOutput()
+                {
+                    Success = true
+                };
+            }
+
             var skip = 0;
             var output = new GroupAddMemberOutput();
 
@@ -180,6 +204,13 @@ namespace Jane.QCloud.Im
         public async Task<GroupCreateOutput> GroupCreateAsync(GroupCreateInput input)
         {
             var output = new GroupCreateOutput();
+
+            //AVChatRoom not need import members
+            if (input.Type == "AVChatRoom")
+            {
+                input.MemberList = new List<GroupMember>();
+            }
+
             var allMembers = input.MemberList.ToList();
             var createGroupMembers = allMembers.Take(_groupMembersSubmitLimit).ToList();
 
