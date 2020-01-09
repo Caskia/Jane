@@ -23,7 +23,7 @@ namespace Jane.Json.Microsoft
 
             if (reader.TokenType == JsonTokenType.True || reader.TokenType == JsonTokenType.False)
             {
-                return reader.GetBoolean().ToString();
+                return reader.GetBoolean().ToString().ToLower();
             }
 
             return reader.GetString();
