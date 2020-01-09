@@ -24,6 +24,7 @@ namespace Jane.AspNetCore.Mvc
                     options.JsonSerializerOptions.Converters.Insert(0, new JaneDateTimeConverter());
                     options.JsonSerializerOptions.Converters.Add(new StringLongConverter());
                     options.JsonSerializerOptions.Converters.Add(new JsonNumberStringConverter());
+                    options.JsonSerializerOptions.Converters.Add(new JsonBooleanStringConverter());
                     options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
                 };
             }
