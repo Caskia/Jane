@@ -2,6 +2,7 @@
 using Jane.Json.Newtonsoft;
 using Shouldly;
 using System;
+using System.Collections.Generic;
 using Xunit;
 
 namespace Jane.Tests.Json
@@ -43,6 +44,8 @@ namespace Jane.Tests.Json
             public int Age { get; set; }
 
             public DateTime? Birthday { get; set; }
+
+            public Dictionary<string, string> ExtendData { get; set; } = new Dictionary<string, string>();
 
             public Gender Gender { get; set; }
 
