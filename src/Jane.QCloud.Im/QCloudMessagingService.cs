@@ -1,4 +1,6 @@
 ﻿using Jane.Configurations;
+using Jane.Extensions;
+using Jane.Logging;
 using Jane.Runtime.Caching;
 using Jane.Runtime.Caching.Memory;
 using Microsoft.Extensions.Options;
@@ -14,18 +16,21 @@ namespace Jane.QCloud.Im
     {
         private readonly ICacheManager _cacheManager;
         private readonly int _groupMembersSubmitLimit = 400;
+        private readonly ILogger _logger;
         private readonly IQCloudMessagingApi _messagingApi;
         private readonly QCloudMessagingOptions _options;
         private readonly TLSSigAPIv2 _tlsSigner;
 
         public QCloudMessagingService(
             JaneMemoryCacheManager cacheManager,
-            IQCloudMessagingApi qCloudMessagingApi,
+            ILoggerFactory loggerFactory,
+            IQCloudMessagingApi messagingApi,
             IOptions<QCloudMessagingOptions> optionsAccessor
             )
         {
             _cacheManager = cacheManager;
-            _messagingApi = qCloudMessagingApi;
+            _logger = loggerFactory.Create(nameof(QCloudMessagingService));
+            _messagingApi = messagingApi;
             _options = optionsAccessor.Value;
             _tlsSigner = new TLSSigAPIv2(_options.AppId, _options.AppSecret);
         }
@@ -135,12 +140,15 @@ namespace Jane.QCloud.Im
                 GroupIds = new List<string>() { input.GroupId }
             });
 
+            groups.GroupInfo = groups.GroupInfo?.Where(g => !g.Name.IsNullOrEmpty()).ToList();
+
             if (groups.GroupInfo == null || groups.GroupInfo.Count == 0)
             {
+                _logger.Warn($"add members[{string.Join(", ", input.MemberList.Select(m => m.Member))}] to group[{input.GroupId}] failed, group not found.");
+
                 return new GroupAddMemberOutput()
                 {
-                    Success = false,
-                    FailedMembers = input.MemberList.Select(m => m.Member).ToList()
+                    Success = true
                 };
             }
 
