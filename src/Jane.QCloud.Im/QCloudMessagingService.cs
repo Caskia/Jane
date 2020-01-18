@@ -216,6 +216,7 @@ namespace Jane.QCloud.Im
             //AVChatRoom not need import members
             if (input.Type == "AVChatRoom")
             {
+                input.Owner = "";
                 input.MemberList = new List<GroupMember>();
             }
 
