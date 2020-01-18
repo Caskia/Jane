@@ -254,6 +254,27 @@ namespace Jane.QCloud.Im
 
         public async Task GroupDeleteMemberAsync(GroupDeleteMemberInput input)
         {
+            var groups = await GroupGetDetailAsync(new GroupGetDetailInput()
+            {
+                GroupIds = new List<string>() { input.GroupId }
+            });
+
+            groups.GroupInfo = groups.GroupInfo?.Where(g => !g.Name.IsNullOrEmpty()).ToList();
+
+            if (groups.GroupInfo == null || groups.GroupInfo.Count == 0)
+            {
+                _logger.Warn($"delete members[{string.Join(", ", input.MemeberList)}] from group[{input.GroupId}] failed, group not found.");
+
+                return;
+            }
+
+            var currentGroup = groups.GroupInfo.FirstOrDefault();
+            //AVChatRoom not need import members
+            if (currentGroup.Type == "AVChatRoom")
+            {
+                return;
+            }
+
             var response = await _messagingApi.GroupDeleteMemberAsync(await BuildAdminMessagingParameterAsync(), input);
             ProcessQCloudMessagingResponse(response, input, "delete_group_member", 10007);
         }
