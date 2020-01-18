@@ -53,8 +53,8 @@ namespace Jane.QCloud.Im
                 AccountProfiles = response.UserProfileItem.Select(p => new AccountImportInput
                 {
                     Identifier = p.Identifier,
-                    Nick = p.ProfileItem.FirstOrDefault(i => i.Tag == "Tag_Profile_IM_Nick")?.Value,
-                    FaceUrl = p.ProfileItem.FirstOrDefault(i => i.Tag == "Tag_Profile_IM_Image")?.Value
+                    Nick = p.ProfileItem?.FirstOrDefault(i => i.Tag == "Tag_Profile_IM_Nick")?.Value,
+                    FaceUrl = p.ProfileItem?.FirstOrDefault(i => i.Tag == "Tag_Profile_IM_Image")?.Value
                 }).ToList()
             };
         }
