@@ -102,7 +102,7 @@ namespace Jane.QCloud.Im
         public async Task BatchSendMessageAsync(BatchSendMessageInput input)
         {
             var response = await _messagingApi.BatchSendMessageAsync(await BuildAdminMessagingParameterAsync(), input);
-            ProcessQCloudMessagingResponse(response, input, "batchsendmsg");
+            ProcessQCloudMessagingResponse(response, input, "batchsendmsg", 90012);
         }
 
         public async Task DirtyWordsAddAsync(DirtyWordsAddInput input)
