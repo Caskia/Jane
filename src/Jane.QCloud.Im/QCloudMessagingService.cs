@@ -205,6 +205,27 @@ namespace Jane.QCloud.Im
 
         public async Task GroupChangeOwnerAsync(GroupChangeOwnerInput input)
         {
+            var groups = await GroupGetDetailAsync(new GroupGetDetailInput()
+            {
+                GroupIds = new List<string>() { input.GroupId }
+            });
+
+            groups.GroupInfo = groups.GroupInfo?.Where(g => !g.Name.IsNullOrEmpty()).ToList();
+
+            if (groups.GroupInfo == null || groups.GroupInfo.Count == 0)
+            {
+                _logger.Warn($"change group[{input.GroupId}] owner failed, group not found.");
+
+                return;
+            }
+
+            var currentGroup = groups.GroupInfo.FirstOrDefault();
+            //AVChatRoom can not change owner
+            if (currentGroup.Type == "AVChatRoom")
+            {
+                return;
+            }
+
             var response = await _messagingApi.GroupChangeOwnerAsync(await BuildAdminMessagingParameterAsync(), input);
             ProcessQCloudMessagingResponse(response, input, "change_group_owner");
         }
