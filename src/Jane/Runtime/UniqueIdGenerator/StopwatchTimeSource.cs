@@ -8,7 +8,8 @@ namespace Jane.Runtime.UniqueIdGenerator
     /// </summary>
     public abstract class StopwatchTimeSource : ITimeSource
     {
-        private static readonly Stopwatch _sw = Stopwatch.StartNew();
+        private static readonly DateTimeOffset _initialized = DateTimeOffset.UtcNow;
+        private static readonly Stopwatch _sw = new Stopwatch();
 
         /// <summary>
         /// Initializes a new <see cref="StopwatchTimeSource"/> object.
@@ -17,10 +18,18 @@ namespace Jane.Runtime.UniqueIdGenerator
         /// <param name="tickDuration">The duration of a single tick for this timesource.</param>
         public StopwatchTimeSource(DateTimeOffset epoch, TimeSpan tickDuration)
         {
-            this.Epoch = epoch;
-            this.Offset = (DateTimeOffset.UtcNow - this.Epoch);
-            this.TickDuration = tickDuration;
+            Epoch = epoch;
+            Offset = (_initialized - Epoch);
+            TickDuration = tickDuration;
+
+            // Start (or resume) stopwatch
+            _sw.Start();
         }
+
+        /// <summary>
+        /// Gets the elapsed time since this <see cref="ITimeSource"/> was initialized.
+        /// </summary>
+        protected static TimeSpan Elapsed => _sw.Elapsed;
 
         /// <summary>
         /// Gets the epoch of the <see cref="ITimeSource"/>.
@@ -31,11 +40,6 @@ namespace Jane.Runtime.UniqueIdGenerator
         /// Returns the duration of a single tick.
         /// </summary>
         public TimeSpan TickDuration { get; private set; }
-
-        /// <summary>
-        /// Gets the elapsed time since this <see cref="ITimeSource"/> was initialized.
-        /// </summary>
-        protected TimeSpan Elapsed { get { return _sw.Elapsed; } }
 
         /// <summary>
         /// Gets the offset for this <see cref="ITimeSource"/> which is defined as the difference of it's creationdate
