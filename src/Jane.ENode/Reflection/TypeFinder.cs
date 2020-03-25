@@ -9,22 +9,22 @@ namespace Jane.ENode.Reflection
 {
     public static class TypeFinder
     {
-        public static Type[] GetSamePathApplicationMessages(Type pathType)
+        public static Type[] FindSamePathApplicationMessages(Type pathType)
         {
             return TypeHelper.GetAllSameNamespaceTypes(pathType, typeof(IApplicationMessage)).ToArray();
         }
 
-        public static Type[] GetSamePathCommands(Type pathType)
+        public static Type[] FindSamePathCommands(Type pathType)
         {
             return TypeHelper.GetAllSameNamespaceTypes(pathType, typeof(ICommand)).ToArray();
         }
 
-        public static Type[] GetSamePathDomainEvents(Type pathType)
+        public static Type[] FindSamePathDomainEvents(Type pathType)
         {
             return TypeHelper.GetAllSameNamespaceTypes(pathType, typeof(IDomainEvent)).ToArray();
         }
 
-        public static Type[] GetSamePathExceptions(Type pathType)
+        public static Type[] FindSamePathExceptions(Type pathType)
         {
             return TypeHelper.GetAllSameNamespaceTypes(pathType, typeof(IPublishableException)).ToArray();
         }
