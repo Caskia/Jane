@@ -1,4 +1,7 @@
-﻿using System;
+﻿using Jane.Utils;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 
 namespace Jane.Reflection
@@ -6,8 +9,20 @@ namespace Jane.Reflection
     /// <summary>
     /// Some simple type-checking methods used internally.
     /// </summary>
-    internal static class TypeHelper
+    public static class TypeHelper
     {
+        public static IEnumerable<Type> GetAllSameNamespaceTypes(Type pathType, Type mappingInterface)
+        {
+            return AppDomain.CurrentDomain.GetAssemblies()
+                 .SelectMany(x => x.GetMappingTypes(mappingInterface))
+                 .Where(x => x.Namespace == pathType.Namespace);
+        }
+
+        public static IEnumerable<Type> GetMappingTypes(this Assembly assembly, Type mappingInterface)
+        {
+            return assembly.GetTypes().Where(x => TypeUtils.IsClassAssignableFrom(x, mappingInterface));
+        }
+
         public static bool IsFunc(object obj)
         {
             if (obj == null)

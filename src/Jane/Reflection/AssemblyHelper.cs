@@ -1,6 +1,4 @@
-﻿using Jane.Utils;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -18,11 +16,6 @@ namespace Jane.Reflection
             return assemblyFiles.Select(
                 Assembly.LoadFile
             ).ToList();
-        }
-
-        public static IEnumerable<Type> GetMappingTypes(this Assembly assembly, Type mappingInterface)
-        {
-            return assembly.GetTypes().Where(x => TypeUtils.IsClassAssignableFrom(x, mappingInterface));
         }
     }
 }
