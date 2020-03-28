@@ -4,7 +4,7 @@
     {
         string BuildAuthorizationString(SignatureInput input);
 
-        string GetHost();
+        string GetHost(string region = null, string bucketName = null);
 
         string GetPathPrefix();
 

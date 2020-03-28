@@ -36,9 +36,9 @@ namespace Jane.QCloud.Cos
             return result;
         }
 
-        public string GetHost()
+        public string GetHost(string region = null, string bucketName = null)
         {
-            return $"https://{_options.BucketName}-{_options.AppId}.cos.{_options.Region}.myqcloud.com";
+            return $"https://{(bucketName.IsNullOrEmpty() ? _options.BucketName : bucketName)}-{_options.AppId}.cos.{(bucketName.IsNullOrEmpty() ? _options.Region : region)}.myqcloud.com";
         }
 
         public string GetPathPrefix()
