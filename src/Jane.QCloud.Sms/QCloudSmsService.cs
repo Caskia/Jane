@@ -57,12 +57,13 @@ namespace Jane.QCloud.Sms
                 throw new ArgumentNullException(nameof(_options.Sign));
             }
 
+            var needSign = message.To.Any(t => t.CountryCode == "86");
             var random = _dataGenerator.GetRandomString(10, true, false, false);
 
             message.To = message.To.Distinct().ToList();
             if (message.To.Count == 1)
             {
-                var smsSingleMessage = BuildQCloudSmsSingleMessage(message, random);
+                var smsSingleMessage = BuildQCloudSmsSingleMessage(message, random, needSign);
                 var result = await _qCloudSmsApi.SendSingleMessageAsync(_options.AppId, random, smsSingleMessage);
                 if (result.Result != 0)
                 {
@@ -71,7 +72,7 @@ namespace Jane.QCloud.Sms
             }
             else if (message.To.Count > 1)
             {
-                var smsMultiMessages = BuildQCloudSmsMultiMessages(message, random);
+                var smsMultiMessages = BuildQCloudSmsMultiMessages(message, random, needSign);
 
                 foreach (var smsMultiMessage in smsMultiMessages)
                 {
@@ -93,7 +94,7 @@ namespace Jane.QCloud.Sms
             };
         }
 
-        private List<QCloudSmsMultiMessage> BuildQCloudSmsMultiMessages(SmsMessage smsMessage, string random)
+        private List<QCloudSmsMultiMessage> BuildQCloudSmsMultiMessages(SmsMessage smsMessage, string random, bool needSign = true)
         {
             if (smsMessage.To.Count < 1)
             {
@@ -121,7 +122,7 @@ namespace Jane.QCloud.Sms
                     {
                         Params = smsMessage.TemplateParameters,
                         Sig = GetSign(string.Join(",", qcloudPhoneNumebers.Select(p => p.PhoneNumber)), _options.AppSecret, random, timestamp),
-                        Sign = _options.Sign,
+                        Sign = needSign ? _options.Sign : null,
                         Telphones = qcloudPhoneNumebers,
                         TemplateId = _qCloudSmsTemplateService.GetTemplateId(smsMessage.TemplateCode),
                         Timestamp = timestamp
@@ -134,7 +135,7 @@ namespace Jane.QCloud.Sms
             return messages;
         }
 
-        private QCloudSmsSingleMessage BuildQCloudSmsSingleMessage(SmsMessage smsMessage, string random)
+        private QCloudSmsSingleMessage BuildQCloudSmsSingleMessage(SmsMessage smsMessage, string random, bool needSign = true)
         {
             if (smsMessage.To.Count != 1)
             {
@@ -147,7 +148,7 @@ namespace Jane.QCloud.Sms
             {
                 Params = smsMessage.TemplateParameters,
                 Sig = GetSign($"{phoneNumber.PhoneNumber}", _options.AppSecret, random, timestamp),
-                Sign = _options.Sign,
+                Sign = needSign ? _options.Sign : null,
                 Telphone = phoneNumber,
                 TemplateId = _qCloudSmsTemplateService.GetTemplateId(smsMessage.TemplateCode),
                 Timestamp = timestamp
