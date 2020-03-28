@@ -157,7 +157,7 @@ namespace Jane.QCloud.Sms
 
         private string GetSign(string phoneNumber, string appKey, string random, long timestamp)
         {
-            var data = $"appkey={appKey}&random={random}&time={timestamp.ToString()}&mobile={phoneNumber}";
+            var data = $"appkey={appKey}&random={random}&time={timestamp}&mobile={phoneNumber}";
             using (var hashAlgorithm = SHA256.Create())
             {
                 var hash = hashAlgorithm.ComputeHash(Encoding.UTF8.GetBytes(data));
