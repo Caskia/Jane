@@ -122,7 +122,7 @@ namespace Jane.QCloud.Sms
                     {
                         Params = smsMessage.TemplateParameters,
                         Sig = GetSign(string.Join(",", qcloudPhoneNumebers.Select(p => p.PhoneNumber)), _options.AppSecret, random, timestamp),
-                        Sign = needSign ? _options.Sign : null,
+                        Sign = needSign ? _options.Sign : "",
                         Telphones = qcloudPhoneNumebers,
                         TemplateId = _qCloudSmsTemplateService.GetTemplateId(smsMessage.TemplateCode),
                         Timestamp = timestamp
@@ -148,7 +148,7 @@ namespace Jane.QCloud.Sms
             {
                 Params = smsMessage.TemplateParameters,
                 Sig = GetSign($"{phoneNumber.PhoneNumber}", _options.AppSecret, random, timestamp),
-                Sign = needSign ? _options.Sign : null,
+                Sign = needSign ? _options.Sign : "",
                 Telphone = phoneNumber,
                 TemplateId = _qCloudSmsTemplateService.GetTemplateId(smsMessage.TemplateCode),
                 Timestamp = timestamp
