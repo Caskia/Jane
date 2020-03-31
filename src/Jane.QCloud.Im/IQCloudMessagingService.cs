@@ -1,5 +1,4 @@
-﻿using Jane.Dependency;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Jane.QCloud.Im

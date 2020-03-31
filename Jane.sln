@@ -63,6 +63,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Jane.Mob.Push", "src\Jane.M
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Jane.QCloud.Soe", "src\Jane.QCloud.Soe\Jane.QCloud.Soe.csproj", "{A90460B3-10D7-4BCC-A515-D40D35B84AA6}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jane.Netease.Im", "src\Jane.Netease.Im\Jane.Netease.Im.csproj", "{A82AC754-6E22-4C5C-8FE9-553A021A6AD9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -177,6 +179,10 @@ Global
 		{A90460B3-10D7-4BCC-A515-D40D35B84AA6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A90460B3-10D7-4BCC-A515-D40D35B84AA6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A90460B3-10D7-4BCC-A515-D40D35B84AA6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A82AC754-6E22-4C5C-8FE9-553A021A6AD9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A82AC754-6E22-4C5C-8FE9-553A021A6AD9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A82AC754-6E22-4C5C-8FE9-553A021A6AD9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A82AC754-6E22-4C5C-8FE9-553A021A6AD9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -209,6 +215,7 @@ Global
 		{C6875CB9-2AAD-48E7-9F48-77040FC6CA82} = {9BCD8851-0A36-48CD-BFF0-72690C335B28}
 		{82508DC4-49BA-4A65-A8A3-DD91E9D40056} = {9BCD8851-0A36-48CD-BFF0-72690C335B28}
 		{A90460B3-10D7-4BCC-A515-D40D35B84AA6} = {9BCD8851-0A36-48CD-BFF0-72690C335B28}
+		{A82AC754-6E22-4C5C-8FE9-553A021A6AD9} = {9BCD8851-0A36-48CD-BFF0-72690C335B28}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C66FDB77-BACB-48CB-926A-07FE48FBFB18}
