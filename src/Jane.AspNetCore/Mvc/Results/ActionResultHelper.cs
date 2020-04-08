@@ -15,7 +15,7 @@ namespace Jane.AspNetCore.Mvc.Results
             {
                 typeof(JsonResult),
                 typeof(ObjectResult),
-                typeof(NoContentResult)
+                typeof(StatusCodeResult)
             };
         }
 
