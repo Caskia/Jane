@@ -25,7 +25,8 @@ namespace Jane.Configurations
             var jsonSerializerOptions = new JsonSerializerOptions()
             {
                 IgnoreNullValues = true,
-                Encoder = JavaScriptEncoder.Create(encoderSettings)
+                Encoder = JavaScriptEncoder.Create(encoderSettings),
+                PropertyNamingPolicy = JsonNamingPolicy.CamelCase
             };
 
             var settings = new RefitSettings()
