@@ -1,8 +1,10 @@
 ﻿using Jane.Netease.Im;
 using Microsoft.Extensions.DependencyInjection;
-using Newtonsoft.Json;
 using Refit;
 using System;
+using System.Text.Encodings.Web;
+using System.Text.Json;
+using System.Text.Unicode;
 using JaneConfiguration = Jane.Configurations.Configuration;
 
 namespace Jane.Configurations
@@ -17,13 +19,18 @@ namespace Jane.Configurations
                 services.Configure(action);
             }
 
-            var jsonSerializerSettings = new JsonSerializerSettings()
+            var encoderSettings = new TextEncoderSettings();
+            encoderSettings.AllowRanges(UnicodeRanges.All);
+
+            var jsonSerializerOptions = new JsonSerializerOptions()
             {
-                NullValueHandling = NullValueHandling.Ignore
+                IgnoreNullValues = true,
+                Encoder = JavaScriptEncoder.Create(encoderSettings)
             };
+
             var settings = new RefitSettings()
             {
-                ContentSerializer = new JsonContentSerializer(jsonSerializerSettings)
+                ContentSerializer = new SystemTextJsonContentSerializer(jsonSerializerOptions)
             };
             services.AddRefitClient<INeteaseImApi>(settings)
                     .ConfigureHttpClient(c => c.BaseAddress = new Uri("https://api.netease.im/nimserver/"));
