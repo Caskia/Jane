@@ -63,7 +63,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Jane.Mob.Push", "src\Jane.M
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Jane.QCloud.Soe", "src\Jane.QCloud.Soe\Jane.QCloud.Soe.csproj", "{A90460B3-10D7-4BCC-A515-D40D35B84AA6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jane.Netease.Im", "src\Jane.Netease.Im\Jane.Netease.Im.csproj", "{A82AC754-6E22-4C5C-8FE9-553A021A6AD9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Jane.Netease.Im", "src\Jane.Netease.Im\Jane.Netease.Im.csproj", "{A82AC754-6E22-4C5C-8FE9-553A021A6AD9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
