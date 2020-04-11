@@ -14,7 +14,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Refit.HttpClientFactory" Version="5.0.23" />
+    <PackageReference Include="Refit.HttpClientFactory" Version="5.1.67" />
     <PackageReference Include="tls-sig-api-v2" Version="1.0.1" />
   </ItemGroup>
 

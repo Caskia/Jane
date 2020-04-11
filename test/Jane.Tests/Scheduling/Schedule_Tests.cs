@@ -23,7 +23,7 @@ namespace Jane.Tests.Scheduling
             var taskName = "TestCount";
 
             //Act
-            _scheduleService.StartTask(taskName, () => { count++; }, 1000, 1000);
+            _scheduleService.StartTask(taskName, () => { count++; }, 1000, 800);
             await Task.Delay(2000);
             _scheduleService.StopTask(taskName);
 
