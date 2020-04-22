@@ -1,12 +1,8 @@
 using Castle.Core.Internal;
-using ECommon.Extensions;
-using ECommon.IO;
 using ENode.Commanding;
 using Jane.AspNetCore.Mvc.Controllers;
-using System.Threading.Tasks;
 using System;
-using Newtonsoft.Json;
-using Jane.ENode;
+using System.Threading.Tasks;
 
 namespace Jane.ENode.AspNetCore.Mvc.Controllers
 {
@@ -83,14 +79,14 @@ namespace Jane.ENode.AspNetCore.Mvc.Controllers
 
         #endregion Authorize Properties
 
-        protected Task<AsyncTaskResult<CommandResult>> ExecuteCommandAsync(ICommand command, CommandReturnType commandReturnType = CommandReturnType.CommandExecuted, int millisecondsDelay = 10000, bool autoProcessResultException = true)
+        protected Task<CommandResult> ExecuteCommandAsync(ICommand command, CommandReturnType commandReturnType = CommandReturnType.CommandExecuted, int millisecondsDelay = 10000, bool autoProcessResultException = true)
         {
             return _commandService.ExecuteCommandAsync(command, commandReturnType, millisecondsDelay, autoProcessResultException);
         }
 
-        protected Task<AsyncTaskResult> SendCommandAsync(ICommand command, bool autoProcessResultException = true)
+        protected Task SendCommandAsync(ICommand command)
         {
-            return _commandService.SendCommandAsync(command, autoProcessResultException);
+            return _commandService.SendCommandAsync(command);
         }
     }
 }

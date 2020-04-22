@@ -1,6 +1,7 @@
 ﻿using ENode.Commanding;
+using ENode.Domain;
 using ENode.Eventing;
-using ENode.Infrastructure;
+using ENode.Messaging;
 using Jane.Reflection;
 using System;
 using System.Linq;
@@ -24,9 +25,9 @@ namespace Jane.ENode.Reflection
             return TypeHelper.GetAllSameNamespaceTypes(pathType, typeof(IDomainEvent)).ToArray();
         }
 
-        public static Type[] FindSamePathExceptions(Type pathType)
+        public static Type[] FindSamePathDomainExceptions(Type pathType)
         {
-            return TypeHelper.GetAllSameNamespaceTypes(pathType, typeof(IPublishableException)).ToArray();
+            return TypeHelper.GetAllSameNamespaceTypes(pathType, typeof(IDomainException)).ToArray();
         }
     }
 }
