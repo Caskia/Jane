@@ -15,7 +15,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="HangFire.Core" Version="1.7.10" />
+    <PackageReference Include="HangFire.Core" Version="1.7.11" />
   </ItemGroup>
 
   <ItemGroup>
