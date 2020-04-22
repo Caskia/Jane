@@ -2,7 +2,7 @@ using Xunit;
 
 namespace Jane.Tests.Events.Bus
 {
-    public class TransientDisposableEventHandlerTest : EventBusTestBase
+    public class TransientDisposableEventHandlerTest : TestBase
     {
         [Fact]
         public void Should_Call_Handler_AndDispose()

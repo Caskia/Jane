@@ -7,7 +7,7 @@ using Xunit;
 
 namespace Jane.Tests.Events.Bus
 {
-    public class EventBus_EntityEvents_Test : EventBusTestBase
+    public class EventBus_EntityEvents_Test : TestBase
     {
         [Fact]
         public void Should_Call_Created_And_Changed_Once()

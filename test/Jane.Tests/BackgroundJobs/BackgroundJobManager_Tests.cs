@@ -8,7 +8,7 @@ using Xunit;
 
 namespace Jane.Tests.BackgroundJobs
 {
-    public class BackgroundJobManager_Tests : BackgroundJobsTestBase
+    public class BackgroundJobManager_Tests : TestBase
     {
         private readonly IBackgroundJobManager _backgroundJobManager;
         private readonly IBackgroundJobStore _backgroundJobStore;
