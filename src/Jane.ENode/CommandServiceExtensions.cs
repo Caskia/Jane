@@ -10,14 +10,11 @@ namespace Jane.ENode
     {
         public static async Task<CommandResult> ExecuteCommandAsync(this ICommandService commandService, ICommand command, CommandReturnType commandReturnType = CommandReturnType.CommandExecuted, int millisecondsDelay = 10000, bool autoProcessResultException = true)
         {
+            CommandResult result;
+
             try
             {
-                var result = await commandService.ExecuteAsync(command, commandReturnType).TimeoutAfter(millisecondsDelay);
-                if (autoProcessResultException)
-                {
-                    ProcessExecuteCommandAsyncResultException(result);
-                }
-                return result;
+                result = await commandService.ExecuteAsync(command, commandReturnType).TimeoutAfter(millisecondsDelay);
             }
             catch (IOException ioException)
             {
@@ -27,6 +24,12 @@ namespace Jane.ENode
             {
                 throw new UserFriendlyException("unknown problems.", ex);
             }
+
+            if (autoProcessResultException)
+            {
+                ProcessExecuteCommandAsyncResultException(result);
+            }
+            return result;
         }
 
         public static async Task SendCommandAsync(this ICommandService commandService, ICommand command)
@@ -50,8 +53,6 @@ namespace Jane.ENode
             switch (result.Status)
             {
                 case CommandStatus.Success:
-                    break;
-
                 case CommandStatus.NothingChanged:
                     break;
 
