@@ -25,7 +25,7 @@ namespace Jane.RongCloud.Im
             }
         }
 
-        [AliasAs("icon")]
+        [AliasAs("portraitUri")]
         public string PortraitUri
         {
             get
