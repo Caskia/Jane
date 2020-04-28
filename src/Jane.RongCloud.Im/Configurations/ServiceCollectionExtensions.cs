@@ -1,5 +1,5 @@
-﻿using Jane.Netease.Im;
-using Jane.Netease.Im.Handlers;
+﻿using Jane.RongCloud.Im;
+using Jane.RongCloud.Im.Handlers;
 using Microsoft.Extensions.DependencyInjection;
 using Refit;
 using System;
@@ -12,9 +12,10 @@ namespace Jane.Configurations
 {
     public static class ServiceCollectionExtensions
     {
-        public static IServiceCollection AddNeteaseIm(this IServiceCollection services, Action<NeteaseImOptions> action = null)
+        public static IServiceCollection AddRongCloudIm(this IServiceCollection services, Action<RongCloudImOptions> action = null)
         {
-            services.Configure<NeteaseImOptions>(JaneConfiguration.Instance.Root.GetSection("Netease:Im"));
+            var section = JaneConfiguration.Instance.Root.GetSection("RongCloud:Im");
+            services.Configure<RongCloudImOptions>(section);
             if (action != null)
             {
                 services.Configure(action);
@@ -34,12 +35,12 @@ namespace Jane.Configurations
             {
                 ContentSerializer = new SystemTextJsonContentSerializer(jsonSerializerOptions)
             };
-            services.AddSingleton<NeteaseAuthorizationMessageHandler>();
-            services.AddRefitClient<INeteaseImApi>(settings)
-                    .ConfigureHttpClient(c => c.BaseAddress = new Uri("https://api.netease.im/nimserver/"))
-                    .AddHttpMessageHandler<NeteaseAuthorizationMessageHandler>();
+            services.AddSingleton<RongCloudAuthorizationMessageHandler>();
+            services.AddRefitClient<IRongCloudImApi>(settings)
+                    .ConfigureHttpClient(c => c.BaseAddress = new Uri($"https://{section[nameof(RongCloudImOptions.DataCenter)]}/"))
+                    .AddHttpMessageHandler<RongCloudAuthorizationMessageHandler>();
 
-            services.AddSingleton<INeteaseImService, NeteaseImService>();
+            services.AddSingleton<IRongCloudImService, RongCloudImService>();
 
             return services;
         }
