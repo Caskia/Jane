@@ -26,6 +26,13 @@ namespace Jane.RongCloud.Im
             return response.Token;
         }
 
+        public async Task RefreshUserAsync(RefreshUserInput input)
+        {
+            var response = await _imApi.RefreshUserAsync(input);
+
+            ProcessRongCloudImResponse(response, input, "/user/refresh.json");
+        }
+
         private void ProcessRongCloudImResponse<T>(T response, object request, string method, params int[] exceptedErrorCode)
             where T : RongCloudResponse
         {

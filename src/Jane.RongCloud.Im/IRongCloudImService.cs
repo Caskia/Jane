@@ -5,5 +5,7 @@ namespace Jane.RongCloud.Im
     public interface IRongCloudImService
     {
         Task<string> GetUserTokenAsync(GetUserTokenInput input);
+
+        Task RefreshUserAsync(RefreshUserInput input);
     }
 }
