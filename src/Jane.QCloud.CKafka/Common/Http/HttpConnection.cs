@@ -14,6 +14,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
+
 using Pathoschild.Http.Client;
 using System;
 using System.Collections.Generic;
@@ -30,11 +31,11 @@ namespace TencentCloud.Common.Http
     {
         private IClient client;
 
-        public HttpConnection(string baseUrl, int timeout,string proxy="")
+        public HttpConnection(string baseUrl, int timeout, string proxy = "")
         {
             if (!string.IsNullOrEmpty(proxy))
             {
-                client = new FluentClient(baseUrl, new WebProxy(proxy));
+                client = new FluentClient(new Uri(baseUrl), new WebProxy(proxy));
             }
             else
             {
@@ -45,7 +46,7 @@ namespace TencentCloud.Common.Http
         }
 
         public async Task<IResponse> GetRequest(string url, Dictionary<string, string> param)
-        {        
+        {
             StringBuilder urlBuilder = new StringBuilder($"{client.BaseClient.BaseAddress.AbsoluteUri.TrimEnd('/')}{url}?");
 
             foreach (KeyValuePair<string, string> kvp in param)
@@ -71,7 +72,7 @@ namespace TencentCloud.Common.Http
             }
             message.Content = new StringContent(bodysb.ToString().TrimEnd('&'), Encoding.UTF8, "application/x-www-form-urlencoded");
 
-            IRequest request =  client.SendAsync(message);
+            IRequest request = client.SendAsync(message);
             var response = await request.AsResponse();
             return response;
         }
