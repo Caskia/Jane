@@ -12,6 +12,8 @@ namespace Jane.Push
 
         public Dictionary<string, string> CustomData { get; set; }
 
+        public PushMessageForward Forward { get; set; }
+
         public string GroupKey { get; set; }
 
         public string IdempotentKey { get; set; }

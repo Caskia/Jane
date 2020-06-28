@@ -49,6 +49,7 @@ namespace Jane.Mob.Push
             {
                 AppKey = _options.AppKey,
                 WorkNo = input.IdempotentKey,
+                Scheme = input.Forward?.Scheme,
                 Target = 3,
                 Tags = tags,
                 Type = 1,
