@@ -17,6 +17,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\Jane.Autofac\Jane.Autofac.csproj" />
+    <ProjectReference Include="..\..\src\Jane.AWS.S3\Jane.AWS.S3.csproj" />
     <ProjectReference Include="..\..\src\Jane.Log4Net\Jane.Log4Net.csproj" />
     <ProjectReference Include="..\..\src\Jane\Jane.csproj" />
   </ItemGroup>

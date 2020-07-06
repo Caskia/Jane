@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <Version>0.4.0</Version>
+    <Description>a develop framework named assistant jane!</Description>
+    <Copyright>Copyright © Caskia 2020</Copyright>
+    <PackageLicenseUrl>https://github.com/Caskia/Jane/blob/master/LICENSE</PackageLicenseUrl>
+    <PackageProjectUrl>https://github.com/Caskia/Jane</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/Caskia/Jane</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageTags>aspnetcore;framework;dotnet;c-sharp;util;ioc;logger</PackageTags>
+    <Authors>Caskia</Authors>
+    <Company>Caskia</Company>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="AWSSDK.S3" Version="3.3.111.21" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <ProjectReference Include="..\Jane\Jane.csproj" />
+  </ItemGroup>
+</Project>

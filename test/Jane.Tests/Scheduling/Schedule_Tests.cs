@@ -1,4 +1,5 @@
-﻿using Jane.Dependency;
+﻿using Jane.AWS.S3;
+using Jane.Dependency;
 using Jane.Scheduling;
 using Shouldly;
 using System.Threading.Tasks;
@@ -18,6 +19,9 @@ namespace Jane.Tests.Scheduling
         [Fact(DisplayName = "Should_Run_Schedule")]
         public async Task Should_Run_Schedule()
         {
+            var test = new Test();
+            await test.DoAsync();
+
             //Arrange
             var count = 0;
             var taskName = "TestCount";
