@@ -6,6 +6,8 @@
 
         public string BucketName { get; set; }
 
+        public string PathPrefix { get; set; }
+
         public string Region { get; set; }
 
         public string SecretAccessKey { get; set; }

@@ -46,23 +46,42 @@ namespace Jane.AWS.S3
             }
         }
 
+        public string GetHost(string region = null, string bucketName = null)
+        {
+            return $"https://{(bucketName.IsNullOrEmpty() ? _options.BucketName : bucketName)}.s3.{(region.IsNullOrEmpty() ? _options.Region : region)}.amazonaws.com";
+        }
+
+        public string GetPathPrefix()
+        {
+            if (!_options.PathPrefix.IsNullOrEmpty())
+            {
+                return $"/{_options.PathPrefix}";
+            }
+            else
+            {
+                return string.Empty;
+            }
+        }
+
         public SignatureOut GetSignature(GetSignatureInput input)
         {
-            if (input.Region.IsNullOrEmpty())
+            var region = _options.Region;
+            if (!input.Region.IsNullOrEmpty())
             {
-                input.Region = _options.Region;
+                region = _options.Region;
             }
 
-            if (input.BucketName.IsNullOrEmpty())
+            var bucketName = _options.BucketName;
+            if (!input.BucketName.IsNullOrEmpty())
             {
-                input.BucketName = _options.BucketName;
+                bucketName = _options.BucketName;
             }
 
-            var policy = BuildPolicy(input.SignTime, input.ExpirationTime, input.Key, input.ContentType, input.Acl, input.Region, input.BucketName);
+            var policy = BuildPolicy(input.SignTime, input.ExpirationTime, input.Key, input.ContentType, input.Acl, region, bucketName);
             var base64Policy = Convert.ToBase64String(JsonSerializer.SerializeToUtf8Bytes(policy, JsonSerializerOptions));
 
             var dateKey = new HMACSHA256(Encoding.UTF8.GetBytes($"AWS4{_options.SecretAccessKey}")).ComputeHash(Encoding.UTF8.GetBytes(input.SignTime.ToString("yyyyMMdd")));
-            var dateRegionKey = new HMACSHA256(dateKey).ComputeHash(Encoding.UTF8.GetBytes(input.Region));
+            var dateRegionKey = new HMACSHA256(dateKey).ComputeHash(Encoding.UTF8.GetBytes(region));
             var dateRegionServiceKey = new HMACSHA256(dateRegionKey).ComputeHash(Encoding.UTF8.GetBytes("s3"));
             var signingKey = new HMACSHA256(dateRegionServiceKey).ComputeHash(Encoding.UTF8.GetBytes("aws4_request"));
 
@@ -80,16 +99,6 @@ namespace Jane.AWS.S3
             return new Policy()
             {
                 Expiration = expirationTime.ToString("yyyy-MM-ddTHH:mm:ss.fffZ"),
-                //Conditions = new Dictionary<string, string>()
-                //{
-                //    { "bucket", bucketName.IsNullOrEmpty() ? _options.BucketName:bucketName },
-                //    { "key", key },
-                //    { "acl", acl },
-                //    { "Content-Type", contentType },
-                //    { "x-amz-credential", GetCredential(signTime,region) },
-                //    { "x-amz-algorithm", Algorithm },
-                //    { "x-amz-date", signTime.ToString("yyyyMMddTHHmmssZ") }
-                //}
                 Conditions = new List<object>()
                 {
                     new Dictionary<string, string>()
