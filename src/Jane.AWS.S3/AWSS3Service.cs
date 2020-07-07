@@ -55,7 +55,7 @@ namespace Jane.AWS.S3
         {
             if (!_options.PathPrefix.IsNullOrEmpty())
             {
-                return $"/{_options.PathPrefix}";
+                return $"{_options.PathPrefix}/";
             }
             else
             {
