@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Jane.AWS.S3;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using JaneConfiguration = Jane.Configurations.Configuration;
 
@@ -14,6 +15,8 @@ namespace Jane.Configurations
             {
                 services.Configure(action);
             }
+
+            services.AddSingleton<IAWSS3Service, AWSS3Service>();
 
             return services;
         }

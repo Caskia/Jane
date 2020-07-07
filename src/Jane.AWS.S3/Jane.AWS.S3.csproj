@@ -12,10 +12,7 @@
     <Authors>Caskia</Authors>
     <Company>Caskia</Company>
   </PropertyGroup>
-  <ItemGroup>
-    <PackageReference Include="AWSSDK.S3" Version="3.3.111.21" />
-  </ItemGroup>
-  
+
   <ItemGroup>
     <ProjectReference Include="..\Jane\Jane.csproj" />
   </ItemGroup>
