@@ -15,16 +15,19 @@ namespace Jane.AspNetCore.Mvc.ExceptionHandling
     {
         private readonly IAspNetCoreConfiguration _configuration;
         private readonly IErrorInfoBuilder _errorInfoBuilder;
+        private readonly ILogger _logger;
         private readonly IHttpExceptionStatusCodeFinder _statusCodeFinder;
 
         public JaneExceptionFilter(
             IAspNetCoreConfiguration configuration,
             IErrorInfoBuilder errorInfoBuilder,
+            ILoggerFactory loggerFactory,
             IHttpExceptionStatusCodeFinder statusCodeFinder
             )
         {
             _errorInfoBuilder = errorInfoBuilder;
             _configuration = configuration;
+            _logger = loggerFactory.Create(nameof(JaneExceptionFilter));
             _statusCodeFinder = statusCodeFinder;
         }
 
@@ -43,7 +46,9 @@ namespace Jane.AspNetCore.Mvc.ExceptionHandling
 
             if (wrapResultAttribute.LogError)
             {
-                LogHelper.LogException(context.Exception);
+                var severity = (context.Exception as IHasLogSeverity)?.Severity ?? LogSeverity.Error;
+
+                _logger.Log(severity, context.Exception?.Message, context.Exception);
             }
 
             if (wrapResultAttribute.WrapOnError)
