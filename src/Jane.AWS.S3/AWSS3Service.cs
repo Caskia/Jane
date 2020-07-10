@@ -66,13 +66,13 @@ namespace Jane.AWS.S3
         public SignatureOut GetSignature(GetSignatureInput input)
         {
             var region = _options.Region;
-            if (!input.Region.IsNullOrEmpty())
+            if (input.Region.IsNullOrEmpty())
             {
                 region = _options.Region;
             }
 
             var bucketName = _options.BucketName;
-            if (!input.BucketName.IsNullOrEmpty())
+            if (input.BucketName.IsNullOrEmpty())
             {
                 bucketName = _options.BucketName;
             }
