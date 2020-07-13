@@ -17,7 +17,7 @@ namespace Jane.Configurations
         /// </summary>
         /// <param name="configuration"></param>
         /// <returns></returns>
-        public static Configuration UseMasstransitRabbitMq(this Configuration configuration, Action<IRabbitMqBusFactoryConfigurator, IRabbitMqHost> rabbitMqConfigure = null)
+        public static Configuration UseMasstransitRabbitMq(this Configuration configuration, Action<IRabbitMqBusFactoryConfigurator> rabbitMqConfigure = null)
         {
             var assemblies = new[]
             {
@@ -28,7 +28,7 @@ namespace Jane.Configurations
             //create bus
             var bus = Bus.Factory.CreateUsingRabbitMq(configure =>
             {
-                var host = configure.Host(
+                configure.Host(
                      configuration.Root["RabbitMq:Host"],
                      Convert.ToUInt16(configuration.Root["RabbitMq:Port"]),
                      configuration.Root["RabbitMq:VirtualHost"],
@@ -38,7 +38,7 @@ namespace Jane.Configurations
                          h.Password(configuration.Root["RabbitMq:Password"]);
                      });
 
-                rabbitMqConfigure?.Invoke(configure, host);
+                rabbitMqConfigure?.Invoke(configure);
             });
 
             configuration.SetDefault<IBusControl, IBusControl>(bus);

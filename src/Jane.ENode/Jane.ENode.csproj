@@ -17,7 +17,7 @@
   <ItemGroup>
     <PackageReference Include="ecommon.jsonnet" Version="2.5.1" />
     <PackageReference Include="ecommon.log4net" Version="2.5.3" />
-    <PackageReference Include="ENode" Version="2.9.8" />
+    <PackageReference Include="ENode" Version="2.9.9" />
   </ItemGroup>
 
   <ItemGroup>
