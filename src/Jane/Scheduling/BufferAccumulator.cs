@@ -21,11 +21,6 @@ namespace Jane.Scheduling
                 throw new ArgumentNullException(nameof(work));
             }
 
-            if (interval == null)
-            {
-                throw new ArgumentNullException(nameof(interval));
-            }
-
             _work = work;
             _interval = interval;
             _count = count;

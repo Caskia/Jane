@@ -2,7 +2,7 @@
 
 namespace Jane.UMeng.Push
 {
-    public class UMengAndroidPolicy : UMengPolicy
+    public class UMengAndroidPolicy : IUMengPolicy
     {
         /// <summary>
         /// 可选，消息过期时间，其值不可小于发送时间或者

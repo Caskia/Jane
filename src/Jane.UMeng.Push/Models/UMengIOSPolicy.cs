@@ -2,7 +2,7 @@
 
 namespace Jane.UMeng.Push
 {
-    public class UMengIOSPolicy : UMengPolicy
+    public class UMengIOSPolicy : IUMengPolicy
     {
         /// <summary>
         /// 可选，多条带有相同apns_collapse_id的消息，iOS设备仅展示

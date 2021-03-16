@@ -23,7 +23,7 @@ namespace Jane.Configurations
             };
             var settings = new RefitSettings()
             {
-                ContentSerializer = new JsonContentSerializer(jsonSerializerSettings)
+                ContentSerializer = new NewtonsoftJsonContentSerializer(jsonSerializerSettings)
             };
             services.AddRefitClient<IQCloudMessagingApi>(settings)
                     .ConfigureHttpClient(c => c.BaseAddress = new Uri("https://console.tim.qq.com"));

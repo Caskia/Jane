@@ -56,7 +56,7 @@ namespace Jane.UMeng.Push
             UMengPushMessageResult result;
             if (platform == PushPlatform.Android)
             {
-                var uMengMessage = new UMengPushMessage<UMengAndroidPayload, UMengAndroidPolicy>()
+                var uMengMessage = new UMengAndroidPushMessage
                 {
                     AppKey = _options.AndroidKey.AppKey,
                     TimeStamp = new DateTimeOffset(Clock.Now).ToUnixTimeSeconds().ToString(),
@@ -91,7 +91,7 @@ namespace Jane.UMeng.Push
             }
             else
             {
-                var uMengMessage = new UMengPushMessage<UMengIOSPayload, UMengIOSPolicy>()
+                var uMengMessage = new UMengIOSPushMessage
                 {
                     AppKey = _options.IOSKey.AppKey,
                     TimeStamp = new DateTimeOffset(Clock.Now).ToUnixTimeSeconds().ToString(),

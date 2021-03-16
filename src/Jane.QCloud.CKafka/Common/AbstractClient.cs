@@ -196,7 +196,7 @@ namespace TencentCloud.Common
             return unixTime;
 #endif
 
-#if NS2 || NETSTANDARD2_0
+#if NS2 || NET5_0
             DateTimeOffset expiresAtOffset = DateTimeOffset.Now;
             var totalSeconds = expiresAtOffset.ToUnixTimeMilliseconds();
             return totalSeconds;

@@ -2,9 +2,7 @@
 
 namespace Jane.UMeng.Push
 {
-    public class UMengPushMessage<TPayload, TPolicy>
-        where TPayload : UMengPayload
-        where TPolicy : UMengPolicy
+    public class UMengPushMessage
     {
         /// <summary>
         /// 当type=customizedcast时, 选填(此参数和file_id二选一)
@@ -56,15 +54,6 @@ namespace Jane.UMeng.Push
         /// </summary>
         [JsonProperty("filter")]
         public UMengPushMessageFilter Filter { get; set; }
-
-        /// <summary>
-        /// 必填，JSON格式，具体消息内容(Android最大为1840B, iOS最大为2012B)
-        /// </summary>
-        [JsonProperty("payload")]
-        public TPayload Payload { get; set; }
-
-        [JsonProperty("policy")]
-        public TPolicy Policy { get; set; }
 
         /// <summary>
         /// 可选，正式/测试模式。默认为true

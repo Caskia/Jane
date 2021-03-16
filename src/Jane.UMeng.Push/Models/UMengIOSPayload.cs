@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Jane.UMeng.Push
 {
-    public class UMengIOSPayload : UMengPayload
+    public class UMengIOSPayload : IUMengPayload
     {
         [JsonProperty("aps")]
         public UMengIOSPayloadAps Aps { get; set; }

@@ -43,7 +43,7 @@ namespace Jane.FCM.PushNotifications
                 data = data
             };
             request.AddJsonBody(content);
-            var response = await client.ExecuteTaskAsync(request);
+            var response = await client.ExecuteAsync(request);
             if (response.StatusCode != HttpStatusCode.OK || string.IsNullOrEmpty(response.Content))
             {
                 return false;
@@ -83,7 +83,7 @@ namespace Jane.FCM.PushNotifications
                 data = data
             };
             request.AddJsonBody(content);
-            var response = await client.ExecuteTaskAsync(request);
+            var response = await client.ExecuteAsync(request);
             if (response.StatusCode != HttpStatusCode.OK || string.IsNullOrEmpty(response.Content))
             {
                 return false;

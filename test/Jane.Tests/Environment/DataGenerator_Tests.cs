@@ -25,7 +25,7 @@ namespace Jane.Tests.Environment
             var guid = _idGenerator.Guid();
 
             //Assert
-            guid.ShouldNotBeNull();
+            guid.ToString().ShouldNotBeNull();
         }
 
         [Fact(DisplayName = "Should_Create_Increment")]

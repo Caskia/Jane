@@ -29,7 +29,7 @@ namespace Jane.Configurations
             };
             var settings = new RefitSettings()
             {
-                ContentSerializer = new JsonContentSerializer(jsonSerializerSettings)
+                ContentSerializer = new NewtonsoftJsonContentSerializer(jsonSerializerSettings)
             };
             services.AddRefitClient<IQCloudXingeApi>(settings)
                     .ConfigureHttpClient(c => c.BaseAddress = new Uri("https://openapi.xg.qq.com/v3"));

@@ -19,7 +19,7 @@ namespace Jane.Configurations
 
             var settings = new RefitSettings()
             {
-                ContentSerializer = new JsonContentSerializer(UMengPushService.JsonSerializerSettings)
+                ContentSerializer = new NewtonsoftJsonContentSerializer(UMengPushService.JsonSerializerSettings)
             };
             services.AddRefitClient<IUMengPushApi>(settings)
                     .ConfigureHttpClient(c => c.BaseAddress = new Uri(UMengPushService.ApiUrl));

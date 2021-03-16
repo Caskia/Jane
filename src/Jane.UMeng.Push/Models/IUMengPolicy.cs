@@ -1,6 +1,6 @@
 ﻿namespace Jane.UMeng.Push
 {
-    public abstract class UMengPayload
+    public interface IUMengPolicy
     {
     }
 }

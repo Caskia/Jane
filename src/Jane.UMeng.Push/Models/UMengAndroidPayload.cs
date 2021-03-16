@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Jane.UMeng.Push
 {
-    public class UMengAndroidPayload : UMengPayload
+    public class UMengAndroidPayload : IUMengPayload
     {
         /// <summary>
         /// 必填，消息体。
