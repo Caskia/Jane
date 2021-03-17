@@ -250,6 +250,34 @@ namespace Jane.Configurations
             Root = builder.Build();
         }
 
+        private bool HasSameGenericTypeConstraints(Type a, Type b)
+        {
+            if (!(a.IsGenericType && b.IsGenericType))
+            {
+                return false;
+            }
+
+            var aGenericParameterConstraints = a.GetGenericArguments();
+            var aGenericParameterConstraintsCount = aGenericParameterConstraints.Length;
+            var bGenericParameterConstraints = b.GetGenericArguments();
+            var bGenericParameterConstraintsCount = b.GetGenericArguments().Length;
+
+            if (aGenericParameterConstraintsCount != bGenericParameterConstraintsCount)
+            {
+                return false;
+            }
+
+            for (int i = 0; i < aGenericParameterConstraintsCount; i++)
+            {
+                if (aGenericParameterConstraints.GetType() != bGenericParameterConstraints.GetType())
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
         private void RegisterComponentType(Type type)
         {
             var life = ParseComponentLife(type);
@@ -264,6 +292,14 @@ namespace Jane.Configurations
                 if (interfaceType == typeof(ITransientDependency))
                 {
                     continue;
+                }
+
+                if (interfaceType.IsGenericType || type.IsGenericType)
+                {
+                    if (!HasSameGenericTypeConstraints(interfaceType, type))
+                    {
+                        continue;
+                    }
                 }
 
                 ComponentRegistrar.RegisterType(interfaceType, type, null, life);
