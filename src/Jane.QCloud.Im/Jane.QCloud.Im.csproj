@@ -14,8 +14,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Refit.HttpClientFactory" Version="6.0.24" />
-    <PackageReference Include="Refit.Newtonsoft.Json" Version="6.0.24" />
+    <PackageReference Include="Refit.HttpClientFactory" Version="6.0.38" />
+    <PackageReference Include="Refit.Newtonsoft.Json" Version="6.0.38" />
     <PackageReference Include="tls-sig-api-v2" Version="1.0.1" />
   </ItemGroup>
 
