@@ -111,7 +111,7 @@ namespace Jane.QCloud.Sms
                 while (true)
                 {
                     var phoneNumbers = groupPhoneNumbers.Skip(skip).Take(maxCount);
-                    if (phoneNumbers.Count() == 0)
+                    if (!phoneNumbers.Any())
                     {
                         break;
                     }
@@ -158,11 +158,10 @@ namespace Jane.QCloud.Sms
         private string GetSign(string phoneNumber, string appKey, string random, long timestamp)
         {
             var data = $"appkey={appKey}&random={random}&time={timestamp}&mobile={phoneNumber}";
-            using (var hashAlgorithm = SHA256.Create())
-            {
-                var hash = hashAlgorithm.ComputeHash(Encoding.UTF8.GetBytes(data));
-                return BitConverter.ToString(hash).Replace("-", "").ToLower();
-            }
+            using var hashAlgorithm = SHA256.Create();
+
+            var hash = hashAlgorithm.ComputeHash(Encoding.UTF8.GetBytes(data));
+            return BitConverter.ToString(hash).Replace("-", "").ToLower();
         }
     }
 }
