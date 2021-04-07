@@ -23,7 +23,7 @@ namespace Jane.AWS.S3
             _options = optionsAccessor.Value;
         }
 
-        public string Algorithm
+        public static string Algorithm
         {
             get
             {
@@ -31,7 +31,7 @@ namespace Jane.AWS.S3
             }
         }
 
-        private JsonSerializerOptions JsonSerializerOptions
+        private static JsonSerializerOptions JsonSerializerOptions
         {
             get
             {
@@ -135,7 +135,7 @@ namespace Jane.AWS.S3
 
         private string GetCredential(DateTime date, string region)
         {
-            return $"{_options.AccessKeyId}/{date.ToString("yyyyMMdd")}/{region}/s3/aws4_request";
+            return $"{_options.AccessKeyId}/{date:yyyyMMdd}/{region}/s3/aws4_request";
         }
     }
 }
