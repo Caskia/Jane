@@ -1,10 +1,10 @@
-﻿using Newtonsoft.Json;
+﻿using System.Text.Json.Serialization;
 
 namespace Jane.QCloud.Im
 {
     public class MessageContent
     {
-        [JsonProperty("Text")]
+        [JsonPropertyName("Text")]
         public string Text { get; set; }
     }
 }

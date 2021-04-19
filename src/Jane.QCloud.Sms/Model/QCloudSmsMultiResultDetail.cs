@@ -1,25 +1,25 @@
-﻿using Newtonsoft.Json;
+﻿using System.Text.Json.Serialization;
 
 namespace Jane.QCloud.Sms
 {
     public class QCloudSmsMultiResultDetail
     {
-        [JsonProperty("errmsg")]
+        [JsonPropertyName("errmsg")]
         public string ErrorMessage { get; set; }
 
-        [JsonProperty("fee")]
+        [JsonPropertyName("fee")]
         public int Fee { get; set; }
 
-        [JsonProperty("nationalCode")]
+        [JsonPropertyName("nationalCode")]
         public string NationalCode { get; set; }
 
-        [JsonProperty("mobile")]
+        [JsonPropertyName("mobile")]
         public string PhoneNumber { get; set; }
 
-        [JsonProperty("result")]
+        [JsonPropertyName("result")]
         public int Result { get; set; }
 
-        [JsonProperty("sid")]
+        [JsonPropertyName("sid")]
         public string SId { get; set; }
     }
 }

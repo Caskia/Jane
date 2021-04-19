@@ -1,5 +1,5 @@
 ﻿using Jane.Extensions;
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
 namespace Jane.QCloud.Xinge
 {
@@ -25,7 +25,7 @@ namespace Jane.QCloud.Xinge
             }
         }
 
-        [JsonProperty("ios")]
+        [JsonPropertyName("ios")]
         public XingePushIOSPayload IOS { get; set; }
 
         public string Title

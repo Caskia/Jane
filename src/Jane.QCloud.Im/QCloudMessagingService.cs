@@ -4,11 +4,12 @@ using Jane.Logging;
 using Jane.Runtime.Caching;
 using Jane.Runtime.Caching.Memory;
 using Microsoft.Extensions.Options;
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using tencentyun;
+using System.Text.Json;
 
 namespace Jane.QCloud.Im
 {
@@ -373,7 +374,7 @@ namespace Jane.QCloud.Im
                     return;
                 }
 
-                throw new UserFriendlyException($"request qlcoud im api[{method}] body[{JsonConvert.SerializeObject(request)}] error, error code[{response.ErrorCode}], error info[{response.ErrorInfo}]. ");
+                throw new UserFriendlyException($"request qlcoud im api[{method}] body[{JsonSerializer.Serialize(request)}] error, error code[{response.ErrorCode}], error info[{response.ErrorInfo}]. ");
             }
         }
     }

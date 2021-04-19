@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+﻿using System.Text.Json.Serialization;
 
 namespace Jane.UMeng.Push
 {
@@ -9,14 +9,14 @@ namespace Jane.UMeng.Push
         /// start_time(如果填写了的话)，
         /// 如果不填写此参数，默认为3天后过期。格式同start_time
         /// </summary>
-        [JsonProperty("expire_time")]
+        [JsonPropertyName("expire_time")]
         public string ExpireTime { get; set; }
 
         /// <summary>
         /// 可选，发送限速，每秒发送的最大条数。最小值1000
         /// 开发者发送的消息如果有请求自己服务器的资源，可以考虑此参数。
         /// </summary>
-        [JsonProperty("max_send_num")]
+        [JsonPropertyName("max_send_num")]
         public int MaxSendNum { get; set; }
 
         /// <summary>
@@ -25,7 +25,7 @@ namespace Jane.UMeng.Push
         /// 消息多次下发到客户端。如果需要处理这种情况，可以考虑此参数。
         /// 注意, out_biz_no只对任务生效。
         /// </summary>
-        [JsonProperty("out_biz_no")]
+        [JsonPropertyName("out_biz_no")]
         public string OutBizNo { get; set; }
 
         /// <summary>
@@ -34,7 +34,7 @@ namespace Jane.UMeng.Push
         /// 格式: "yyyy-MM-dd HH:mm:ss"。
         /// 注意，start_time只对任务生效。
         /// </summary>
-        [JsonProperty("start_time")]
+        [JsonPropertyName("start_time")]
         public string StartTime { get; set; }
     }
 }

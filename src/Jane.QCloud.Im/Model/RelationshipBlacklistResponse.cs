@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+﻿using System.Text.Json.Serialization;
 
 namespace Jane.QCloud.Im
 {
@@ -8,7 +8,7 @@ namespace Jane.QCloud.Im
 
         public string ResultInfo { get; set; }
 
-        [JsonProperty("To_Account")]
+        [JsonPropertyName("To_Account")]
         public string To { get; set; }
     }
 }

@@ -1,5 +1,5 @@
 ﻿using Jane.Extensions;
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
 namespace Jane.QCloud.Im
 {
@@ -69,7 +69,7 @@ namespace Jane.QCloud.Im
             }
         }
 
-        [JsonProperty("Owner_Account")]
+        [JsonPropertyName("Owner_Account")]
         public string Owner { get; set; }
 
         public string Type { get; set; } = "Public";

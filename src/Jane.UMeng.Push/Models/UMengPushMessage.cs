@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+﻿using System.Text.Json.Serialization;
 
 namespace Jane.UMeng.Push
 {
@@ -9,7 +9,7 @@ namespace Jane.UMeng.Push
         /// 开发者填写自己的alias, 要求不超过500个alias, 多个alias以英文逗号间隔
         /// 在SDK中调用setAlias(alias, alias_type)时所设置的alias
         /// </summary>
-        [JsonProperty("alias")]
+        [JsonPropertyName("alias")]
         public string Alias { get; set; }
 
         /// <summary>
@@ -17,26 +17,26 @@ namespace Jane.UMeng.Push
         /// alias的类型, alias_type可由开发者自定义, 开发者在SDK中
         /// 调用setAlias(alias, alias_type)时所设置的alias_type
         /// </summary>
-        [JsonProperty("alias_type")]
+        [JsonPropertyName("alias_type")]
         public string AliasType { get; set; }
 
         /// <summary>
         /// 必填，应用唯一标识
         /// </summary>
-        [JsonProperty("appkey")]
+        [JsonPropertyName("appkey")]
         public string AppKey { get; set; }
 
         /// <summary>
         /// 可选，发送消息描述，建议填写。
         /// </summary>
-        [JsonProperty("description")]
+        [JsonPropertyName("description")]
         public string Description { get; set; }
 
         /// <summary>
         /// 当type=unicast时, 必填, 表示指定的单个设备
         /// 当type=listcast时, 必填, 要求不超过500个, 以英文逗号分隔
         /// </summary>
-        [JsonProperty("device_tokens")]
+        [JsonPropertyName("device_tokens")]
         public string DeviceTokens { get; set; }
 
         /// <summary>
@@ -46,13 +46,13 @@ namespace Jane.UMeng.Push
         ///   的alias_type必须和接口参数alias_type一致。
         /// 使用文件播需要先调用文件上传接口获取file_id，参照"2.4文件上传接口"
         /// </summary>
-        [JsonProperty("file_id")]
+        [JsonPropertyName("file_id")]
         public string FileId { get; set; }
 
         /// <summary>
         /// 当type=groupcast时，必填，用户筛选条件，如用户标签、渠道等，参考附录G
         /// </summary>
-        [JsonProperty("filter")]
+        [JsonPropertyName("filter")]
         public UMengPushMessageFilter Filter { get; set; }
 
         /// <summary>
@@ -60,13 +60,13 @@ namespace Jane.UMeng.Push
         /// 测试模式只会将消息发给测试设备。测试设备需要到web上添加。
         /// Android: 测试设备属于正式设备的一个子集。
         /// </summary>
-        [JsonProperty("production_mode")]
+        [JsonPropertyName("production_mode")]
         public bool ProductionMode { get; set; } = true;
 
         /// <summary>
         /// 必填，时间戳，10位或者13位均可，时间戳有效期为10分钟
         /// </summary>
-        [JsonProperty("timestamp")]
+        [JsonPropertyName("timestamp")]
         public string TimeStamp { get; set; }
 
         /// <summary>
@@ -80,7 +80,7 @@ namespace Jane.UMeng.Push
         ///     - alias: 对单个或者多个alias进行推送
         ///     - file_id: 将alias存放到文件后，根据file_id来推送
         /// </summary>
-        [JsonProperty("type")]
+        [JsonPropertyName("type")]
         public string Type { get; set; }
     }
 }

@@ -1,14 +1,14 @@
-﻿using Newtonsoft.Json;
+﻿using System.Text.Json.Serialization;
 using System.Collections.Generic;
 
 namespace Jane.UMeng.Push
 {
     public class UMengIOSPayload : IUMengPayload
     {
-        [JsonProperty("aps")]
+        [JsonPropertyName("aps")]
         public UMengIOSPayloadAps Aps { get; set; }
 
-        [JsonProperty("body")]
+        [JsonPropertyName("body")]
         public Dictionary<string, string> Body { get; set; }
     }
 }

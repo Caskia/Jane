@@ -1,32 +1,32 @@
-﻿using Newtonsoft.Json;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace Jane.QCloud.Sms
 {
     public class QCloudSmsSingleMessage
     {
-        [JsonProperty("ext")]
+        [JsonPropertyName("ext")]
         public string Ext { get; set; } = string.Empty;
 
-        [JsonProperty("extend")]
+        [JsonPropertyName("extend")]
         public string Extend { get; set; } = string.Empty;
 
-        [JsonProperty("params")]
+        [JsonPropertyName("params")]
         public List<string> Params { get; set; }
 
-        [JsonProperty("sig")]
+        [JsonPropertyName("sig")]
         public string Sig { get; set; }
 
-        [JsonProperty("sign")]
+        [JsonPropertyName("sign")]
         public string Sign { get; set; }
 
-        [JsonProperty("tel")]
+        [JsonPropertyName("tel")]
         public QCloudPhone Telphone { get; set; }
 
-        [JsonProperty("tpl_id")]
+        [JsonPropertyName("tpl_id")]
         public int TemplateId { get; set; }
 
-        [JsonProperty("time")]
+        [JsonPropertyName("time")]
         public long Timestamp { get; set; }
     }
 }

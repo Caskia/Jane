@@ -1,5 +1,5 @@
 ﻿using Jane.Extensions;
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 using System.Collections.Generic;
 
 namespace Jane.UMeng.Push
@@ -20,7 +20,7 @@ namespace Jane.UMeng.Push
         /// 当after_open=go_activity时，必填。
         /// 通知栏点击后打开的Activity
         /// </summary>
-        [JsonProperty("activity")]
+        [JsonPropertyName("activity")]
         public string Activity { get; set; }
 
         /// <summary>
@@ -30,14 +30,14 @@ namespace Jane.UMeng.Push
         ///  "go_activity": 打开特定的activity
         ///  "go_custom": 用户自定义内容。
         /// </summary>
-        [JsonProperty("after_open")]
+        [JsonPropertyName("after_open")]
         public string AfterOpen { get; set; }
 
         /// <summary>
         /// 可选，默认为0，用于标识该通知采用的样式。使用该参数时，
         /// 开发者必须在SDK里面实现自定义通知栏样式。
         /// </summary>
-        [JsonProperty("builder_id")]
+        [JsonPropertyName("builder_id")]
         public int BuilderId { get; set; } = 0;
 
         /// <summary>
@@ -46,7 +46,7 @@ namespace Jane.UMeng.Push
         /// after_open=go_custom时，必填
         /// 用户自定义内容，可以为字符串或者JSON格式。
         /// </summary>
-        [JsonProperty("custom")]
+        [JsonPropertyName("custom")]
         public Dictionary<string, string> Custom { get; set; }
 
         /// <summary>
@@ -55,14 +55,14 @@ namespace Jane.UMeng.Push
         /// 图片要求为24*24dp的图标，或24*24px放在drawable-mdpi下。
         /// 注意四周各留1个dp的空白像素
         /// </summary>
-        [JsonProperty("icon")]
+        [JsonPropertyName("icon")]
         public string Icon { get; set; }
 
         /// <summary>
         /// 可选，通知栏大图标的URL链接。该字段的优先级大于largeIcon。
         /// 该字段要求以http或者https开头。
         /// </summary>
-        [JsonProperty("img")]
+        [JsonPropertyName("img")]
         public string Img { get; set; }
 
         /// <summary>
@@ -71,25 +71,25 @@ namespace Jane.UMeng.Push
         /// 可设计一张64*64px放在drawable-mdpi下，
         /// 注意图片四周留空，不至于显示太拥挤
         /// </summary>
-        [JsonProperty("largeIcon")]
+        [JsonPropertyName("largeIcon")]
         public string LargeIcon { get; set; }
 
         /// <summary>
         /// 可选，收到通知是否闪灯，默认为"true"
         /// </summary>
-        [JsonProperty("play_lights")]
+        [JsonPropertyName("play_lights")]
         public string PlayLights { get; set; } = "true";
 
         /// <summary>
         /// 可选，收到通知是否发出声音，默认为"true"
         /// </summary>
-        [JsonProperty("play_sound")]
+        [JsonPropertyName("play_sound")]
         public string PlaySound { get; set; } = "true";
 
         /// <summary>
         /// 可选，收到通知是否震动，默认为"true"
         /// </summary>
-        [JsonProperty("play_vibrate")]
+        [JsonPropertyName("play_vibrate")]
         public string PlayVibrate { get; set; } = "true";
 
         /// <summary>
@@ -98,13 +98,13 @@ namespace Jane.UMeng.Push
         /// umeng_push_notification_default_sound声音文件。如果
         /// SDK默认声音文件不存在，则使用系统默认Notification提示音。
         /// </summary>
-        [JsonProperty("sound")]
+        [JsonPropertyName("sound")]
         public string Sound { get; set; }
 
         /// <summary>
         /// 必填，通知文字描述
         /// </summary>
-        [JsonProperty("text")]
+        [JsonPropertyName("text")]
         public string Text
         {
             get
@@ -120,7 +120,7 @@ namespace Jane.UMeng.Push
         /// <summary>
         /// 必填，通知栏提示文字
         /// </summary>
-        [JsonProperty("ticker")]
+        [JsonPropertyName("ticker")]
         public string Ticker
         {
             get
@@ -136,7 +136,7 @@ namespace Jane.UMeng.Push
         /// <summary>
         /// 必填，通知标题
         /// </summary>
-        [JsonProperty("title")]
+        [JsonPropertyName("title")]
         public string Title
         {
             get
@@ -153,7 +153,7 @@ namespace Jane.UMeng.Push
         /// 当after_open=go_url时，必填。
         /// 通知栏点击后跳转的URL，要求以http或者https开头
         /// </summary>
-        [JsonProperty("url")]
+        [JsonPropertyName("url")]
         public string Url { get; set; }
     }
 }

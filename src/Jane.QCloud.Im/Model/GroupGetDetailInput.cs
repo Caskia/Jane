@@ -1,11 +1,11 @@
-﻿using Newtonsoft.Json;
+﻿using System.Text.Json.Serialization;
 using System.Collections.Generic;
 
 namespace Jane.QCloud.Im
 {
     public class GroupGetDetailInput
     {
-        [JsonProperty("GroupIdList")]
+        [JsonPropertyName("GroupIdList")]
         public List<string> GroupIds { get; set; }
     }
 }

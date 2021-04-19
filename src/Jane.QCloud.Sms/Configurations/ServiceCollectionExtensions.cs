@@ -4,6 +4,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Refit;
 using System;
 using System.Collections.Generic;
+using System.Text.Encodings.Web;
+using System.Text.Json;
+using System.Text.Unicode;
 using JaneConfiguration = Jane.Configurations.Configuration;
 
 namespace Jane.Configurations
@@ -18,7 +21,14 @@ namespace Jane.Configurations
                 services.Configure(action);
             }
 
-            services.AddRefitClient<IQCloudSmsApi>()
+            var settings = new RefitSettings()
+            {
+                ContentSerializer = new SystemTextJsonContentSerializer(new JsonSerializerOptions()
+                {
+                    Encoder = JavaScriptEncoder.Create(new TextEncoderSettings(UnicodeRanges.All))
+                })
+            };
+            services.AddRefitClient<IQCloudSmsApi>(settings)
                     .ConfigureHttpClient(c => c.BaseAddress = new Uri("https://yun.tim.qq.com"));
 
             services.AddSingleton<IQCloudSmsTemplateService, QCloudSmsTemplateService>(sp =>

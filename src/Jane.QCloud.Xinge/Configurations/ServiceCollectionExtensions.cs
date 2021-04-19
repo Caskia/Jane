@@ -1,10 +1,12 @@
-﻿using Jane.Push;
+﻿using Jane.Json.Microsoft;
+using Jane.Push;
 using Jane.QCloud.Xinge;
 using Microsoft.Extensions.DependencyInjection;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
 using Refit;
 using System;
+using System.Text.Encodings.Web;
+using System.Text.Json;
+using System.Text.Unicode;
 using JaneConfiguration = Jane.Configurations.Configuration;
 
 namespace Jane.Configurations
@@ -19,17 +21,14 @@ namespace Jane.Configurations
                 services.Configure(action);
             }
 
-            var jsonSerializerSettings = new JsonSerializerSettings()
-            {
-                ContractResolver = new DefaultContractResolver()
-                {
-                    NamingStrategy = new SnakeCaseNamingStrategy()
-                },
-                NullValueHandling = NullValueHandling.Ignore
-            };
             var settings = new RefitSettings()
             {
-                ContentSerializer = new NewtonsoftJsonContentSerializer(jsonSerializerSettings)
+                ContentSerializer = new SystemTextJsonContentSerializer(new JsonSerializerOptions()
+                {
+                    IgnoreNullValues = true,
+                    Encoder = JavaScriptEncoder.Create(new TextEncoderSettings(UnicodeRanges.All)),
+                    PropertyNamingPolicy = new JsonSnakeCaseNamingPolicy()
+                })
             };
             services.AddRefitClient<IQCloudXingeApi>(settings)
                     .ConfigureHttpClient(c => c.BaseAddress = new Uri("https://openapi.xg.qq.com/v3"));

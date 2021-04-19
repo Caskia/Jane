@@ -1,5 +1,5 @@
 ﻿using Jane.Extensions;
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
 namespace Jane.UMeng.Push
 {
@@ -15,7 +15,7 @@ namespace Jane.UMeng.Push
 
         #endregion Private Fields
 
-        [JsonProperty("body")]
+        [JsonPropertyName("body")]
         public string Body
         {
             get
@@ -28,7 +28,7 @@ namespace Jane.UMeng.Push
             }
         }
 
-        [JsonProperty("subtitle")]
+        [JsonPropertyName("subtitle")]
         public string Subtitle
         {
             get
@@ -41,7 +41,7 @@ namespace Jane.UMeng.Push
             }
         }
 
-        [JsonProperty("title")]
+        [JsonPropertyName("title")]
         public string Title
         {
             get

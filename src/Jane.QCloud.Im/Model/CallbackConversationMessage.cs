@@ -1,23 +1,23 @@
-﻿using Newtonsoft.Json;
+﻿using System.Text.Json.Serialization;
 using System.Collections.Generic;
 
 namespace Jane.QCloud.Im
 {
     public class CallbackConversationMessage : QCloudCallbackData
     {
-        [JsonProperty("MsgBody")]
+        [JsonPropertyName("MsgBody")]
         public List<Message> Contents { get; set; }
 
-        [JsonProperty("From_Account")]
+        [JsonPropertyName("From_Account")]
         public string From { get; set; }
 
-        [JsonProperty("MsgSeq")]
+        [JsonPropertyName("MsgSeq")]
         public long? Sequence { get; set; }
 
-        [JsonProperty("MsgTime")]
+        [JsonPropertyName("MsgTime")]
         public double? Timestamp { get; set; }
 
-        [JsonProperty("To_Account")]
+        [JsonPropertyName("To_Account")]
         public string To { get; set; }
     }
 }

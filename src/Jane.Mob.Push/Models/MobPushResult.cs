@@ -1,16 +1,16 @@
-﻿using Newtonsoft.Json;
+﻿using System.Text.Json.Serialization;
 
 namespace Jane.Mob.Push
 {
     public class MobPushResult
     {
-        [JsonProperty("error")]
+        [JsonPropertyName("error")]
         public string Error { get; set; }
 
-        [JsonProperty("res")]
+        [JsonPropertyName("res")]
         public MobPushResultResponse Res { get; set; }
 
-        [JsonProperty("status")]
+        [JsonPropertyName("status")]
         public int Status { get; set; }
     }
 }

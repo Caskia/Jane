@@ -1,10 +1,10 @@
-﻿using Newtonsoft.Json;
+﻿using System.Text.Json.Serialization;
 
 namespace Jane.QCloud.Im
 {
     public class RelationshipBlacklistGetInput
     {
-        [JsonProperty("From_Account")]
+        [JsonPropertyName("From_Account")]
         public string From { get; set; }
 
         public int LastSequence { get; set; }

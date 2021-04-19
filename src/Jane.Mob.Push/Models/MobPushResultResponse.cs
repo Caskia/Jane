@@ -1,10 +1,10 @@
-﻿using Newtonsoft.Json;
+﻿using System.Text.Json.Serialization;
 
 namespace Jane.Mob.Push
 {
     public class MobPushResultResponse
     {
-        [JsonProperty("batchId")]
+        [JsonPropertyName("batchId")]
         public string BatchId { get; set; }
     }
 }

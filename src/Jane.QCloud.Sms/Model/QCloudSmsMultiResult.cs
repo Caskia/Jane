@@ -1,20 +1,20 @@
-﻿using Newtonsoft.Json;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace Jane.QCloud.Sms
 {
     public class QCloudSmsMultiResult
     {
-        [JsonProperty("detail")]
+        [JsonPropertyName("detail")]
         public List<QCloudSmsMultiResultDetail> Detail { get; set; }
 
-        [JsonProperty("errmsg")]
+        [JsonPropertyName("errmsg")]
         public string ErrorMessage { get; set; }
 
-        [JsonProperty("ext")]
+        [JsonPropertyName("ext")]
         public string Ext { get; set; }
 
-        [JsonProperty("result")]
+        [JsonPropertyName("result")]
         public int Result { get; set; }
     }
 }

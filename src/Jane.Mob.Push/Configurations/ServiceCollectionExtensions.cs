@@ -19,7 +19,7 @@ namespace Jane.Configurations
 
             var settings = new RefitSettings()
             {
-                ContentSerializer = new NewtonsoftJsonContentSerializer(MobPushService.JsonSerializerSettings)
+                ContentSerializer = new SystemTextJsonContentSerializer(MobPushService.JsonSerializerOptions)
             };
             services.AddRefitClient<IMobPushApi>(settings)
                     .ConfigureHttpClient(c => c.BaseAddress = new Uri("http://api.push.mob.com"));

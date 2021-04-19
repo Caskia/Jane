@@ -1,13 +1,13 @@
-﻿using Newtonsoft.Json;
+﻿using System.Text.Json.Serialization;
 
 namespace Jane.QCloud.Im
 {
     public class Message
     {
-        [JsonProperty("MsgContent")]
+        [JsonPropertyName("MsgContent")]
         public MessageContent Content { get; set; }
 
-        [JsonProperty("MsgType")]
+        [JsonPropertyName("MsgType")]
         public string Type { get; set; }
     }
 }

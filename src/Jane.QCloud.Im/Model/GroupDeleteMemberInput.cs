@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+﻿using System.Text.Json.Serialization;
 using System.Collections.Generic;
 
 namespace Jane.QCloud.Im
@@ -7,7 +7,7 @@ namespace Jane.QCloud.Im
     {
         public string GroupId { get; set; }
 
-        [JsonProperty("MemberToDel_Account")]
+        [JsonPropertyName("MemberToDel_Account")]
         public List<string> MemeberList { get; set; } = new List<string>();
 
         public string Reason { get; set; }

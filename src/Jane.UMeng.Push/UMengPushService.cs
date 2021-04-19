@@ -3,11 +3,13 @@ using Jane.Extensions;
 using Jane.Push;
 using Jane.Timing;
 using Microsoft.Extensions.Options;
-using Newtonsoft.Json;
 using Refit;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Encodings.Web;
+using System.Text.Json;
+using System.Text.Unicode;
 using System.Threading.Tasks;
 
 namespace Jane.UMeng.Push
@@ -16,9 +18,10 @@ namespace Jane.UMeng.Push
     {
         public static string ApiUrl = "https://msgapi.umeng.com";
 
-        public static JsonSerializerSettings JsonSerializerSettings = new JsonSerializerSettings()
+        public static JsonSerializerOptions JsonSerializerOptions = new JsonSerializerOptions()
         {
-            NullValueHandling = NullValueHandling.Ignore
+            IgnoreNullValues = true,
+            Encoder = JavaScriptEncoder.Create(new TextEncoderSettings(UnicodeRanges.All))
         };
 
         private readonly UMengPushOptions _options;
@@ -77,7 +80,7 @@ namespace Jane.UMeng.Push
                     }
                 };
 
-                var sign = GetEncryptedSign(_pushMessageHttpMethod, _pushMessageUrl, JsonConvert.SerializeObject(uMengMessage, JsonSerializerSettings), _options.AndroidKey.AppSecret);
+                var sign = GetEncryptedSign(_pushMessageHttpMethod, _pushMessageUrl, JsonSerializer.Serialize(uMengMessage, JsonSerializerOptions), _options.AndroidKey.AppSecret);
 
                 try
                 {
@@ -113,7 +116,7 @@ namespace Jane.UMeng.Push
                     ProductionMode = _options.IOSKey.ProductionMode
                 };
 
-                var sign = GetEncryptedSign(_pushMessageHttpMethod, _pushMessageUrl, JsonConvert.SerializeObject(uMengMessage, JsonSerializerSettings), _options.IOSKey.AppSecret);
+                var sign = GetEncryptedSign(_pushMessageHttpMethod, _pushMessageUrl, JsonSerializer.Serialize(uMengMessage, JsonSerializerOptions), _options.IOSKey.AppSecret);
 
                 try
                 {

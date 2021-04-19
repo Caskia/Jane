@@ -3,19 +3,22 @@ using Jane.Extensions;
 using Jane.Logging;
 using Jane.Push;
 using Microsoft.Extensions.Options;
-using Newtonsoft.Json;
 using Refit;
 using System;
 using System.Collections.Generic;
+using System.Text.Encodings.Web;
+using System.Text.Json;
+using System.Text.Unicode;
 using System.Threading.Tasks;
 
 namespace Jane.Mob.Push
 {
     public class MobPushService
     {
-        public static JsonSerializerSettings JsonSerializerSettings = new JsonSerializerSettings()
+        public static JsonSerializerOptions JsonSerializerOptions = new JsonSerializerOptions()
         {
-            NullValueHandling = NullValueHandling.Ignore
+            IgnoreNullValues = true,
+            Encoder = JavaScriptEncoder.Create(new TextEncoderSettings(UnicodeRanges.All))
         };
 
         private readonly ILogger _logger;
@@ -54,7 +57,7 @@ namespace Jane.Mob.Push
                 Tags = tags,
                 Type = 1,
                 Content = input.Content,
-                Extras = JsonConvert.SerializeObject(input.CustomData)
+                Extras = JsonSerializer.Serialize(input.CustomData, JsonSerializerOptions)
             };
 
             if (pushPlatforms.Contains(PushPlatform.Android))
@@ -85,7 +88,7 @@ namespace Jane.Mob.Push
 
         private string GetEncryptedSign(MobPushMessage message, string secret)
         {
-            var jsonContent = JsonConvert.SerializeObject(message, JsonSerializerSettings);
+            var jsonContent = JsonSerializer.Serialize(message, JsonSerializerOptions);
             return $"{jsonContent}{secret}".ToMd5();
         }
 

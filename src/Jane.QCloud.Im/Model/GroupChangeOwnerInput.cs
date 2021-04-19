@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+﻿using System.Text.Json.Serialization;
 
 namespace Jane.QCloud.Im
 {
@@ -6,7 +6,7 @@ namespace Jane.QCloud.Im
     {
         public string GroupId { get; set; }
 
-        [JsonProperty("NewOwner_Account")]
+        [JsonPropertyName("NewOwner_Account")]
         public string Owner { get; set; }
     }
 }
