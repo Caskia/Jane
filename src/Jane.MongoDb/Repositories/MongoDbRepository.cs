@@ -522,7 +522,7 @@ namespace Jane.MongoDb.Repositories
 
         public long LongCount(string filter)
         {
-            return Collection.Find(filter, FindOptions).CountDocuments();
+            return Collection.CountDocuments(filter);
         }
 
         public long LongCount()
@@ -537,7 +537,7 @@ namespace Jane.MongoDb.Repositories
 
         public Task<long> LongCountAsync(string filter)
         {
-            return Collection.Find(filter, FindOptions).CountDocumentsAsync();
+            return Collection.CountDocumentsAsync(filter);
         }
 
         public Task<long> LongCountAsync()
