@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Jane.Extensions
 {
@@ -36,7 +37,7 @@ namespace Jane.Extensions
         /// </summary>
         public static bool IsNullOrEmpty<T>(this ICollection<T> source)
         {
-            return source == null || source.Count <= 0;
+            return source == null || !source.Any();
         }
     }
 }
