@@ -1,15 +1,17 @@
 ﻿using Jane.MongoDb;
 using MongoDB.Bson;
 using MongoDB.Driver;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace Jane
+namespace Jane.Environment
 {
     public class MongoDbIncrementDataGenerator : MongoDbBase<JaneIncrementField, ObjectId>, IIncrementDataGenerator
     {
         public MongoDbIncrementDataGenerator(IMongoDbProvider databaseProvider)
             : base(databaseProvider)
         {
+            Task.Factory.StartNew(async () => await EnsureIndexAsync());
         }
 
         public async Task<long> IncrementAsync(string key, int value = 1)
@@ -45,6 +47,14 @@ namespace Jane
             {
                 return incrementField.Value + value;
             }
+        }
+
+        private async Task EnsureIndexAsync()
+        {
+            await Collection.Indexes.CreateManyAsync(new List<CreateIndexModel<JaneIncrementField>>()
+            {
+                new CreateIndexModel<JaneIncrementField>(Builders<JaneIncrementField>.IndexKeys.Ascending(f=>f.Key)),
+            });
         }
     }
 }

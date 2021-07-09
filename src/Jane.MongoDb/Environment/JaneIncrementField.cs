@@ -1,7 +1,7 @@
 ﻿using Jane.Entities;
 using MongoDB.Bson;
 
-namespace Jane
+namespace Jane.Environment
 {
     public class JaneIncrementField : Entity<ObjectId>
     {
