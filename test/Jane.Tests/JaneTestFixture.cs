@@ -53,6 +53,7 @@ namespace Jane.Tests
 
         private void ConfigureService(IServiceCollection services)
         {
+            services.AddAgoraIm();
         }
 
         private void InitializeJane()
