@@ -1,6 +1,6 @@
 ﻿namespace Jane.Configurations
 {
-    public record AgoraImOptions
+    public record AgoraRtcOptions
     {
         public string AppId { get; set; }
 

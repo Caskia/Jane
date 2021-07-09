@@ -7,11 +7,11 @@ namespace Jane.Tests.AgoraIm
 {
     public class Generator_Tests : TestBase
     {
-        private readonly IAgoraImService _agoraImService;
+        private readonly IAgoraRtcService _agoraImService;
 
         public Generator_Tests()
         {
-            _agoraImService = ObjectContainer.Resolve<IAgoraImService>();
+            _agoraImService = ObjectContainer.Resolve<IAgoraRtcService>();
         }
 
         [Fact]

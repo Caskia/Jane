@@ -4,11 +4,11 @@ using Microsoft.Extensions.Options;
 
 namespace Jane.Agora.Rtc
 {
-    public class AgoraImService : IAgoraImService
+    public class AgoraRtcService : IAgoraRtcService
     {
-        private readonly AgoraImOptions _options;
+        private readonly AgoraRtcOptions _options;
 
-        public AgoraImService(IOptions<AgoraImOptions> optionsAccessor)
+        public AgoraRtcService(IOptions<AgoraRtcOptions> optionsAccessor)
         {
             _options = optionsAccessor.Value;
         }
