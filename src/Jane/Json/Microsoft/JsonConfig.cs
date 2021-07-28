@@ -15,22 +15,29 @@ namespace Jane.Json.Microsoft
             {
                 if (_serializerOptions == null)
                 {
-                    var encoderSettings = new TextEncoderSettings();
-                    encoderSettings.AllowRanges(UnicodeRanges.All);
-
-                    _serializerOptions = new JsonSerializerOptions()
-                    {
-                        Encoder = JavaScriptEncoder.Create(encoderSettings),
-                        PropertyNamingPolicy = new JsonSnakeCaseNamingPolicy(),
-                    };
-
-                    _serializerOptions.Converters.Add(new JaneDateTimeConverter());
-                    _serializerOptions.Converters.Add(new StringLongConverter());
-                    _serializerOptions.Converters.Add(new JsonStringEnumConverter());
+                   _serializerOptions = CreateDefaultJsonSerializerOptions();
                 }
 
                 return _serializerOptions;
             }
+        }
+
+        public static JsonSerializerOptions CreateDefaultJsonSerializerOptions()
+        {
+            var encoderSettings = new TextEncoderSettings();
+            encoderSettings.AllowRanges(UnicodeRanges.All);
+
+            var serializerOptions = new JsonSerializerOptions()
+            {
+                Encoder = JavaScriptEncoder.Create(encoderSettings),
+                PropertyNamingPolicy = new JsonSnakeCaseNamingPolicy(),
+            };
+
+            serializerOptions.Converters.Add(new JaneDateTimeConverter());
+            serializerOptions.Converters.Add(new StringLongConverter());
+            serializerOptions.Converters.Add(new JsonStringEnumConverter());
+
+            return serializerOptions;
         }
     }
 }

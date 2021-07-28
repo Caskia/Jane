@@ -32,7 +32,7 @@ namespace Jane.Json.Newtonsoft
                 ContractResolver = new JaneCamelCasePropertyNamesContractResolver()
             };
 
-            return JsonConvert.DeserializeObject(serialized, type, options);
+            return serialized.FromJsonString(type,options);
         }
 
         /// <summary>
@@ -50,7 +50,7 @@ namespace Jane.Json.Newtonsoft
         /// </summary>
         public static string SerializeWithType(object obj, Type type)
         {
-            var serialized = obj.ToJsonString();
+            var serialized = obj.ToJsonString(camelCase: true);
 
             return string.Format(
                 "{0}{1}{2}",

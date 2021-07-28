@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
+using Newtonsoft.Json.Serialization;
 using System;
 
 namespace Jane.Json.Newtonsoft
@@ -28,7 +29,7 @@ namespace Jane.Json.Newtonsoft
         {
             return value != null
                 ? JsonConvert.DeserializeObject<T>(value, settings)
-                : default(T);
+                : default;
         }
 
         /// <summary>
@@ -54,13 +55,20 @@ namespace Jane.Json.Newtonsoft
         /// Converts given object to JSON string.
         /// </summary>
         /// <returns></returns>
-        public static string ToJsonString(this object obj, bool camelCase = false, bool indented = false, bool referenceLoopIgnore = false, bool retainProperties = false, bool ignoreProperties = false, bool stringEnum = false, string[] properties = null)
+        public static string ToJsonString(this object obj, bool camelCase = false, bool snakeCase = false, bool indented = false, bool referenceLoopIgnore = false, bool retainProperties = false, bool ignoreProperties = false, bool stringEnum = false, string[] properties = null)
         {
             var settings = new JsonSerializerSettings();
 
             if (camelCase)
             {
                 settings.ContractResolver = new JaneCamelCasePropertyNamesContractResolver();
+            }
+            else if (snakeCase)
+            {
+                settings.ContractResolver = new DefaultContractResolver
+                {
+                    NamingStrategy = new SnakeCaseNamingStrategy()
+                };
             }
             else
             {
@@ -103,7 +111,7 @@ namespace Jane.Json.Newtonsoft
         {
             return obj != null
                 ? JsonConvert.SerializeObject(obj, settings)
-                : default(string);
+                : default;
         }
     }
 }

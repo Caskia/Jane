@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Text.Encodings.Web;
 using System.Text.Json;
-using System.Text.Json.Serialization;
-using System.Text.Unicode;
 
 namespace Jane.Json.Microsoft
 {
@@ -23,15 +20,12 @@ namespace Jane.Json.Microsoft
             return JsonSerializer.Serialize(obj, CreateSerializerOptions(namingStrategyType, indented));
         }
 
+        /// <summary>
+        /// default options see <see cref="JsonConfig.CreateDefaultJsonSerializerOptions"/>
+        /// </summary>
         protected virtual JsonSerializerOptions CreateSerializerOptions(NamingStrategyType namingStrategyType = NamingStrategyType.SnakeCase, bool indented = false)
         {
-            var encoderSettings = new TextEncoderSettings();
-            encoderSettings.AllowRanges(UnicodeRanges.All);
-
-            var options = new JsonSerializerOptions()
-            {
-                Encoder = JavaScriptEncoder.Create(encoderSettings)
-            };
+            var options = JsonConfig.CreateDefaultJsonSerializerOptions();
 
             switch (namingStrategyType)
             {
@@ -46,10 +40,6 @@ namespace Jane.Json.Microsoft
                 default:
                     break;
             }
-
-            options.Converters.Add(new JaneDateTimeConverter());
-            options.Converters.Add(new StringLongConverter());
-            options.Converters.Add(new JsonStringEnumConverter());
 
             if (indented)
             {
