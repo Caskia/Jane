@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Security.Cryptography;
 using System.Text;
@@ -97,6 +98,46 @@ namespace Jane.Extensions
             }
 
             return c + str;
+        }
+
+        /// <summary>
+        /// Converts snake_case string to PascalCase string.
+        /// </summary>
+        public static string FromSnakeCaseToPascalCase(this string str)
+        {
+            if (string.IsNullOrEmpty(str))
+            {
+                return str;
+            }
+
+            var length = str.Length;
+            var characters = new List<char>();
+            var needUpper = false;
+            for (int i = 0; i < length; i++)
+            {
+                if (i == 0)
+                {
+                    needUpper = true;
+                }
+
+                if (str[i] == '_')
+                {
+                    needUpper = true;
+                    continue;
+                }
+
+                if (needUpper)
+                {
+                    characters.Add(char.ToUpper(str[i]));
+                    needUpper = false;
+                }
+                else
+                {
+                    characters.Add(str[i]);
+                }
+            }
+
+            return new string(characters.ToArray());
         }
 
         /// <summary>
