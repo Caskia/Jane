@@ -27,6 +27,16 @@ namespace Jane.Extensions
             return new DateTime(dateTime.Ticks - (dateTime.Ticks % TimeSpan.TicksPerMinute), dateTime.Kind);
         }
 
+        public static DateTimeOffset CutOffMilliseconds(this DateTimeOffset dateTimeOffset)
+        {
+            return new DateTimeOffset(dateTimeOffset.Ticks - (dateTimeOffset.Ticks % TimeSpan.TicksPerSecond), dateTimeOffset.Offset);
+        }
+
+        public static DateTime CutOffMilliseconds(this DateTime dateTime)
+        {
+            return new DateTime(dateTime.Ticks - (dateTime.Ticks % TimeSpan.TicksPerSecond), dateTime.Kind);
+        }
+
         public static string ToDateSuffix(this DateTimeOffset dateTimeOffset)
         {
             return dateTimeOffset.Day.ToOccurrenceSuffix();
