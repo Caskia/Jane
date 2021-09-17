@@ -1,5 +1,4 @@
-﻿using Jane.Sms;
-using Jane.Twilio.Sms;
+﻿using Jane.Twilio.Sms;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using JaneConfiguration = Jane.Configurations.Configuration;
@@ -16,7 +15,7 @@ namespace Jane.Configurations
                 services.Configure(action);
             }
 
-            services.AddSingleton<ISupplySmsService, TwilioSmsService>();
+            services.AddSingleton<TwilioSmsService, TwilioSmsService>();
 
             return services;
         }

@@ -1,5 +1,4 @@
 ﻿using Jane.QCloud.Sms;
-using Jane.Sms;
 using Microsoft.Extensions.DependencyInjection;
 using Refit;
 using System;
