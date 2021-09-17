@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Jane.QCloud.Sms
 {
-    public class QCloudCombinationSmsService : ISmsService
+    public class QCloudCombinationSmsService : ISupplySmsService
     {
         private readonly QCloudSmsService _qCloudSmsService;
         private readonly ISubject<SmsMessageContext> _queue = Subject.Synchronize(new Subject<SmsMessageContext>());

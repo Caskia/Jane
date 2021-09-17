@@ -12,7 +12,7 @@ using Twilio.Types;
 
 namespace Jane.Twilio.Sms
 {
-    public class TwilioSmsService : ISmsService
+    public class TwilioSmsService : ISupplySmsService
     {
         #region Fields
 

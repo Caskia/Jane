@@ -16,7 +16,7 @@ namespace Jane.Configurations
                 services.Configure(action);
             }
 
-            services.AddSingleton<ISmsService, TwilioSmsService>();
+            services.AddSingleton<ISupplySmsService, TwilioSmsService>();
 
             return services;
         }

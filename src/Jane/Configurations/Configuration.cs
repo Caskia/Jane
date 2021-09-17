@@ -24,6 +24,7 @@ using Jane.Runtime.Remoting;
 using Jane.Runtime.Session;
 using Jane.Runtime.Validation.Interception;
 using Jane.Scheduling;
+using Jane.Sms;
 using Jane.Threading;
 using Jane.Threading.Timers;
 using Jane.Utils;
@@ -149,6 +150,9 @@ namespace Jane.Configurations
             SetDefault<IBackgroundJobSerializer, JsonBackgroundJobSerializer>(null, DependencyLifeStyle.Transient);
             SetDefault<IBackgroundJobStore, InMemoryBackgroundJobStore>();
             SetDefault<IBackgroundJobManager, DefaultBackgroundJobManager>();
+            SetDefault<ISmsSupplierManager, DefaultSmsSupplierManager>();
+            SetDefault<ISmsService, DefaultSmsService>();
+
             return this;
         }
 

@@ -36,7 +36,7 @@ namespace Jane.Configurations
                 return new QCloudSmsTemplateService(templateCodePairs);
             });
             services.AddSingleton<QCloudSmsService, QCloudSmsService>();
-            services.AddSingleton<ISmsService, QCloudCombinationSmsService>();
+            services.AddSingleton<QCloudCombinationSmsService, QCloudCombinationSmsService>();
 
             return services;
         }
