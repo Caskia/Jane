@@ -21,7 +21,7 @@ namespace Jane.Sms
             var tos = message.To.GroupBy(t => t.CountryCode);
             foreach (var to in tos)
             {
-                var suppliers = await _smsSupplierManager.GetSuppliersByCountryCode(to.Key);
+                var suppliers = _smsSupplierManager.GetSuppliersByCountryCode(to.Key);
                 if (!suppliers.Any())
                 {
                     throw new JaneException($"can not find supplier for country code[{to.Key}], need register.");

@@ -1,12 +1,11 @@
 ﻿using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace Jane.Sms
 {
     public interface ISmsSupplierManager
     {
-        Task AddSupplier(SmsSupplier supplier);
+        void AddSupplier(SmsSupplier supplier);
 
-        Task<IEnumerable<SmsSupplier>> GetSuppliersByCountryCode(string countryCode);
+        IEnumerable<SmsSupplier> GetSuppliersByCountryCode(string countryCode);
     }
 }

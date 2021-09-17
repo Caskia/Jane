@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace Jane.Sms
 {
@@ -9,7 +8,7 @@ namespace Jane.Sms
     {
         private readonly List<SmsSupplier> suppliers = new();
 
-        public Task AddSupplier(SmsSupplier supplier)
+        public void AddSupplier(SmsSupplier supplier)
         {
             if (supplier == null)
             {
@@ -17,17 +16,15 @@ namespace Jane.Sms
             }
 
             suppliers.Add(supplier);
-
-            return Task.CompletedTask;
         }
 
-        public Task<IEnumerable<SmsSupplier>> GetSuppliersByCountryCode(string countryCode)
+        public IEnumerable<SmsSupplier> GetSuppliersByCountryCode(string countryCode)
         {
-            return Task.FromResult(countryCode switch
+            return countryCode switch
             {
                 "86" => suppliers.Where(s => s.CountryCode == "86"),
                 _ => suppliers.Where(s => s.CountryCode != "86")
-            });
+            };
         }
     }
 }
