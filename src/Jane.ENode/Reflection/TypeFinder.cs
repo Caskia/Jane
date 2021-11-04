@@ -29,5 +29,29 @@ namespace Jane.ENode.Reflection
         {
             return TypeHelper.GetAllSameNamespaceTypes(pathType, typeof(IDomainException)).ToArray();
         }
+
+        public static Type[] FindSamePathTypes(Type pathType)
+        {
+            var interfaces = pathType.GetInterfaces();
+
+            if (interfaces.Contains(typeof(IApplicationMessage)))
+            {
+                return FindSamePathApplicationMessages(pathType);
+            }
+            else if (interfaces.Contains(typeof(ICommand)))
+            {
+                return FindSamePathCommands(pathType);
+            }
+            else if (interfaces.Contains(typeof(IDomainEvent)))
+            {
+                return FindSamePathDomainEvents(pathType);
+            }
+            else if (interfaces.Contains(typeof(IDomainException)))
+            {
+                return FindSamePathDomainExceptions(pathType);
+            }
+
+            return null;
+        }
     }
 }
