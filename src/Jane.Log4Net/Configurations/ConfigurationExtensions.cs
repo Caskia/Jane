@@ -19,7 +19,7 @@ namespace Jane.Configurations
         /// <summary>Use Log4Net as the logger.
         /// </summary>
         /// <returns></returns>
-        public static Configuration UseLog4Net(this Configuration configuration, string configFile, string loggerRepository = "NetStandardRepository")
+        public static Configuration UseLog4Net(this Configuration configuration, string configFile, string loggerRepository = "JaneLogRepository")
         {
             configuration.SetDefault<ILoggerFactory, Log4NetLoggerFactory>(new Log4NetLoggerFactory(configFile, loggerRepository));
             return configuration;

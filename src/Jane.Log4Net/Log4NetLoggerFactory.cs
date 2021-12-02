@@ -21,7 +21,7 @@ namespace Jane.Log4Net
         /// </summary>
         /// <param name="configFile"></param>
         /// <param name="loggerRepository"></param>
-        public Log4NetLoggerFactory(string configFile, string loggerRepository = "NetStandardRepository")
+        public Log4NetLoggerFactory(string configFile, string loggerRepository = "JaneLogRepository")
         {
             this.loggerRepository = loggerRepository;
 
