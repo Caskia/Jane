@@ -22,7 +22,7 @@ namespace Jane.Configurations
             return ECommonConfiguration.Create()
               .UseAutofac(containerBuilder)
               .RegisterCommonComponents()
-              .UseLog4Net()
+              .UseLog4Net("log4net.config", "JaneLogRepository")
               .UseECommonJsonNet();
         }
 
