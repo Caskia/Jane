@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
-    <Version>0.5.0</Version>
+    <TargetFramework>net6.0</TargetFramework>
+    <Version>0.5.1</Version>
     <Description>a develop framework named assistant jane!</Description>
     <Copyright>Copyright © Caskia 2021</Copyright>
     <PackageLicenseUrl>https://github.com/Caskia/Jane/blob/master/LICENSE</PackageLicenseUrl>
@@ -14,8 +14,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Refit.HttpClientFactory" Version="6.0.38" />
-    <PackageReference Include="Refit.Newtonsoft.Json" Version="6.0.38" />
+    <PackageReference Include="Refit.HttpClientFactory" Version="6.1.15" />
+    <PackageReference Include="Refit.Newtonsoft.Json" Version="6.1.15" />
   </ItemGroup>
 
   <ItemGroup>

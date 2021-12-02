@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Text.Encodings.Web;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 using System.Text.Unicode;
 using System.Threading.Tasks;
 
@@ -17,7 +18,7 @@ namespace Jane.Mob.Push
     {
         public static JsonSerializerOptions JsonSerializerOptions = new JsonSerializerOptions()
         {
-            IgnoreNullValues = true,
+            DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
             Encoder = JavaScriptEncoder.Create(new TextEncoderSettings(UnicodeRanges.All))
         };
 

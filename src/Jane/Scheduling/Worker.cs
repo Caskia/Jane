@@ -87,7 +87,8 @@ namespace Jane.Scheduling
                 catch (ThreadAbortException)
                 {
                     _logger.InfoFormat("Worker thread caught ThreadAbortException, try to resetting, actionName:{0}", _actionName);
-                    Thread.ResetAbort();
+
+                    //Thread.ResetAbort();
                     _logger.InfoFormat("Worker thread ThreadAbortException resetted, actionName:{0}", _actionName);
                 }
                 catch (Exception ex)

@@ -141,8 +141,10 @@ namespace Jane
         private int RandomSeed()
         {
             byte[] bytes = new byte[4];
-            RNGCryptoServiceProvider rng = new RNGCryptoServiceProvider();
-            rng.GetBytes(bytes);
+
+            var randomNumberGenerator = RandomNumberGenerator.Create();
+            randomNumberGenerator.GetBytes(bytes, 0, bytes.Length);
+
             return BitConverter.ToInt32(bytes, 0);
         }
 

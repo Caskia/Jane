@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
-    <Version>0.5.0</Version>
+    <TargetFramework>net6.0</TargetFramework>
+    <Version>0.5.1</Version>
     <Description>a develop framework named assistant jane!</Description>
     <Copyright>Copyright © Caskia 2021</Copyright>
     <PackageLicenseUrl>https://github.com/Caskia/Jane/blob/master/LICENSE</PackageLicenseUrl>
@@ -14,7 +14,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="TencentCloudSDK" Version="3.0.252" />
+    <PackageReference Include="TencentCloudSDK" Version="3.0.418" />
   </ItemGroup>
 
   <ItemGroup>

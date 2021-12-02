@@ -4,6 +4,7 @@ using Refit;
 using System;
 using System.Text.Encodings.Web;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 using System.Text.Unicode;
 using JaneConfiguration = Jane.Configurations.Configuration;
 
@@ -23,7 +24,7 @@ namespace Jane.Configurations
             {
                 ContentSerializer = new SystemTextJsonContentSerializer(new JsonSerializerOptions()
                 {
-                    IgnoreNullValues = true,
+                    DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
                     Encoder = JavaScriptEncoder.Create(new TextEncoderSettings(UnicodeRanges.All))
                 })
             };

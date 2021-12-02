@@ -44,6 +44,12 @@ namespace Jane.Tests.Environment
             t4.ShouldBe(4);
         }
 
+        [Fact(DisplayName = "Should_Create_Random_String")]
+        public void Should_Create_Random_String()
+        {
+            _ = _dataGenerator.GetRandomString(10, true, false, false);
+        }
+
         [Fact(DisplayName = "Should_Number_To_S36")]
         public void Should_Number_To_S36()
         {
