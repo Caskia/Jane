@@ -2,6 +2,7 @@
 using Jane.Authorization;
 using Jane.BackgroundJobs;
 using Jane.BackgroundWorkers;
+using Jane.Captcha;
 using Jane.Dependency;
 using Jane.Events.Bus;
 using Jane.Events.Bus.Factories;
@@ -152,6 +153,7 @@ namespace Jane.Configurations
             SetDefault<IBackgroundJobManager, DefaultBackgroundJobManager>();
             SetDefault<ISmsSupplierManager, DefaultSmsSupplierManager>();
             SetDefault<ISmsService, DefaultSmsService>();
+            SetDefault<ICaptchaFactory, CaptchaFactory>();
 
             return this;
         }
