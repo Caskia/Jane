@@ -7,5 +7,8 @@
   <ItemGroup>
     <ProjectReference Include="..\..\src\Jane.AspNetCore\Jane.AspNetCore.csproj" />
     <ProjectReference Include="..\..\src\Jane.AutoMapper\Jane.AutoMapper.csproj" />
+    <ProjectReference Include="..\..\src\Jane.Google.Recaptcha\Jane.Google.Recaptcha.csproj">
+      <GlobalPropertiesToRemove></GlobalPropertiesToRemove>
+    </ProjectReference>
   </ItemGroup>
 </Project>

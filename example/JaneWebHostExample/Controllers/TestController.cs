@@ -1,4 +1,5 @@
-﻿using JaneWebHostExample.Services;
+﻿using Jane.AspNetCore.Mvc.Attributes;
+using JaneWebHostExample.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -9,18 +10,18 @@ namespace JaneWebHostExample.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class WeatherForecastController : ControllerBase
+    public class TestController : ControllerBase
     {
         private static readonly string[] Summaries = new[]
         {
             "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
         };
 
-        private readonly ILogger<WeatherForecastController> _logger;
+        private readonly ILogger<TestController> _logger;
         private readonly ITestService _testService;
 
-        public WeatherForecastController(
-            ILogger<WeatherForecastController> logger,
+        public TestController(
+            ILogger<TestController> logger,
             ITestService testService
             )
         {
@@ -29,6 +30,7 @@ namespace JaneWebHostExample.Controllers
         }
 
         [HttpGet]
+        [Captcha]
         public IEnumerable<WeatherForecast> Get()
         {
             var rng = new Random();
