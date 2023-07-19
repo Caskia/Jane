@@ -2,10 +2,8 @@
 
 namespace Jane.Configurations
 {
-    public class GoogleRecaptchaV3Options
+    public class GoogleRecaptchaV3Options : GoogleRecaptchaV2Options
     {
-        public string AppSecret { get; set; }
-
         public double Threshold { get; set; }
     }
 }

@@ -60,6 +60,7 @@ namespace JaneWebHostExample
 
             JaneConfiguration.Instance.CreateAutoMapperMappings();
 
+            app.ApplicationServices.UseGoogleRecaptchaV2();
             app.ApplicationServices.UseGoogleRecaptchaV3();
         }
 
@@ -107,6 +108,7 @@ namespace JaneWebHostExample
                 .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .ConfigureJwtBearer(JaneConfiguration.Instance.Root);
 
+            services.AddGoogleRecaptchaV2();
             services.AddGoogleRecaptchaV3();
         }
     }

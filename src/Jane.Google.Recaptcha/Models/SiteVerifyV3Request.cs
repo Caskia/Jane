@@ -2,16 +2,9 @@
 
 namespace Jane.Google.Recaptcha
 {
-    public class SiteVerifyRequest
+    public class SiteVerifyV3Request : SiteVerifyV2Request
     {
-        [AliasAs("secret")]
-        public string Secret { get; set; }
 
-        [AliasAs("response")]
-        public string Response { get; set; }
-
-        [AliasAs("remoteip")]
-        public string RemoteIp { get; set; }
     }
 }
 

@@ -11,24 +11,24 @@ using Microsoft.Extensions.Options;
 
 namespace Jane.Captcha
 {
-    public class GoogleRecaptchaV3Service : ICaptchaService
+    public class GoogleRecaptchaV2Service : ICaptchaService
     {
-        private readonly GoogleRecaptchaV3Options _options;
-        private readonly IGoogleRecaptchaV3Api _googleRecaptchaV3Api;
+        private readonly GoogleRecaptchaV2Options _options;
+        private readonly IGoogleRecaptchaV2Api _googleRecaptchaV2Api;
 
-        public GoogleRecaptchaV3Service(
-            IOptions<GoogleRecaptchaV3Options> optionsAccessor,
-            IGoogleRecaptchaV3Api googleRecaptchaV3Api
+        public GoogleRecaptchaV2Service(
+            IOptions<GoogleRecaptchaV2Options> optionsAccessor,
+            IGoogleRecaptchaV2Api googleRecaptchaV2Api
             )
         {
             _options = optionsAccessor.Value;
-            _googleRecaptchaV3Api = googleRecaptchaV3Api;
+            _googleRecaptchaV2Api = googleRecaptchaV2Api;
         }
 
 
         public async Task<ValidateResult> ValidateAsync(string token)
         {
-            var response = await _googleRecaptchaV3Api.SiteVerifyAsync(new SiteVerifyV3Request
+            var response = await _googleRecaptchaV2Api.SiteVerifyAsync(new SiteVerifyV2Request
             {
                 Secret = _options.AppSecret,
                 Response = token
@@ -38,8 +38,7 @@ namespace Jane.Captcha
             {
                 return new ValidateResult
                 {
-                    Success = response.Score >= _options.Threshold,
-                    Error = response.Score >= _options.Threshold ? null : $"score[{response.Score}] less than threshold[{_options.Threshold}]."
+                    Success = response.Success
                 };
             }
             else

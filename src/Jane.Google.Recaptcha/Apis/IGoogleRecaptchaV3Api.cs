@@ -6,7 +6,7 @@ namespace Jane.Google.Recaptcha.Apis
     public interface IGoogleRecaptchaV3Api
     {
         [Post("/recaptcha/api/siteverify")]
-        Task<SiteVerifyResponse> SiteVerifyAsync([Body(BodySerializationMethod.UrlEncoded)] SiteVerifyRequest request);
+        Task<SiteVerifyV3Response> SiteVerifyAsync([Body(BodySerializationMethod.UrlEncoded)] SiteVerifyV3Request request);
     }
 }
 

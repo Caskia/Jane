@@ -6,12 +6,22 @@ namespace Jane.Configurations
 {
     public static class ServiceProviderExtensions
     {
-        public const string ServiceName = "GoogleRecaptchaV3";
+        public const string ServiceV2Name = "GoogleRecaptchaV2";
+        public const string ServiceV3Name = "GoogleRecaptchaV3";
+
+
+        public static IServiceProvider UseGoogleRecaptchaV2(this IServiceProvider serviceProvider)
+        {
+            serviceProvider.GetService<ICaptchaFactory>()
+                .AddService(ServiceV2Name, serviceProvider.GetService<GoogleRecaptchaV2Service>());
+
+            return serviceProvider;
+        }
 
         public static IServiceProvider UseGoogleRecaptchaV3(this IServiceProvider serviceProvider)
         {
             serviceProvider.GetService<ICaptchaFactory>()
-                .AddService(ServiceName, serviceProvider.GetService<GoogleRecaptchaV3Service>());
+                .AddService(ServiceV3Name, serviceProvider.GetService<GoogleRecaptchaV3Service>());
 
             return serviceProvider;
         }

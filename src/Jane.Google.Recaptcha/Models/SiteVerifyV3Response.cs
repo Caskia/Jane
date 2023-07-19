@@ -3,17 +3,8 @@ using System.Text.Json.Serialization;
 
 namespace Jane.Google.Recaptcha
 {
-    public class SiteVerifyResponse
+    public class SiteVerifyV3Response : SiteVerifyV2Response
     {
-        public bool Success { get; set; }
-
-        public string ChallengeTs { get; set; }
-
-        public string Hostname { get; set; }
-
-        [JsonPropertyName("error-codes")]
-        public List<string> ErrorCodes { get; set; }
-
         public float Score { get; set; }
 
         public string Action { get; set; }

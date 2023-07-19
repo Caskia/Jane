@@ -3,10 +3,10 @@ using Refit;
 
 namespace Jane.Google.Recaptcha.Apis
 {
-    public interface IGoogleRecaptchaV3Api
+    public interface IGoogleRecaptchaV2Api
     {
         [Post("/recaptcha/api/siteverify")]
-        Task<SiteVerifyResponse> SiteVerifyAsync([Body(BodySerializationMethod.UrlEncoded)] SiteVerifyRequest request);
+        Task<SiteVerifyV2Response> SiteVerifyAsync([Body(BodySerializationMethod.UrlEncoded)] SiteVerifyV2Request request);
     }
 }
 

@@ -28,7 +28,7 @@ namespace Jane.Captcha
 
         public async Task<ValidateResult> ValidateAsync(string token)
         {
-            var response = await _googleRecaptchaV3Api.SiteVerifyAsync(new SiteVerifyRequest
+            var response = await _googleRecaptchaV3Api.SiteVerifyAsync(new SiteVerifyV3Request
             {
                 Secret = _options.AppSecret,
                 Response = token
