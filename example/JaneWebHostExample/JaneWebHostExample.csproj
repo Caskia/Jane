@@ -1,14 +1,14 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.Web">
-
-  <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
-  </PropertyGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\..\src\Jane.AspNetCore\Jane.AspNetCore.csproj" />
-    <ProjectReference Include="..\..\src\Jane.AutoMapper\Jane.AutoMapper.csproj" />
-    <ProjectReference Include="..\..\src\Jane.Google.Recaptcha\Jane.Google.Recaptcha.csproj">
-      <GlobalPropertiesToRemove></GlobalPropertiesToRemove>
-    </ProjectReference>
-  </ItemGroup>
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk.Web">
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+	</PropertyGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\..\src\Jane.AspNetCore\Jane.AspNetCore.csproj" />
+		<ProjectReference Include="..\..\src\Jane.AutoMapper\Jane.AutoMapper.csproj" />
+		<ProjectReference Include="..\..\src\Jane.Google.Recaptcha\Jane.Google.Recaptcha.csproj">
+			<GlobalPropertiesToRemove>
+			</GlobalPropertiesToRemove>
+		</ProjectReference>
+	</ItemGroup>
 </Project>

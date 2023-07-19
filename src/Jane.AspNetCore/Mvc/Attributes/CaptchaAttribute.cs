@@ -50,7 +50,10 @@ namespace Jane.AspNetCore.Mvc.Attributes
             var result = await captchaFactory.GetService(captchaMethod).ValidateAsync(captchaToken);
             if (!result.Success)
             {
-                throw new JaneValidationException(result.Error);
+                throw new JaneValidationException(result.Error, new List<ValidationResult>
+                {
+                    new ValidationResult(result.Error)
+                });
             }
 
             await next();
