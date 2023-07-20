@@ -3,15 +3,16 @@
     <title>reCAPTCHA demo: Simple page</title>
     <script src="https://www.google.com/recaptcha/api.js" async defer></script>
     <script>
-        function onSubmit(token) {
+        function onCallback(token) {
             console.log(token);
         }
     </script>
 </head>
 <body>
-    <form id="demo-form" action="?" method="POST">
-        <button class="g-recaptcha" data-sitekey="site_key" data-callback="onSubmit">Submit</button>
+    <form method="POST">
+        <div class="g-recaptcha" data-sitekey="site_key" data-callback="onCallback"></div>
         <br />
+        <input type="submit" value="Submit">
     </form>
 </body>
 </html>
