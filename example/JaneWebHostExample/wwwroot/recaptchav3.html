@@ -1,0 +1,24 @@
+<html>
+<head>
+    <script src="https://www.google.com/recaptcha/api.js?render=site_key"></script>
+    <script>
+        window.onload = function () {
+            document.getElementById("btn").onclick = function (e) {
+                e.preventDefault();
+                grecaptcha.ready(function () {
+                    grecaptcha
+                        .execute("site_key", {
+                            action: "submit",
+                        })
+                        .then(function (token) {
+                            console.log(token);
+                        });
+                });
+            };
+        };
+    </script>
+</head>
+<body>
+    <button id="btn">Submit</button>
+</body>
+</html>
